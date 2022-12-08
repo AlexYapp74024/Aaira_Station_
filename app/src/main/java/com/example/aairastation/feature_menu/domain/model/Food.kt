@@ -17,7 +17,13 @@ data class Food(
     val description: String = "",
 ) : Parcelable
 
+
 // Temporary data
 val hardCodedList = listOf(
-    Food()
+    Food(name = "Nasi Lemak", price = 8.00),
+    Food(name = "Nasi Goreng", price = 6.00),
+    Food(name = "Kueh Tiau", price = 7.00),
+    Food(name = "Satay", price = 2.00),
+    Food(name = "Popia", price = 1.00),
+    Food(name = "Keropok Lekor", price = 5.00),
 )
