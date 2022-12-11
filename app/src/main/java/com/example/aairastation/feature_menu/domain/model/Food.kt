@@ -12,18 +12,20 @@ data class Food(
     val id: Int = 0,
     val name: String = "",
     val category: String = "",
-    val price: Double = 0.0,
+    val priceInCents: Int = 0,
     val available: Boolean = true,
     val description: String = "",
 ) : Parcelable
 
+val Food.formattedPrice: String
+    get() = "RM ${priceInCents / 100.0}"
 
 // Temporary data
 val hardCodedList = listOf(
-    Food(name = "Nasi Lemak", price = 8.00),
-    Food(name = "Nasi Goreng", price = 6.00),
-    Food(name = "Kueh Tiau", price = 7.00),
-    Food(name = "Satay", price = 2.00),
-    Food(name = "Popia", price = 1.00),
-    Food(name = "Keropok Lekor", price = 5.00),
+    Food(name = "Nasi Lemak", priceInCents = 800, description = "Sedap"),
+    Food(name = "Nasi Goreng", priceInCents = 600),
+    Food(name = "Kueh Tiau", priceInCents = 700),
+    Food(name = "Satay", priceInCents = 200),
+    Food(name = "Popia", priceInCents = 100),
+    Food(name = "Keropok Lekor", priceInCents = 500),
 )
