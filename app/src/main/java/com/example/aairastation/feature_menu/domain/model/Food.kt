@@ -20,10 +20,13 @@ data class Food(
 val Food.formattedPrice: String
     get() = "RM ${priceInCents / 100.0}"
 
+val Food.formattedDescription: String
+    get() = "$description"
+
 // Temporary data
 val hardCodedList = listOf(
-    Food(name = "Nasi Lemak", priceInCents = 800, description = "Sedap"),
-    Food(name = "Nasi Goreng", priceInCents = 600),
+    Food(name = "Nasi Lemak", priceInCents = 800, description = "Nasi lemak is a dish originating in Malay cuisine that consists of fragrant rice cooked in coconut milk and pandan leaf."),
+    Food(name = "Nasi Goreng", priceInCents = 600, description = "Nasi goreng is a Southeast Asian fried rice dish, usually cooked with pieces of meat and vegetables. "),
     Food(name = "Kueh Tiau", priceInCents = 700),
     Food(name = "Satay", priceInCents = 200),
     Food(name = "Popia", priceInCents = 100),
