@@ -4,11 +4,11 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class OrderDetail(
+data class NumberedTable(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
-    val orderID: Int,
-    val foodID: Int,
-    val completed: Boolean = false,
-    val completedAt: Long? = null,
+    /**
+     * Marks a table is disabled when the table is no longer in use
+     */
+    val disabled: Boolean = false
 )

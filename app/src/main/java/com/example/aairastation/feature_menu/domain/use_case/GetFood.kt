@@ -1,16 +1,16 @@
 package com.example.aairastation.feature_menu.domain.use_case
 
 import com.example.aairastation.domain.ImageRepository
-import com.example.aairastation.domain.MenuRepository
+import com.example.aairastation.domain.MainRepository
 import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_menu.domain.model.FoodWithImage
 import kotlinx.coroutines.flow.map
 
 class GetFood(
-    private val repository: MenuRepository,
+    private val repository: MainRepository,
     private val imageRepository: ImageRepository
 ) {
-    operator fun invoke(id: Int) = repository.getItem(id)
+    operator fun invoke(id: Int) = repository.getFood(id)
 
     suspend fun withImage(
         id: Int,

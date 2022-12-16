@@ -12,6 +12,11 @@ data class Food(
     val priceInCents: Int = 0,
     val available: Boolean = true,
     val description: String = "",
+    /**
+     * A food is marked disabled if the user has deleted it,
+     * we still need to keep it around to record transactions
+     */
+    val disabled: Boolean = false,
 )
 
 val Food.formattedPrice: String

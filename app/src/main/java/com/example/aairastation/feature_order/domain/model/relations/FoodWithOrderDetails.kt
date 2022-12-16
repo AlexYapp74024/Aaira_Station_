@@ -5,11 +5,12 @@ import androidx.room.Relation
 import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_order.domain.model.OrderDetail
 
-data class OrderDetailsWithFood(
-    @Embedded val orderDetail: OrderDetail,
+data class FoodWithOrderDetails(
+    @Embedded
+    val food: Food,
     @Relation(
         parentColumn = "id",
         entityColumn = "foodID"
     )
-    val foodList: List<Food>
+    val orderDetailList: List<OrderDetail>,
 )

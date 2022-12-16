@@ -5,9 +5,9 @@ import android.content.Context
 import androidx.room.Room
 import com.example.aairastation.data.data_source.MenuDatabase
 import com.example.aairastation.data.repository.ImageRepositoryImpl
-import com.example.aairastation.data.repository.MenuRepositoryImpl
+import com.example.aairastation.data.repository.MainRepositoryImpl
 import com.example.aairastation.domain.ImageRepository
-import com.example.aairastation.domain.MenuRepository
+import com.example.aairastation.domain.MainRepository
 import com.example.aairastation.feature_menu.domain.use_case.*
 import dagger.Module
 import dagger.Provides
@@ -29,8 +29,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideMenuRepository(db: MenuDatabase): MenuRepository {
-        return MenuRepositoryImpl(db.dao)
+    fun provideMenuRepository(db: MenuDatabase): MainRepository {
+        return MainRepositoryImpl(db.dao)
     }
 
     @Provides
@@ -42,13 +42,12 @@ object AppModule {
     @Provides
     @Singleton
     fun provideFoodUseCases(
-        repository: MenuRepository,
+        repository: MainRepository,
         imageRepository: ImageRepository,
     ): MenuUseCase {
         return MenuUseCase(
             getAllFood = GetAllFoods(repository, imageRepository),
             getFood = GetFood(repository, imageRepository),
-            deleteFood = DeleteFood(repository),
             addFood = AddFood(repository, imageRepository),
         )
     }
