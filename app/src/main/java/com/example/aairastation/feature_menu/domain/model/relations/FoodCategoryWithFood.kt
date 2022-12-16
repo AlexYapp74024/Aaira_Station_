@@ -11,5 +11,5 @@ data class FoodCategoryWithFood(
         parentColumn = "id",
         entityColumn = "categoryID"
     )
-    val forageItems: List<Food>
+    val foodList: List<Food>
 )

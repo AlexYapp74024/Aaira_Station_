@@ -1,11 +1,8 @@
 package com.example.aairastation.feature_menu.domain.model
 
-import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import kotlinx.parcelize.Parcelize
 
-@Parcelize
 @Entity
 data class Food(
     @PrimaryKey(autoGenerate = true)
@@ -15,7 +12,7 @@ data class Food(
     val priceInCents: Int = 0,
     val available: Boolean = true,
     val description: String = "",
-) : Parcelable
+)
 
 val Food.formattedPrice: String
     get() = "RM ${priceInCents / 100.0}"
