@@ -1,4 +1,4 @@
-package com.example.aairastation.core.imageStorage
+package com.example.forage.core.ui_util
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory

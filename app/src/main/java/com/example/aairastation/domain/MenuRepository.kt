@@ -1,4 +1,4 @@
-package com.example.aairastation.feature_menu.domain.repository
+package com.example.aairastation.domain
 
 import com.example.aairastation.feature_menu.domain.model.Food
 import kotlinx.coroutines.flow.Flow

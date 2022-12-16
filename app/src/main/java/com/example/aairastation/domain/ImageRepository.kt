@@ -1,4 +1,4 @@
-package com.example.forage.core.image_processing
+package com.example.aairastation.domain
 
 import android.graphics.Bitmap
 

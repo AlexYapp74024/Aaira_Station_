@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_menu.domain.model.hardCodedList
-import com.google.android.material.tabs.TabLayout
 
 @Composable
 fun MenuListScreen() {
@@ -33,9 +32,7 @@ fun MenuListScreen() {
 fun MenuMainSide(
     foodList: List<Food>
 ) {
-    Scaffold(
-        topBar = { TopAppBarCompose() }
-    ) {
+    Scaffold(topBar = { TopAppBarCompose() }) {
 
         Column {
             Row(
@@ -44,10 +41,25 @@ fun MenuMainSide(
                     .padding(horizontal = 16.dp)
                     .fillMaxWidth()
             ) {
-                Text(text = "Promotion", modifier = Modifier.weight(1f), fontSize = 20.sp,textAlign = TextAlign.Center,)
-                Text(text = "Rice", modifier = Modifier.weight(1f), fontSize = 20.sp,textAlign = TextAlign.Center)
-                Text(text = "Noodle", modifier = Modifier.weight(1f), fontSize = 20.sp, textAlign = TextAlign.Center)
-                Text(text = "Drinks", fontSize = 20.sp,textAlign = TextAlign.Center)
+                Text(
+                    text = "Promotion",
+                    modifier = Modifier.weight(1f),
+                    fontSize = 20.sp,
+                    textAlign = TextAlign.Center,
+                )
+                Text(
+                    text = "Rice",
+                    modifier = Modifier.weight(1f),
+                    fontSize = 20.sp,
+                    textAlign = TextAlign.Center
+                )
+                Text(
+                    text = "Noodle",
+                    modifier = Modifier.weight(1f),
+                    fontSize = 20.sp,
+                    textAlign = TextAlign.Center
+                )
+                Text(text = "Drinks", fontSize = 20.sp, textAlign = TextAlign.Center)
             }
 
             LazyColumn(
@@ -57,7 +69,11 @@ fun MenuMainSide(
             ) {
 
                 item {
-                    Text(text = "Promotion", fontSize = 20.sp, modifier = Modifier.padding(top = 20.dp))
+                    Text(
+                        text = "Promotion",
+                        fontSize = 20.sp,
+                        modifier = Modifier.padding(top = 20.dp)
+                    )
                 }
                 items(foodList) { food ->
 
@@ -69,7 +85,7 @@ fun MenuMainSide(
                 }
 
                 item {
-                    Text(text = "Rice", fontSize = 20.sp,modifier = Modifier.padding(top = 20.dp))
+                    Text(text = "Rice", fontSize = 20.sp, modifier = Modifier.padding(top = 20.dp))
                 }
                 items(foodList) { food ->
 
@@ -81,7 +97,9 @@ fun MenuMainSide(
                 }
 
                 item {
-                    Text(text = "Noodles", fontSize = 20.sp,modifier = Modifier.padding(top = 20.dp))
+                    Text(
+                        text = "Noodles", fontSize = 20.sp, modifier = Modifier.padding(top = 20.dp)
+                    )
                 }
                 items(foodList) { food ->
 
@@ -93,7 +111,9 @@ fun MenuMainSide(
                 }
 
                 item {
-                    Text(text = "Drinks", fontSize = 20.sp,modifier = Modifier.padding(top = 20.dp))
+                    Text(
+                        text = "Drinks", fontSize = 20.sp, modifier = Modifier.padding(top = 20.dp)
+                    )
                 }
                 items(foodList) { food ->
 
@@ -102,60 +122,52 @@ fun MenuMainSide(
                         Text(text = food.priceInCents.toString())
 //                        Text(text = food.description.toString())
                     }
-                }
                 }
             }
         }
     }
-
+}
 
 
 @Composable
-fun TopAppBarCompose(){
+fun TopAppBarCompose() {
 
     val context = LocalContext.current
 
     TopAppBar(
-        
-        title = { Text(
-            text = "Order",
-            fontSize = 30.sp,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
+
+        title = {
+            Text(
+                text = "Order", fontSize = 30.sp, maxLines = 1, overflow = TextOverflow.Ellipsis
             )
-                },
+        },
 
         navigationIcon = {
             IconButton(onClick = {
-                Toast.makeText(context,"Menu",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Menu", Toast.LENGTH_SHORT).show()
             }) {
-                Icon(Icons.Default.ArrowBack,"Menu")
+                Icon(Icons.Default.ArrowBack, "Menu")
             }
-                         },
-        actions = {
+        }, actions = {
             IconButton(onClick = {
-                Toast.makeText(context,"Search",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Search", Toast.LENGTH_SHORT).show()
             }) {
-                Icon(Icons.Default.Search,"Menu")
+                Icon(Icons.Default.Search, "Menu")
             }
 
             IconButton(onClick = {
-                Toast.makeText(context,"Home",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Home", Toast.LENGTH_SHORT).show()
             }) {
-                Icon(Icons.Default.Home,"Menu")
+                Icon(Icons.Default.Home, "Menu")
             }
-        },
-        backgroundColor = Color.LightGray,
-        contentColor = Color.Black
+        }, backgroundColor = Color.LightGray, contentColor = Color.Black
     )
 
 }
 
 
-
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-
     MenuMainSide(hardCodedList)
 }

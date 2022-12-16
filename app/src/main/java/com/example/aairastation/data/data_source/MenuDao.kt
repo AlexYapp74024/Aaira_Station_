@@ -1,4 +1,4 @@
-package com.example.aairastation.feature_menu.data.data_source
+package com.example.aairastation.data.data_source
 
 import androidx.room.*
 import com.example.aairastation.feature_menu.domain.model.Food

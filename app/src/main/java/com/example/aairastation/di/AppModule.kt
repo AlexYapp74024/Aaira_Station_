@@ -3,12 +3,12 @@ package com.example.aairastation.di
 import android.app.Application
 import android.content.Context
 import androidx.room.Room
-import com.example.aairastation.feature_menu.data.data_source.MenuDatabase
-import com.example.aairastation.feature_menu.data.repository.MenuRepositoryImpl
-import com.example.aairastation.feature_menu.domain.repository.MenuRepository
+import com.example.aairastation.data.data_source.MenuDatabase
+import com.example.aairastation.data.repository.MenuRepositoryImpl
+import com.example.aairastation.domain.MenuRepository
 import com.example.aairastation.feature_menu.domain.use_case.MenuUseCase
-import com.example.forage.core.image_processing.ImageRepository
-import com.example.forage.core.image_processing.ImageRepositoryImpl
+import com.example.aairastation.domain.ImageRepository
+import com.example.aairastation.data.repository.ImageRepositoryImpl
 import com.example.aairastation.feature_menu.domain.use_case.AddFood
 import com.example.aairastation.feature_menu.domain.use_case.DeleteFood
 import com.example.aairastation.feature_menu.domain.use_case.GetAllFoods

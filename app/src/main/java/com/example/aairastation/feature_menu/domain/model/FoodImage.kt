@@ -1,7 +1,7 @@
 package com.example.aairastation.feature_menu.domain.model
 
 import android.graphics.Bitmap
-import com.example.forage.core.image_processing.ImageRepository
+import com.example.aairastation.domain.ImageRepository
 
 data class FoodWithImage(
     val item: Food,
