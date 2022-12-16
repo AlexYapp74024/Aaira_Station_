@@ -1,4 +1,4 @@
-package com.example.forage.core.ui_util
+package com.example.aairastation.core.ui_util
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.AlertDialog
