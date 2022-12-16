@@ -11,7 +11,7 @@ data class Food(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val name: String = "",
-    val category: String = "",
+    val categoryID: Int? = null,
     val priceInCents: Int = 0,
     val available: Boolean = true,
     val description: String = "",
