@@ -1,23 +1,22 @@
 package com.example.aairastation.feature_menu.presentation
 
 import android.annotation.SuppressLint
-import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.aairastation.core.ui_util.BitmapWithDefault
+import com.example.aairastation.core.ui_util.TopAppBarCompose
 import com.example.aairastation.feature_menu.domain.model.Food
+import com.example.aairastation.feature_menu.domain.model.formattedPrice
 import com.example.aairastation.feature_menu.domain.model.hardCodedList
 
 @Composable
@@ -32,32 +31,23 @@ fun MenuMainSide(
 ) {
     Scaffold(topBar = { TopAppBarCompose() }) {
 
+        val categoryList = listOf("Promotion", "Rice", "Noodle", "Drinks")
+
         Column {
-            Row(
+            LazyRow(
                 modifier = Modifier
                     .padding(vertical = 16.dp)
                     .padding(horizontal = 16.dp)
                     .fillMaxWidth()
             ) {
-                Text(
-                    text = "Promotion",
-                    modifier = Modifier.weight(1f),
-                    fontSize = 20.sp,
-                    textAlign = TextAlign.Center,
-                )
-                Text(
-                    text = "Rice",
-                    modifier = Modifier.weight(1f),
-                    fontSize = 20.sp,
-                    textAlign = TextAlign.Center
-                )
-                Text(
-                    text = "Noodle",
-                    modifier = Modifier.weight(1f),
-                    fontSize = 20.sp,
-                    textAlign = TextAlign.Center
-                )
-                Text(text = "Drinks", fontSize = 20.sp, textAlign = TextAlign.Center)
+                items(categoryList) { category ->
+                    Text(
+                        text = category,
+                        modifier = Modifier.padding(horizontal = 8.dp),
+                        fontSize = 20.sp,
+                        textAlign = TextAlign.Center,
+                    )
+                }
             }
 
             LazyColumn(
@@ -88,8 +78,13 @@ fun MenuMainSide(
                 items(foodList) { food ->
 
                     Row {
+                        BitmapWithDefault(
+                            null, null,
+//                            modifier = Modifier.fillMaxWidth()
+                        )
                         Text(text = food.name, modifier = Modifier.weight(1f))
-                        Text(text = food.priceInCents.toString())
+                        Text(text = food.formattedPrice)
+//                        Text(text = food.description)
 //                        Text(text = food.description.toString())
                     }
                 }
@@ -104,9 +99,9 @@ fun MenuMainSide(
                     Row {
                         Text(text = food.name, modifier = Modifier.weight(1f))
                         Text(text = food.priceInCents.toString())
-//                        Text(text = food.description.toString())
                     }
                 }
+
 
                 item {
                     Text(
@@ -125,44 +120,6 @@ fun MenuMainSide(
         }
     }
 }
-
-
-@Composable
-fun TopAppBarCompose() {
-
-    val context = LocalContext.current
-
-    TopAppBar(
-
-        title = {
-            Text(
-                text = "Order", fontSize = 30.sp, maxLines = 1, overflow = TextOverflow.Ellipsis
-            )
-        },
-
-        navigationIcon = {
-            IconButton(onClick = {
-                Toast.makeText(context, "Menu", Toast.LENGTH_SHORT).show()
-            }) {
-                Icon(Icons.Default.ArrowBack, "Menu")
-            }
-        }, actions = {
-            IconButton(onClick = {
-                Toast.makeText(context, "Search", Toast.LENGTH_SHORT).show()
-            }) {
-                Icon(Icons.Default.Search, "Menu")
-            }
-
-            IconButton(onClick = {
-                Toast.makeText(context, "Home", Toast.LENGTH_SHORT).show()
-            }) {
-                Icon(Icons.Default.Home, "Menu")
-            }
-        }, backgroundColor = Color.LightGray, contentColor = Color.Black
-    )
-
-}
-
 
 @Preview(showBackground = true)
 @Composable

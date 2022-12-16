@@ -22,9 +22,6 @@ data class Food(
 val Food.formattedPrice: String
     get() = "RM ${priceInCents / 100.0}"
 
-val Food.formattedDescription: String
-    get() = "$description"
-
 // Temporary data
 val hardCodedList = listOf(
     Food(
