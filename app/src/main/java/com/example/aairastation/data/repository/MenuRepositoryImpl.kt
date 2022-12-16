@@ -1,8 +1,8 @@
 package com.example.aairastation.data.repository
 
 import com.example.aairastation.data.data_source.MenuDao
-import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.domain.MenuRepository
+import com.example.aairastation.feature_menu.domain.model.Food
 import kotlinx.coroutines.flow.Flow
 
 class MenuRepositoryImpl(

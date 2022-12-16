@@ -1,9 +1,9 @@
 package com.example.aairastation.feature_menu.domain.use_case
 
+import com.example.aairastation.domain.ImageRepository
+import com.example.aairastation.domain.MenuRepository
 import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_menu.domain.model.FoodWithImage
-import com.example.aairastation.domain.MenuRepository
-import com.example.aairastation.domain.ImageRepository
 
 class AddFood(
     private val repository: MenuRepository,
