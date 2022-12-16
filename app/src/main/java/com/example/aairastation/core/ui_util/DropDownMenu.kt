@@ -8,6 +8,17 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 
+/**
+ * Custom Implementation of a drop down list as no defaults were provided at the time of writing the function
+ *
+ * @param options the items to be listed
+ * @param listItemToString a callback that decides what information of the option to be displayed in the list.
+ * By default it users the object's toString() function
+ * @param onSelect a callback that triggers when an option is selected
+ * @param modifier The modifier for this dropDownList
+ * @param label Text label for the dropDownList
+ * @param value The current selected item, or the default item to be displayed on the dropDownList
+ */
 @Composable
 fun <T> ExposedDropdown(
     options: List<T>,

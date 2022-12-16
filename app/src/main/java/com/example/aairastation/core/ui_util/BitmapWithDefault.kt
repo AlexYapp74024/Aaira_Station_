@@ -11,6 +11,14 @@ import androidx.compose.ui.layout.ContentScale
 import coil.compose.rememberAsyncImagePainter
 import com.example.aairastation.R
 
+/**
+ * Takes in a bitmap or a null value. If [bitmap] null, displays a placeholder image, otherwise displays the Image
+ *
+ * **NOTE:** For other parameters, refer to [androidx.compose.foundation.Image]
+ *
+ * @param bitmap the bitmap to be displayed, can be null
+ *
+ */
 @Composable
 fun BitmapWithDefault(
     bitmap: Bitmap?,
