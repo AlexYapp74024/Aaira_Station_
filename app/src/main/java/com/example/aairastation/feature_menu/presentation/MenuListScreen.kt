@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.aairastation.feature_menu.domain.model.Food
+import com.example.aairastation.feature_menu.domain.model.formattedPrice
 import com.example.aairastation.feature_menu.domain.model.hardCodedList
 
 @Composable
@@ -41,7 +42,7 @@ fun MenuMainSide(
             items(foodList) { food ->
                 Row {
                     Text(text = food.name, modifier = Modifier.weight(1f))
-                    Text(text = food.price.toString())
+                    Text(text = food.formattedPrice.toString())
                 }
             }
         }
