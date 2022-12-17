@@ -1,10 +1,10 @@
 package com.example.aairastation.feature_menu.presentation
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Button
 import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -22,7 +22,7 @@ fun EditItemSide(food: Food) {
         BitmapWithDefault(
             bitmap = null,
             contentDescription = null,
-            modifier = Modifier.height(64.dp)
+            modifier = Modifier.height(310.dp)
         )
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
@@ -44,7 +44,7 @@ fun EditItemSide(food: Food) {
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
             maxLines = 1,
             label = {
-                Text(text = "Name") }
+                Text(text = "Price") }
         )
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
@@ -55,8 +55,19 @@ fun EditItemSide(food: Food) {
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
             maxLines = 1,
             label = {
-                Text(text = "Name") }
+                Text(text = "Description") }
         )
+        Row(modifier = Modifier.padding(start = 15.dp, end = 15.dp, top = 15.dp, bottom = 15.dp)) {
+            Text(text = "Available")
+            Switch(checked = true, onCheckedChange = null, modifier = Modifier.padding(start = 265.dp))
+        }
+        Button(onClick = { /*null*/ }, modifier = Modifier.fillMaxWidth()) {
+            Text(text = "Save Changes")
+        }
+        Button(onClick = { /*null*/ }, modifier = Modifier.fillMaxWidth()) {
+            Text(text = "Delete Item")
+            
+        }
     }
 }
 
