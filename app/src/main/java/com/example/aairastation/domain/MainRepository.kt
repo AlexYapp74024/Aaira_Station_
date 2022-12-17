@@ -2,12 +2,9 @@ package com.example.aairastation.domain
 
 import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_menu.domain.model.FoodCategory
-import com.example.aairastation.feature_menu.domain.model.relations.FoodCategoryWithFood
 import com.example.aairastation.feature_order.domain.model.FoodOrder
 import com.example.aairastation.feature_order.domain.model.NumberedTable
 import com.example.aairastation.feature_order.domain.model.OrderDetail
-import com.example.aairastation.feature_order.domain.model.relations.FoodWithOrderDetails
-import com.example.aairastation.feature_order.domain.model.relations.OrderWithOrderDetail
 import kotlinx.coroutines.flow.Flow
 
 interface MainRepository {
@@ -35,7 +32,7 @@ interface MainRepository {
     fun getAllTable(): Flow<List<NumberedTable>>
 
     // Relations
-    suspend fun getFoodCategoryWithFood(categoryID: Int): List<FoodCategoryWithFood>
-    suspend fun getFoodWithOrderDetails(foodID: Int): List<FoodWithOrderDetails>
-    suspend fun getOrderWithOrderDetail(orderID: Int): List<OrderWithOrderDetail>
+    suspend fun getFoodCategoryWithFood(categoryID: Int): Map<FoodCategory, List<Food>>
+    suspend fun getFoodWithOrderDetail(foodID: Int): Map<Food, List<OrderDetail>>
+    suspend fun getOrderWithOrderDetail(orderID: Int): Map<FoodOrder, List<OrderDetail>>
 }

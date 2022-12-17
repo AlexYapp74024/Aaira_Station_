@@ -9,6 +9,9 @@ data class Food(
     val id: Int = 0,
     val name: String = "",
     val categoryID: Int? = null,
+    /**
+     * Price is counted in cents to prevent inaccuracies when dealing with floating point values
+     */
     val priceInCents: Int = 0,
     val available: Boolean = true,
     val description: String = "",
@@ -19,8 +22,17 @@ data class Food(
     val disabled: Boolean = false,
 )
 
+/**
+ * Since prices are in cents, it has to be converted to RM, as well as appending the unit RM
+ */
 val Food.formattedPrice: String
     get() = "RM ${priceInCents / 100.0}"
+
+val exampleFood = Food(
+    name = "Nasi Lemak",
+    priceInCents = 800,
+    description = "Nasi lemak is a dish originating in Malay cuisine that consists of fragrant rice cooked in coconut milk and pandan leaf."
+)
 
 // Temporary data
 val hardCodedList = listOf(

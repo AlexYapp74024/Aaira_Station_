@@ -12,7 +12,7 @@ import com.example.aairastation.feature_order.domain.model.relations.OrderWithOr
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface MenuDao {
+interface MainDao {
     // Food
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFood(item: Food)

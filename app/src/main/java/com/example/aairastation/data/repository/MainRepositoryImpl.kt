@@ -1,19 +1,16 @@
 package com.example.aairastation.data.repository
 
-import com.example.aairastation.data.data_source.MenuDao
+import com.example.aairastation.data.data_source.MainDao
 import com.example.aairastation.domain.MainRepository
 import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_menu.domain.model.FoodCategory
-import com.example.aairastation.feature_menu.domain.model.relations.FoodCategoryWithFood
 import com.example.aairastation.feature_order.domain.model.FoodOrder
 import com.example.aairastation.feature_order.domain.model.NumberedTable
 import com.example.aairastation.feature_order.domain.model.OrderDetail
-import com.example.aairastation.feature_order.domain.model.relations.FoodWithOrderDetails
-import com.example.aairastation.feature_order.domain.model.relations.OrderWithOrderDetail
 import kotlinx.coroutines.flow.Flow
 
 class MainRepositoryImpl(
-    private val dao: MenuDao
+    private val dao: MainDao
 ) : MainRepository {
 
     override suspend fun insertFood(item: Food) = dao.insertFood(item)
@@ -34,13 +31,27 @@ class MainRepositoryImpl(
     override suspend fun insertTable(item: NumberedTable) = dao.insertTable(item)
     override fun getAllTable(): Flow<List<NumberedTable>> = dao.getAllTable()
 
-    override suspend fun getFoodCategoryWithFood(categoryID: Int): List<FoodCategoryWithFood> =
-        dao.getFoodCategoryWithFood(categoryID)
+    override suspend fun getFoodCategoryWithFood(categoryID: Int): Map<FoodCategory, List<Food>> =
+        mutableMapOf<FoodCategory, List<Food>>().also { map ->
+            dao.getFoodCategoryWithFood(categoryID).map {
+                map[it.category] = it.foodList
+            }
+        }
 
-    override suspend fun getFoodWithOrderDetails(foodID: Int): List<FoodWithOrderDetails> =
-        dao.getFoodWithOrderDetails(foodID)
 
-    override suspend fun getOrderWithOrderDetail(orderID: Int): List<OrderWithOrderDetail> =
-        dao.getOrderWithOrderDetail(orderID)
+    override suspend fun getFoodWithOrderDetail(foodID: Int): Map<Food, List<OrderDetail>> =
+        mutableMapOf<Food, List<OrderDetail>>().also { map ->
+            dao.getFoodWithOrderDetails(foodID).map {
+                map[it.food] = it.orderDetailList
+            }
+        }
+
+    override suspend fun getOrderWithOrderDetail(orderID: Int): Map<FoodOrder, List<OrderDetail>> =
+        mutableMapOf<FoodOrder, List<OrderDetail>>().also { map ->
+            dao.getOrderWithOrderDetail(orderID).map {
+                map[it.foodOrder] = it.orderDetailList
+            }
+        }
+
 
 }

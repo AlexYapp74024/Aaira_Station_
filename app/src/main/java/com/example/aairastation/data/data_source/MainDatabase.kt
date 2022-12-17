@@ -13,9 +13,9 @@ import com.example.aairastation.feature_order.domain.model.NumberedTable
     entities = [Food::class, FoodCategory::class, FoodOrder::class, OrderDetail::class, NumberedTable::class],
     version = 1,
 )
-abstract class MenuDatabase : RoomDatabase() {
+abstract class MainDatabase : RoomDatabase() {
 
-    abstract val dao: MenuDao
+    abstract val dao: MainDao
 
     companion object {
         const val DATABASE_NAME = "AairaStationDb"
