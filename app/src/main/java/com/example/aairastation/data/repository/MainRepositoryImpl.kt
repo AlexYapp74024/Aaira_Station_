@@ -29,6 +29,7 @@ class MainRepositoryImpl(
     override fun getAllOrderDetail(): Flow<List<OrderDetail>> = dao.getAllOrderDetail()
 
     override suspend fun insertTable(item: NumberedTable) = dao.insertTable(item)
+    override suspend fun deleteTable(item: NumberedTable) = dao.deleteTable(item)
     override fun getAllTable(): Flow<List<NumberedTable>> = dao.getAllTable()
 
     override suspend fun getFoodCategoryWithFood(categoryID: Int): Map<FoodCategory, List<Food>> =

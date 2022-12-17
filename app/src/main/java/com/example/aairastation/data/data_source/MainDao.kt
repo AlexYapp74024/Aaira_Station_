@@ -54,6 +54,9 @@ interface MainDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTable(item: NumberedTable)
 
+    @Delete
+    suspend fun deleteTable(item: NumberedTable)
+
     @Query("SELECT * FROM NumberedTable")
     fun getAllTable(): Flow<List<NumberedTable>>
 

@@ -1,11 +1,11 @@
-package com.example.aairastation.feature_menu.domain.use_case
+package com.example.aairastation.feature_menu.domain.use_case.food
 
 import com.example.aairastation.domain.ImageRepository
 import com.example.aairastation.domain.MainRepository
 import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_menu.domain.model.FoodWithImage
 
-class AddFood(
+class InsertFood(
     private val repository: MainRepository,
     private val imageRepository: ImageRepository
 ) {
@@ -13,10 +13,13 @@ class AddFood(
         repository.insertFood(food)
     }
 
-    suspend operator fun invoke(food: FoodWithImage) {
+    suspend operator fun invoke(
+        food: FoodWithImage,
+        imageUpdated: Boolean = true,
+    ) {
         food.run {
-            this@AddFood(item)
-            saveImage(imageRepository)
+            this@InsertFood(item)
+            if (imageUpdated) saveImage(imageRepository)
         }
     }
 }

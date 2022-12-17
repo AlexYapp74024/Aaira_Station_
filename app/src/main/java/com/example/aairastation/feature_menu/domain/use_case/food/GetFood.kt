@@ -1,4 +1,4 @@
-package com.example.aairastation.feature_menu.domain.use_case
+package com.example.aairastation.feature_menu.domain.use_case.food
 
 import com.example.aairastation.domain.ImageRepository
 import com.example.aairastation.domain.MainRepository

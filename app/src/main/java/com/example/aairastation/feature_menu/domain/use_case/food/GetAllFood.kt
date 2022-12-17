@@ -1,4 +1,4 @@
-package com.example.aairastation.feature_menu.domain.use_case
+package com.example.aairastation.feature_menu.domain.use_case.food
 
 import android.graphics.Bitmap
 import com.example.aairastation.domain.ImageRepository
@@ -10,13 +10,15 @@ import kotlinx.coroutines.flow.map
 
 class GetAllFoods(
     private val repository: MainRepository,
-    private val imageRepository: ImageRepository
+    private val imageRepository: ImageRepository,
 ) {
     operator fun invoke(
-        onlyInSeason: Boolean = true,
+        onlyAvailable: Boolean = true,
+        showDisabled: Boolean = false,
     ): Flow<List<Food>> {
         return repository.getAllFood().map { items ->
-            items.filter { !onlyInSeason || it.available }
+            items.filter { !onlyAvailable || it.available }
+                .filter { showDisabled || !it.disabled }
         }
     }
 

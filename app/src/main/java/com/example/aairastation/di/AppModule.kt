@@ -8,7 +8,9 @@ import com.example.aairastation.data.repository.ImageRepositoryImpl
 import com.example.aairastation.data.repository.MainRepositoryImpl
 import com.example.aairastation.domain.ImageRepository
 import com.example.aairastation.domain.MainRepository
+import com.example.aairastation.feature_menu.domain.MenuUseCases
 import com.example.aairastation.feature_menu.domain.use_case.*
+import com.example.aairastation.feature_order.domain.use_case.OrderUseCases
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,14 +43,18 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideFoodUseCases(
+    fun provideMenuUseCases(
         repository: MainRepository,
         imageRepository: ImageRepository,
-    ): MenuUseCase {
-        return MenuUseCase(
-            getAllFood = GetAllFoods(repository, imageRepository),
-            getFood = GetFood(repository, imageRepository),
-            addFood = AddFood(repository, imageRepository),
-        )
+    ): MenuUseCases {
+        return MenuUseCases.create(repository, imageRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideOrderUseCases(
+        repository: MainRepository,
+    ): OrderUseCases {
+        return OrderUseCases.create(repository)
     }
 }
