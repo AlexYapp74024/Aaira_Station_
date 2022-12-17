@@ -52,6 +52,4 @@ class MainRepositoryImpl(
                 map[it.foodOrder] = it.orderDetailList
             }
         }
-
-
 }

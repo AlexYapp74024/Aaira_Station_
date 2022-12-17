@@ -58,7 +58,6 @@ interface MainDao {
     fun getAllTable(): Flow<List<NumberedTable>>
 
     // Relations
-
     @Transaction
     @Query("SELECT * FROM FoodCategory WHERE id = :categoryID")
     suspend fun getFoodCategoryWithFood(categoryID: Int): List<FoodCategoryWithFood>
