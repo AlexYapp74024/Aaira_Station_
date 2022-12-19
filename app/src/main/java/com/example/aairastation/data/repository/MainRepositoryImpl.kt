@@ -13,26 +13,26 @@ class MainRepositoryImpl(
     private val dao: MainDao
 ) : MainRepository {
 
-    override suspend fun insertFood(item: Food) = dao.insertFood(item)
-    override fun getFood(id: Int): Flow<Food?> = dao.getFood(id)
+    override suspend fun insertFood(item: Food): Long = dao.insertFood(item)
+    override fun getFood(id: Long): Flow<Food?> = dao.getFood(id)
     override fun getAllFood(): Flow<List<Food>> = dao.getAllFood()
 
-    override suspend fun insertFoodCategory(item: FoodCategory) = dao.insertFoodCategory(item)
+    override suspend fun insertFoodCategory(item: FoodCategory): Long = dao.insertFoodCategory(item)
     override suspend fun deleteFoodCategory(item: FoodCategory) = dao.deleteFoodCategory(item)
     override fun getAllFoodCategory(): Flow<List<FoodCategory>> = dao.getAllFoodCategory()
 
-    override suspend fun insertOrder(item: FoodOrder) = dao.insertOrder(item)
-    override fun getOrder(id: Int): Flow<FoodOrder?> = dao.getOrder(id)
+    override suspend fun insertOrder(item: FoodOrder): Long = dao.insertOrder(item)
+    override fun getOrder(id: Long): Flow<FoodOrder?> = dao.getOrder(id)
     override fun getAllOrder(): Flow<List<FoodOrder>> = dao.getAllOrder()
 
-    override suspend fun insertOrderDetail(item: OrderDetail) = dao.insertOrderDetail(item)
+    override suspend fun insertOrderDetail(item: OrderDetail): Long = dao.insertOrderDetail(item)
     override fun getAllOrderDetail(): Flow<List<OrderDetail>> = dao.getAllOrderDetail()
 
-    override suspend fun insertTable(item: NumberedTable) = dao.insertTable(item)
+    override suspend fun insertTable(item: NumberedTable): Long = dao.insertTable(item)
     override suspend fun deleteTable(item: NumberedTable) = dao.deleteTable(item)
     override fun getAllTable(): Flow<List<NumberedTable>> = dao.getAllTable()
 
-    override suspend fun getFoodCategoryWithFood(categoryID: Int): Map<FoodCategory, List<Food>> =
+    override suspend fun getFoodCategoryWithFood(categoryID: Long): Map<FoodCategory, List<Food>> =
         mutableMapOf<FoodCategory, List<Food>>().also { map ->
             dao.getFoodCategoryWithFood(categoryID).map {
                 map[it.category] = it.foodList
@@ -47,7 +47,7 @@ class MainRepositoryImpl(
         }
 
 
-    override suspend fun getFoodWithOrderDetail(foodID: Int): Map<Food, List<OrderDetail>> =
+    override suspend fun getFoodWithOrderDetail(foodID: Long): Map<Food, List<OrderDetail>> =
         mutableMapOf<Food, List<OrderDetail>>().also { map ->
             dao.getFoodWithOrderDetails(foodID).map {
                 map[it.food] = it.orderDetailList
@@ -61,7 +61,7 @@ class MainRepositoryImpl(
             }
         }
 
-    override suspend fun getOrderWithOrderDetail(orderID: Int): Map<FoodOrder, List<OrderDetail>> =
+    override suspend fun getOrderWithOrderDetail(orderID: Long): Map<FoodOrder, List<OrderDetail>> =
         mutableMapOf<FoodOrder, List<OrderDetail>>().also { map ->
             dao.getOrderWithOrderDetail(orderID).map {
                 map[it.foodOrder] = it.orderDetailList

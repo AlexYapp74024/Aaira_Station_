@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class FoodCategory(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 1,
+    val id: Long = 1,
     val name: String = "",
 )
 

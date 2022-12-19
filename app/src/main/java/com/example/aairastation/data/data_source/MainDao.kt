@@ -15,17 +15,17 @@ import kotlinx.coroutines.flow.Flow
 interface MainDao {
     // Food
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertFood(item: Food)
+    suspend fun insertFood(item: Food): Long
 
     @Query("SELECT * FROM Food WHERE id = :id")
-    fun getFood(id: Int): Flow<Food?>
+    fun getFood(id: Long): Flow<Food?>
 
     @Query("SELECT * FROM Food")
     fun getAllFood(): Flow<List<Food>>
 
     // Food Category
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertFoodCategory(item: FoodCategory)
+    suspend fun insertFoodCategory(item: FoodCategory): Long
 
     @Delete
     suspend fun deleteFoodCategory(item: FoodCategory)
@@ -35,24 +35,24 @@ interface MainDao {
 
     // Order
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertOrder(item: FoodOrder)
+    suspend fun insertOrder(item: FoodOrder): Long
 
     @Query("SELECT * FROM FoodOrder WHERE id = :id")
-    fun getOrder(id: Int): Flow<FoodOrder?>
+    fun getOrder(id: Long): Flow<FoodOrder?>
 
     @Query("SELECT * FROM FoodOrder")
     fun getAllOrder(): Flow<List<FoodOrder>>
 
     // OrderDetail
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertOrderDetail(item: OrderDetail)
+    suspend fun insertOrderDetail(item: OrderDetail): Long
 
     @Query("SELECT * FROM OrderDetail")
     fun getAllOrderDetail(): Flow<List<OrderDetail>>
 
     // Table
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTable(item: NumberedTable)
+    suspend fun insertTable(item: NumberedTable): Long
 
     @Delete
     suspend fun deleteTable(item: NumberedTable)
@@ -63,7 +63,7 @@ interface MainDao {
     // Relations
     @Transaction
     @Query("SELECT * FROM FoodCategory WHERE id = :categoryID")
-    suspend fun getFoodCategoryWithFood(categoryID: Int): List<FoodCategoryWithFood>
+    suspend fun getFoodCategoryWithFood(categoryID: Long): List<FoodCategoryWithFood>
 
     @Transaction
     @Query("SELECT * FROM FoodCategory ")
@@ -71,7 +71,7 @@ interface MainDao {
 
     @Transaction
     @Query("SELECT * FROM Food WHERE id = :foodID")
-    suspend fun getFoodWithOrderDetails(foodID: Int): List<FoodWithOrderDetails>
+    suspend fun getFoodWithOrderDetails(foodID: Long): List<FoodWithOrderDetails>
 
     @Transaction
     @Query("SELECT * FROM Food ")
@@ -79,7 +79,7 @@ interface MainDao {
 
     @Transaction
     @Query("SELECT * FROM OrderDetail WHERE id = :orderID")
-    suspend fun getOrderWithOrderDetail(orderID: Int): List<OrderWithOrderDetail>
+    suspend fun getOrderWithOrderDetail(orderID: Long): List<OrderWithOrderDetail>
 
     @Transaction
     @Query("SELECT * FROM OrderDetail ")

@@ -6,9 +6,9 @@ import androidx.room.PrimaryKey
 @Entity
 data class OrderDetail(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
-    val orderID: Int,
-    val foodID: Int,
+    val id: Long,
+    val orderID: Long,
+    val foodID: Long,
     val completed: Boolean = false,
     val completedAt: Long? = null,
 )

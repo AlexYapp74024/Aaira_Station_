@@ -6,9 +6,9 @@ import androidx.room.PrimaryKey
 @Entity
 data class Food(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    val id: Long = 0,
     val name: String = "",
-    val categoryID: Int? = null,
+    val categoryID: Long? = null,
     /**
      * Price is counted in cents to prevent inaccuracies when dealing with floating point values
      */

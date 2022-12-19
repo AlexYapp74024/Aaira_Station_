@@ -7,7 +7,7 @@ import com.example.aairastation.feature_menu.domain.model.FoodCategory
 class GetCategoryWithFood(
     private val repository: MainRepository
 ) {
-    suspend operator fun invoke(categoryID: Int) =
+    suspend operator fun invoke(categoryID: Long) =
         mutableMapOf<FoodCategory, List<Food>>().also { map ->
             repository.getFoodCategoryWithFood(categoryID).map { (category, foods) ->
                 map[category] = foods

@@ -6,10 +6,10 @@ import androidx.room.PrimaryKey
 @Entity
 data class FoodOrder(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Long,
     /**
      * a Null tableID is for takeaways since table number are not applicable in those scenarios
      */
-    val tableID: Int?,
+    val tableID: Long?,
     val createdAt: Long? = System.currentTimeMillis(),
 )

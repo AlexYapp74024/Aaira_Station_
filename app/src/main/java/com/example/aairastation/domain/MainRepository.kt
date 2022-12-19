@@ -9,34 +9,34 @@ import kotlinx.coroutines.flow.Flow
 
 interface MainRepository {
     // Foo
-    suspend fun insertFood(item: Food)
-    fun getFood(id: Int): Flow<Food?>
+    suspend fun insertFood(item: Food): Long
+    fun getFood(id: Long): Flow<Food?>
     fun getAllFood(): Flow<List<Food>>
 
     // Food Category
-    suspend fun insertFoodCategory(item: FoodCategory)
+    suspend fun insertFoodCategory(item: FoodCategory): Long
     suspend fun deleteFoodCategory(item: FoodCategory)
     fun getAllFoodCategory(): Flow<List<FoodCategory>>
 
     // Order
-    suspend fun insertOrder(item: FoodOrder)
-    fun getOrder(id: Int): Flow<FoodOrder?>
+    suspend fun insertOrder(item: FoodOrder): Long
+    fun getOrder(id: Long): Flow<FoodOrder?>
     fun getAllOrder(): Flow<List<FoodOrder>>
 
     // OrderDetail
-    suspend fun insertOrderDetail(item: OrderDetail)
+    suspend fun insertOrderDetail(item: OrderDetail): Long
     fun getAllOrderDetail(): Flow<List<OrderDetail>>
 
     // Table
-    suspend fun insertTable(item: NumberedTable)
+    suspend fun insertTable(item: NumberedTable): Long
     suspend fun deleteTable(item: NumberedTable)
     fun getAllTable(): Flow<List<NumberedTable>>
 
     // Relations
-    suspend fun getFoodCategoryWithFood(categoryID: Int): Map<FoodCategory, List<Food>>
+    suspend fun getFoodCategoryWithFood(categoryID: Long): Map<FoodCategory, List<Food>>
     suspend fun getFoodCategoryWithFood(): Map<FoodCategory, List<Food>>
-    suspend fun getFoodWithOrderDetail(foodID: Int): Map<Food, List<OrderDetail>>
+    suspend fun getFoodWithOrderDetail(foodID: Long): Map<Food, List<OrderDetail>>
     suspend fun getFoodWithOrderDetails(): Map<Food, List<OrderDetail>>
-    suspend fun getOrderWithOrderDetail(orderID: Int): Map<FoodOrder, List<OrderDetail>>
+    suspend fun getOrderWithOrderDetail(orderID: Long): Map<FoodOrder, List<OrderDetail>>
     suspend fun getOrderWithOrderDetail(): Map<FoodOrder, List<OrderDetail>>
 }
