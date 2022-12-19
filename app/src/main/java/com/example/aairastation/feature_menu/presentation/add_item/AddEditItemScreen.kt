@@ -33,8 +33,7 @@ fun EditItemSide(food: Food) {
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
             maxLines = 1,
             label = {
-                Text(text = "Name")
-            }
+                Text(text = "Name") }
         )
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
@@ -45,8 +44,7 @@ fun EditItemSide(food: Food) {
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
             maxLines = 1,
             label = {
-                Text(text = "Price")
-            }
+                Text(text = "Price") }
         )
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
@@ -57,16 +55,11 @@ fun EditItemSide(food: Food) {
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
             maxLines = 1,
             label = {
-                Text(text = "Description")
-            }
+                Text(text = "Description") }
         )
         Row(modifier = Modifier.padding(start = 15.dp, end = 15.dp, top = 15.dp, bottom = 15.dp)) {
             Text(text = "Available")
-            Switch(
-                checked = true,
-                onCheckedChange = null,
-                modifier = Modifier.padding(start = 265.dp)
-            )
+            Switch(checked = true, onCheckedChange = null, modifier = Modifier.padding(start = 265.dp))
         }
         Button(onClick = { /*null*/ }, modifier = Modifier.fillMaxWidth()) {
             Text(text = "Save Changes")
