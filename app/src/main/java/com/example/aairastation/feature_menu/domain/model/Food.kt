@@ -2,6 +2,7 @@ package com.example.aairastation.feature_menu.domain.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.text.DecimalFormat
 
 @Entity
 data class Food(
@@ -26,7 +27,11 @@ data class Food(
  * Since prices are in cents, it has to be converted to RM, as well as appending the unit RM
  */
 val Food.formattedPrice: String
-    get() = "RM ${priceInCents / 100.0}"
+    get() = "RM ${DecimalFormat("#,##0.00").format(priceInRinggit)}"
+
+val Food.priceInRinggit: Double
+    get() = priceInCents / 100.0
+
 
 val exampleFood = Food(
     name = "Nasi Lemak",
