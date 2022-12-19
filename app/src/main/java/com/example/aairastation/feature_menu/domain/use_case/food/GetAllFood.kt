@@ -5,8 +5,11 @@ import com.example.aairastation.domain.ImageRepository
 import com.example.aairastation.domain.MainRepository
 import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_menu.domain.model.FoodWithImage
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.shareIn
 
 class GetAllFoods(
     private val repository: MainRepository,
@@ -23,14 +26,23 @@ class GetAllFoods(
     }
 
     suspend fun withImages(
-        onlyInSeason: Boolean = true,
-        onImageUpdate: (Food, Bitmap?) -> Unit,
-    ) {
-        this(onlyInSeason).collect { items ->
-            items.forEach { item ->
-                onImageUpdate(item, null)
-                FoodWithImage(item).loadImage(imageRepository) { bmp ->
-                    onImageUpdate(item, bmp)
+        onlyAvailable: Boolean = true,
+        showDisabled: Boolean = false,
+        scope: CoroutineScope
+    ): Flow<Map<Food, Flow<Bitmap?>>> {
+        return this(
+            onlyAvailable = onlyAvailable,
+            showDisabled = showDisabled,
+        ).map { items ->
+            mutableMapOf<Food, Flow<Bitmap?>>().also { map ->
+                items.map { item ->
+                    FoodWithImage(item)
+                }.map {
+                    map[it.item] = it.loadImage(imageRepository).shareIn(
+                        scope = scope,
+                        started = SharingStarted.Lazily,
+                        replay = 1
+                    )
                 }
             }
         }
