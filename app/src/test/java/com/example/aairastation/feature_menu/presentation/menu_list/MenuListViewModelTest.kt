@@ -14,11 +14,9 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-
 @OptIn(ExperimentalCoroutinesApi::class)
 class MenuListViewModelTest {
-
-    @ExperimentalCoroutinesApi
+    
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 

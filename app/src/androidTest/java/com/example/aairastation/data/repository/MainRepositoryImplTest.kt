@@ -53,7 +53,9 @@ class MainRepositoryImplTest {
             value.onEach { repositoryImpl.insertFood(it) }
         }
 
-        assertThat(repositoryImpl.getFoodCategoryWithFood(1)).isEqualTo(expectedMap)
+        assertThat(repositoryImpl.getFoodCategoryWithFood(FoodCategory(1, "Cat1"))).isEqualTo(
+            expectedMap
+        )
     }
 
     @Test
@@ -70,7 +72,7 @@ class MainRepositoryImplTest {
             value.onEach { repositoryImpl.insertOrderDetail(it) }
         }
 
-        assertThat(repositoryImpl.getFoodWithOrderDetail(1)).isEqualTo(expectedMap)
+        assertThat(repositoryImpl.getFoodWithOrderDetail(Food(1, "Food1"))).isEqualTo(expectedMap)
     }
 
     @Test
@@ -87,6 +89,6 @@ class MainRepositoryImplTest {
             value.onEach { repositoryImpl.insertOrderDetail(it) }
         }
 
-        assertThat(repositoryImpl.getOrderWithOrderDetail(1)).isEqualTo(expectedMap)
+        assertThat(repositoryImpl.getOrderWithOrderDetail(FoodOrder(1, 1))).isEqualTo(expectedMap)
     }
 }
