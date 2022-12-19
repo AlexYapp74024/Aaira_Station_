@@ -8,7 +8,10 @@ data class FoodCategory(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 1,
     val name: String = "",
-)
-
-val exampleFoodCategory = FoodCategory(1, "Rice")
+) {
+    companion object {
+        val noCategory = FoodCategory(0, "No Category")
+        val example = FoodCategory(1, "Rice")
+    }
+}
 

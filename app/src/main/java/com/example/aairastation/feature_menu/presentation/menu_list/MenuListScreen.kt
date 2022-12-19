@@ -1,4 +1,4 @@
-package com.example.aairastation.feature_menu.presentation
+package com.example.aairastation.feature_menu.presentation.menu_list
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*

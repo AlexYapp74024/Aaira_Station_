@@ -33,10 +33,10 @@ interface MainRepository {
     fun getAllTable(): Flow<List<NumberedTable>>
 
     // Relations
-    suspend fun getFoodCategoryWithFood(categoryID: Long): Map<FoodCategory, List<Food>>
+    suspend fun getFoodCategoryWithFood(category: FoodCategory): Map<FoodCategory, List<Food>>
     suspend fun getFoodCategoryWithFood(): Map<FoodCategory, List<Food>>
-    suspend fun getFoodWithOrderDetail(foodID: Long): Map<Food, List<OrderDetail>>
+    suspend fun getFoodWithOrderDetail(food: Food): Map<Food, List<OrderDetail>>
     suspend fun getFoodWithOrderDetails(): Map<Food, List<OrderDetail>>
-    suspend fun getOrderWithOrderDetail(orderID: Long): Map<FoodOrder, List<OrderDetail>>
+    suspend fun getOrderWithOrderDetail(order: FoodOrder): Map<FoodOrder, List<OrderDetail>>
     suspend fun getOrderWithOrderDetail(): Map<FoodOrder, List<OrderDetail>>
 }

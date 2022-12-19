@@ -32,9 +32,9 @@ class MainRepositoryImpl(
     override suspend fun deleteTable(item: NumberedTable) = dao.deleteTable(item)
     override fun getAllTable(): Flow<List<NumberedTable>> = dao.getAllTable()
 
-    override suspend fun getFoodCategoryWithFood(categoryID: Long): Map<FoodCategory, List<Food>> =
+    override suspend fun getFoodCategoryWithFood(category: FoodCategory): Map<FoodCategory, List<Food>> =
         mutableMapOf<FoodCategory, List<Food>>().also { map ->
-            dao.getFoodCategoryWithFood(categoryID).map {
+            dao.getFoodCategoryWithFood(category.id).map {
                 map[it.category] = it.foodList
             }
         }
@@ -47,9 +47,9 @@ class MainRepositoryImpl(
         }
 
 
-    override suspend fun getFoodWithOrderDetail(foodID: Long): Map<Food, List<OrderDetail>> =
+    override suspend fun getFoodWithOrderDetail(food: Food): Map<Food, List<OrderDetail>> =
         mutableMapOf<Food, List<OrderDetail>>().also { map ->
-            dao.getFoodWithOrderDetails(foodID).map {
+            dao.getFoodWithOrderDetails(food.id).map {
                 map[it.food] = it.orderDetailList
             }
         }
@@ -61,9 +61,9 @@ class MainRepositoryImpl(
             }
         }
 
-    override suspend fun getOrderWithOrderDetail(orderID: Long): Map<FoodOrder, List<OrderDetail>> =
+    override suspend fun getOrderWithOrderDetail(order: FoodOrder): Map<FoodOrder, List<OrderDetail>> =
         mutableMapOf<FoodOrder, List<OrderDetail>>().also { map ->
-            dao.getOrderWithOrderDetail(orderID).map {
+            dao.getOrderWithOrderDetail(order.id).map {
                 map[it.foodOrder] = it.orderDetailList
             }
         }
