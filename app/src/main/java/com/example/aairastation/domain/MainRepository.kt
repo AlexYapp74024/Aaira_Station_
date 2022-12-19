@@ -34,6 +34,9 @@ interface MainRepository {
 
     // Relations
     suspend fun getFoodCategoryWithFood(categoryID: Int): Map<FoodCategory, List<Food>>
+    suspend fun getFoodCategoryWithFood(): Map<FoodCategory, List<Food>>
     suspend fun getFoodWithOrderDetail(foodID: Int): Map<Food, List<OrderDetail>>
+    suspend fun getFoodWithOrderDetails(): Map<Food, List<OrderDetail>>
     suspend fun getOrderWithOrderDetail(orderID: Int): Map<FoodOrder, List<OrderDetail>>
+    suspend fun getOrderWithOrderDetail(): Map<FoodOrder, List<OrderDetail>>
 }

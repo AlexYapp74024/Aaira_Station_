@@ -39,6 +39,13 @@ class MainRepositoryImpl(
             }
         }
 
+    override suspend fun getFoodCategoryWithFood(): Map<FoodCategory, List<Food>> =
+        mutableMapOf<FoodCategory, List<Food>>().also { map ->
+            dao.getFoodCategoryWithFood().map {
+                map[it.category] = it.foodList
+            }
+        }
+
 
     override suspend fun getFoodWithOrderDetail(foodID: Int): Map<Food, List<OrderDetail>> =
         mutableMapOf<Food, List<OrderDetail>>().also { map ->
@@ -47,9 +54,23 @@ class MainRepositoryImpl(
             }
         }
 
+    override suspend fun getFoodWithOrderDetails(): Map<Food, List<OrderDetail>> =
+        mutableMapOf<Food, List<OrderDetail>>().also { map ->
+            dao.getFoodWithOrderDetails().map {
+                map[it.food] = it.orderDetailList
+            }
+        }
+
     override suspend fun getOrderWithOrderDetail(orderID: Int): Map<FoodOrder, List<OrderDetail>> =
         mutableMapOf<FoodOrder, List<OrderDetail>>().also { map ->
             dao.getOrderWithOrderDetail(orderID).map {
+                map[it.foodOrder] = it.orderDetailList
+            }
+        }
+
+    override suspend fun getOrderWithOrderDetail(): Map<FoodOrder, List<OrderDetail>> =
+        mutableMapOf<FoodOrder, List<OrderDetail>>().also { map ->
+            dao.getOrderWithOrderDetail().map {
                 map[it.foodOrder] = it.orderDetailList
             }
         }

@@ -66,10 +66,22 @@ interface MainDao {
     suspend fun getFoodCategoryWithFood(categoryID: Int): List<FoodCategoryWithFood>
 
     @Transaction
+    @Query("SELECT * FROM FoodCategory ")
+    suspend fun getFoodCategoryWithFood(): List<FoodCategoryWithFood>
+
+    @Transaction
     @Query("SELECT * FROM Food WHERE id = :foodID")
     suspend fun getFoodWithOrderDetails(foodID: Int): List<FoodWithOrderDetails>
 
     @Transaction
+    @Query("SELECT * FROM Food ")
+    suspend fun getFoodWithOrderDetails(): List<FoodWithOrderDetails>
+
+    @Transaction
     @Query("SELECT * FROM OrderDetail WHERE id = :orderID")
     suspend fun getOrderWithOrderDetail(orderID: Int): List<OrderWithOrderDetail>
+
+    @Transaction
+    @Query("SELECT * FROM OrderDetail ")
+    suspend fun getOrderWithOrderDetail(): List<OrderWithOrderDetail>
 }
