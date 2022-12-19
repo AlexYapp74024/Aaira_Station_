@@ -1,39 +1,50 @@
 package com.example.aairastation.feature_menu.presentation.menu_list
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.aairastation.core.ui_util.BitmapWithDefault
 import com.example.aairastation.core.ui_util.TopAppBarCompose
 import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_menu.domain.model.formattedPrice
 import com.example.aairastation.feature_menu.domain.model.hardCodedList
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
 
+private lateinit var viewModel: MenuListViewModel
+
+@RootNavGraph(start = true)
+@Destination
 @Composable
 fun MenuListScreen() {
-    MenuMainSide(hardCodedList)
+    viewModel = hiltViewModel()
+
+    val items by viewModel.itemsAndCategories.collectAsState(initial = mapOf())
+    MenuListContent(hardCodedList)
 }
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun MenuMainSide(
-    foodList: List<Food>
+fun MenuListContent(
+    foodList: List<Food>,
+    modifier: Modifier = Modifier
 ) {
-    Scaffold(topBar = { TopAppBarCompose() }) {
+    Scaffold(topBar = { TopAppBarCompose() }) { padding ->
 
         val categoryList = listOf("Promotion", "Rice", "Noodle", "Drinks")
 
-        Column {
+        Column(modifier = Modifier.padding(padding)) {
             LazyRow(
                 modifier = Modifier
                     .padding(vertical = 16.dp)
@@ -124,5 +135,5 @@ fun MenuMainSide(
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    MenuMainSide(hardCodedList)
+    MenuListContent(hardCodedList)
 }

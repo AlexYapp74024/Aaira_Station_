@@ -21,7 +21,6 @@ fun TopAppBarCompose() {
     val context = LocalContext.current
 
     TopAppBar(
-
         title = {
             Text(
                 text = "Order", fontSize = 30.sp, maxLines = 1, overflow = TextOverflow.Ellipsis
