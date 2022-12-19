@@ -10,17 +10,17 @@ class GetFood(
     private val repository: MainRepository,
     private val imageRepository: ImageRepository
 ) {
-    operator fun invoke(id: Int) = repository.getFood(id)
+    operator fun invoke(id: Long) = repository.getFood(id)
 
     suspend fun withImage(
-        id: Int,
+        id: Long,
         onImageUpdate: (FoodWithImage) -> Unit,
     ) {
         this(id).map { it ?: Food() }
             .map { FoodWithImage(it) }
             .collect { imageItem ->
                 onImageUpdate(imageItem)
-                imageItem.loadImage(imageRepository) { bitmap ->
+                imageItem.loadImage(imageRepository).collect { bitmap ->
                     onImageUpdate(imageItem.copy(bitmap = bitmap))
                 }
             }

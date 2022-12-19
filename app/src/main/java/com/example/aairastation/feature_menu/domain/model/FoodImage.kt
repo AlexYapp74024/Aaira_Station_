@@ -1,27 +1,14 @@
 package com.example.aairastation.feature_menu.domain.model
 
 import android.graphics.Bitmap
-import com.example.aairastation.domain.ImageRepository
+import com.example.aairastation.core.image_processing.EntityWithImage
 
 data class FoodWithImage(
     val item: Food,
-    val bitmap: Bitmap? = null
-) {
-    suspend fun loadImage(
-        imageRepository: ImageRepository,
-        onImageReceived: (Bitmap?) -> Unit
-    ) {
-        imageRepository.loadImage(imagePath) { bitmap ->
-            onImageReceived(bitmap)
-        }
-    }
+    override val bitmap: Bitmap? = null
+) : EntityWithImage() {
 
-    suspend fun saveImage(imageRepository: ImageRepository) {
-        bitmap?.let {
-            imageRepository.saveImage(imagePath, it)
-        }
-    }
+    override val imagePath
+        get() = "${item.id}.png"
 }
 
-val FoodWithImage.imagePath
-    get() = "${item.id}.png"
