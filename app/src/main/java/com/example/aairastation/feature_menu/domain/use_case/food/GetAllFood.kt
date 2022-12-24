@@ -21,7 +21,7 @@ class GetAllFoods(
     ): Flow<List<Food>> {
         return repository.getAllFood().map { items ->
             items.filter { !onlyAvailable || it.available }
-                .filter { showDisabled || !it.disabled }
+                .filter { showDisabled || !it.foodDisabled }
         }
     }
 

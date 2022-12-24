@@ -42,11 +42,12 @@ fun OldOrderDetailScreen() {
 fun OngoingOrderDetailScreen() {
 }
 
+//TODO add on clicks
 @Composable
 fun OrderDetailsScreen(
     title: String,
     order: FoodOrder,
-    details: Map<OrderDetail, Food>,
+    details: List<OrderDetail>,
     tables: List<NumberedTable>,
     modifier: Modifier = Modifier,
     showCheckBoxes: Boolean = false,
@@ -65,8 +66,7 @@ fun OrderDetailsScreen(
                 navigateUp = {},
             )
         },
-
-        ) { padding ->
+    ) { padding ->
         Column {
 
             LazyColumn(
@@ -80,8 +80,14 @@ fun OrderDetailsScreen(
                     if (canChangeTableNumber) {
                         TableNumber(tables = tables)
                     } else {
+                        val displayText = if (order.table != null) {
+                            "Table No:  ${order.table.tableId}"
+                        } else {
+                            "Take away"
+                        }
+
                         Text(
-                            text = "Table No:  ${order.tableID}",
+                            text = displayText,
                             style = MaterialTheme.typography.h6,
                             fontWeight = FontWeight.Bold,
                         )
@@ -99,8 +105,7 @@ fun OrderDetailsScreen(
                                 onCheckedChange = {},
                                 modifier = modifier.onSizeChanged {
                                     checkBoxSizePx = it
-                                }
-                            )
+                                })
                         }
 
                         Text(
@@ -120,27 +125,26 @@ fun OrderDetailsScreen(
 
                 item {
                     Divider(
-                        color = Black, thickness = 1.dp,
+                        color = Black,
+                        thickness = 1.dp,
                         modifier = Modifier.padding(vertical = 8.dp)
                     )
                 }
 
-                items(details.toList()) { (detail, food) ->
+                items(details) { detail ->
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.padding(vertical = 4.dp),
                     ) {
                         if (showCheckBoxes) {
-                            CheckBoxWithoutMargin(
-                                checked = detail.completed,
+                            CheckBoxWithoutMargin(checked = detail.completed,
                                 onCheckedChange = { },
                                 modifier = modifier.onSizeChanged {
                                     checkBoxSizePx = it
-                                }
-                            )
+                                })
                         }
 
-                        Text(text = food.name)
+                        Text(text = detail.food.foodName)
 
                         Text(
                             text = "    x${detail.amount}", fontWeight = FontWeight.Bold,
@@ -148,21 +152,22 @@ fun OrderDetailsScreen(
                         )
 
                         Text(
-                            text = (food.priceInRinggit * detail.amount).formatTo2dp(),
+                            text = (detail.food.priceInRinggit * detail.amount).formatTo2dp(),
                         )
                     }
                 }
 
                 item {
                     Divider(
-                        color = Black, thickness = 1.dp,
+                        color = Black,
+                        thickness = 1.dp,
                         modifier = Modifier.padding(vertical = 8.dp)
                     )
                 }
 
                 item {
-                    val total = (details.toList().foldRight(0) { (detail, food), acc ->
-                        acc + (food.priceInCents * detail.amount)
+                    val total = (details.toList().foldRight(0) { detail, acc ->
+                        acc + (detail.food.priceInCents * detail.amount)
                     } / 100.0).formatPriceToRM()
 
                     Row(
@@ -195,9 +200,7 @@ fun TableNumber(
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Text(
-            text = "Table No:",
-            style = MaterialTheme.typography.h6,
-            fontWeight = FontWeight.Bold
+            text = "Table No:", style = MaterialTheme.typography.h6, fontWeight = FontWeight.Bold
         )
 
         Spacer(modifier = Modifier.width(32.dp))
@@ -205,7 +208,7 @@ fun TableNumber(
         ExposedDropdown(
             options = tables,
             onSelect = {},
-            listItemToString = { it.id.toString() },
+            listItemToString = { it.tableId.toString() },
             label = {},
         )
     }
@@ -217,15 +220,12 @@ fun TableNumber(
 fun OrderDetailsScreenPreview1() {
     AairaStationTheme {
         OrderDetailsScreen(
-            "App bar",
-            FoodOrder(1, 12),
-            mapOf(
-                OrderDetail(1, 1, 3, 1) to Food.example,
-                OrderDetail(2, 1, 3, 2) to Food.example,
-                OrderDetail(3, 1, 3, 3) to Food.example,
-                OrderDetail(4, 1, 3, 4) to Food.example,
-            ),
-            listOf(NumberedTable(1), NumberedTable(2), NumberedTable(3)),
+            "App bar", FoodOrder(1, NumberedTable.example), listOf(
+                OrderDetail(1, FoodOrder.example, Food.example, 1),
+                OrderDetail(2, FoodOrder.example, Food.example, 2),
+                OrderDetail(3, FoodOrder.example, Food.example, 3),
+                OrderDetail(4, FoodOrder.example, Food.example, 4),
+            ), listOf(NumberedTable(1), NumberedTable(2), NumberedTable(3)),
             showCheckBoxes = true
         )
     }
@@ -237,12 +237,12 @@ fun OrderDetailsScreenPreview2() {
     AairaStationTheme {
         OrderDetailsScreen(
             "App bar",
-            FoodOrder(1, 12),
-            mapOf(
-                OrderDetail(1, 1, 3, 1) to Food.example,
-                OrderDetail(2, 1, 3, 2) to Food.example,
-                OrderDetail(3, 1, 3, 3) to Food.example,
-                OrderDetail(4, 1, 3, 4) to Food.example,
+            FoodOrder(1, NumberedTable.example),
+            listOf(
+                OrderDetail(1, FoodOrder.example, Food.example, 1),
+                OrderDetail(2, FoodOrder.example, Food.example, 2),
+                OrderDetail(3, FoodOrder.example, Food.example, 3),
+                OrderDetail(4, FoodOrder.example, Food.example, 4),
             ),
             listOf(NumberedTable(1), NumberedTable(2), NumberedTable(3)),
             showCheckBoxes = false,

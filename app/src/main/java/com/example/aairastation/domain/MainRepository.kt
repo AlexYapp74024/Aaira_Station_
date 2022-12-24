@@ -31,12 +31,4 @@ interface MainRepository {
     suspend fun insertTable(item: NumberedTable): Long
     suspend fun deleteTable(item: NumberedTable)
     fun getAllTable(): Flow<List<NumberedTable>>
-
-    // Relations
-    suspend fun getFoodCategoryWithFood(category: FoodCategory): Map<FoodCategory, List<Food>>
-    suspend fun getFoodCategoryWithFood(): Map<FoodCategory, List<Food>>
-    suspend fun getFoodWithOrderDetail(food: Food): Map<Food, List<OrderDetail>>
-    suspend fun getFoodWithOrderDetails(): Map<Food, List<OrderDetail>>
-    suspend fun getOrderWithOrderDetail(order: FoodOrder): Map<FoodOrder, List<OrderDetail>>
-    suspend fun getOrderWithOrderDetail(): Map<FoodOrder, List<OrderDetail>>
 }

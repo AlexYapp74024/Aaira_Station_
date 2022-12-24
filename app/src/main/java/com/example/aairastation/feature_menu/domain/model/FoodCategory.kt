@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey
 @Entity
 data class FoodCategory(
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 1,
-    val name: String = "",
+    val categoryId: Long = 1,
+    val categoryName: String = "",
 ) {
     companion object {
         val noCategory = FoodCategory(0, "No Category")

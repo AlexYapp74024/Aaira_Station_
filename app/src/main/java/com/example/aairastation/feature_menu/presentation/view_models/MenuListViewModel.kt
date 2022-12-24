@@ -1,4 +1,4 @@
-package com.example.aairastation.feature_menu.presentation.menu_list
+package com.example.aairastation.feature_menu.presentation.view_models
 
 import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
@@ -12,7 +12,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,22 +21,23 @@ class MenuListViewModel @Inject constructor(
     private val useCases: MenuUseCases
 ) : ViewModel() {
 
-    private var categories = MutableStateFlow<Map<FoodCategory, List<Food>>>(mapOf())
+    private var categories = MutableStateFlow<List<FoodCategory>>(listOf())
     private var bitmaps = MutableStateFlow<Map<Food, Flow<Bitmap?>>>(mapOf())
 
-    var itemsAndCategories = combine(categories, bitmaps) { categories, bitmaps ->
-        categories.map { (category, items) ->
-            val itemAndBitmap = items.associateWith {
-                bitmaps[it] ?: flowOf(null)
+    var itemsAndCategories: Flow<Map<FoodCategory, Map<Food, Flow<Bitmap?>>>> =
+        combine(categories, bitmaps) { categories, bitmaps ->
+            categories.associateWith { category ->
+                bitmaps.filter { (food, _) ->
+                    food.category == category
+                }
+            }.toMutableMap().also { map ->
+                // Append food without categories
+                map[FoodCategory.noCategory] = bitmaps.filter { (item, _) -> item.category == null }
+            }.filter { (_, items) ->
+                // Remove categories without items
+                items.isNotEmpty()
             }
-            category to itemAndBitmap
-        }.toMap().toMutableMap().also { map ->
-            val itemWithNullCategory = bitmaps.filter { (item, _) -> item.categoryID == null }
-            map[FoodCategory.noCategory] = itemWithNullCategory
-        }.filter { (_, items) ->
-            items.isNotEmpty()
         }
-    }
 
     fun viewItem(navigator: DestinationsNavigator, id: Int) {
 //        navigator.navigate(ForageItemDetailScreenDestination(id))
@@ -61,7 +62,7 @@ class MenuListViewModel @Inject constructor(
     }
 
     private suspend fun getCategories() {
-        categories.value = useCases.getCategoryWithFood()
+        categories.value = useCases.getAllFoodCategory().first()
     }
 
     private suspend fun getBitmap() {

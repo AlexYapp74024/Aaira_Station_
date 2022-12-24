@@ -31,47 +31,4 @@ class MainRepositoryImpl(
     override suspend fun insertTable(item: NumberedTable): Long = dao.insertTable(item)
     override suspend fun deleteTable(item: NumberedTable) = dao.deleteTable(item)
     override fun getAllTable(): Flow<List<NumberedTable>> = dao.getAllTable()
-
-    override suspend fun getFoodCategoryWithFood(category: FoodCategory): Map<FoodCategory, List<Food>> =
-        mutableMapOf<FoodCategory, List<Food>>().also { map ->
-            dao.getFoodCategoryWithFood(category.id).map {
-                map[it.category] = it.foodList
-            }
-        }
-
-    override suspend fun getFoodCategoryWithFood(): Map<FoodCategory, List<Food>> =
-        mutableMapOf<FoodCategory, List<Food>>().also { map ->
-            dao.getFoodCategoryWithFood().map {
-                map[it.category] = it.foodList
-            }
-        }
-
-
-    override suspend fun getFoodWithOrderDetail(food: Food): Map<Food, List<OrderDetail>> =
-        mutableMapOf<Food, List<OrderDetail>>().also { map ->
-            dao.getFoodWithOrderDetails(food.id).map {
-                map[it.food] = it.orderDetailList
-            }
-        }
-
-    override suspend fun getFoodWithOrderDetails(): Map<Food, List<OrderDetail>> =
-        mutableMapOf<Food, List<OrderDetail>>().also { map ->
-            dao.getFoodWithOrderDetails().map {
-                map[it.food] = it.orderDetailList
-            }
-        }
-
-    override suspend fun getOrderWithOrderDetail(order: FoodOrder): Map<FoodOrder, List<OrderDetail>> =
-        mutableMapOf<FoodOrder, List<OrderDetail>>().also { map ->
-            dao.getOrderWithOrderDetail(order.id).map {
-                map[it.foodOrder] = it.orderDetailList
-            }
-        }
-
-    override suspend fun getOrderWithOrderDetail(): Map<FoodOrder, List<OrderDetail>> =
-        mutableMapOf<FoodOrder, List<OrderDetail>>().also { map ->
-            dao.getOrderWithOrderDetail().map {
-                map[it.foodOrder] = it.orderDetailList
-            }
-        }
 }

@@ -3,12 +3,9 @@ package com.example.aairastation.data.data_source
 import androidx.room.*
 import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_menu.domain.model.FoodCategory
-import com.example.aairastation.feature_menu.domain.model.relations.FoodCategoryWithFood
 import com.example.aairastation.feature_order.domain.model.FoodOrder
 import com.example.aairastation.feature_order.domain.model.NumberedTable
 import com.example.aairastation.feature_order.domain.model.OrderDetail
-import com.example.aairastation.feature_order.domain.model.relations.FoodWithOrderDetails
-import com.example.aairastation.feature_order.domain.model.relations.OrderWithOrderDetail
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -17,7 +14,7 @@ interface MainDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFood(item: Food): Long
 
-    @Query("SELECT * FROM Food WHERE id = :id")
+    @Query("SELECT * FROM Food WHERE foodId = :id")
     fun getFood(id: Long): Flow<Food?>
 
     @Query("SELECT * FROM Food")
@@ -37,7 +34,7 @@ interface MainDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOrder(item: FoodOrder): Long
 
-    @Query("SELECT * FROM FoodOrder WHERE id = :id")
+    @Query("SELECT * FROM FoodOrder WHERE orderId = :id")
     fun getOrder(id: Long): Flow<FoodOrder?>
 
     @Query("SELECT * FROM FoodOrder")
@@ -59,29 +56,4 @@ interface MainDao {
 
     @Query("SELECT * FROM NumberedTable")
     fun getAllTable(): Flow<List<NumberedTable>>
-
-    // Relations
-    @Transaction
-    @Query("SELECT * FROM FoodCategory WHERE id = :categoryID")
-    suspend fun getFoodCategoryWithFood(categoryID: Long): List<FoodCategoryWithFood>
-
-    @Transaction
-    @Query("SELECT * FROM FoodCategory ")
-    suspend fun getFoodCategoryWithFood(): List<FoodCategoryWithFood>
-
-    @Transaction
-    @Query("SELECT * FROM Food WHERE id = :foodID")
-    suspend fun getFoodWithOrderDetails(foodID: Long): List<FoodWithOrderDetails>
-
-    @Transaction
-    @Query("SELECT * FROM Food ")
-    suspend fun getFoodWithOrderDetails(): List<FoodWithOrderDetails>
-
-    @Transaction
-    @Query("SELECT * FROM OrderDetail WHERE id = :orderID")
-    suspend fun getOrderWithOrderDetail(orderID: Long): List<OrderWithOrderDetail>
-
-    @Transaction
-    @Query("SELECT * FROM OrderDetail ")
-    suspend fun getOrderWithOrderDetail(): List<OrderWithOrderDetail>
 }
