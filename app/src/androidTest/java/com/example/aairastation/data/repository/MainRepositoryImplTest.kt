@@ -62,8 +62,8 @@ class MainRepositoryImplTest {
     fun getFoodWithOrderDetail() = runTest {
         val expectedMap = mapOf(
             Food(1, "Food1") to listOf(
-                OrderDetail(1, 1, 1),
-                OrderDetail(2, 1, 1)
+                OrderDetail(1, 1, 1, 1),
+                OrderDetail(2, 1, 1, 1)
             )
         )
 
@@ -79,8 +79,8 @@ class MainRepositoryImplTest {
     fun getOrderWithOrderDetail() = runTest {
         val expectedMap = mapOf(
             FoodOrder(1, 1) to listOf(
-                OrderDetail(1, 1, 1),
-                OrderDetail(2, 1, 1)
+                OrderDetail(1, 1, 1, 1),
+                OrderDetail(2, 1, 1, 1)
             )
         )
 

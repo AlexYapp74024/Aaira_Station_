@@ -14,9 +14,9 @@ private val DarkColorPalette = darkColors(
 )
 
 private val LightColorPalette = lightColors(
-    background = Yellow100,
-    surface = Color.White,
-    onSurface = Grey900,
+    background = Color(0xFFFFFFFF),
+    surface = Color(0xFFFFAE22),
+    onSurface = Color(0xFFFFFFFF),
     primary = Grey50,
     onPrimary = Grey900,
     secondary = Grey700
