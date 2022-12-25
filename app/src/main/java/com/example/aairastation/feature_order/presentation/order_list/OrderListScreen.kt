@@ -41,7 +41,7 @@ fun OrderListScreen(navigatorIn: DestinationsNavigator) {
 
     viewModel = hiltViewModel()
     navigator = navigatorIn
-
+    
     val currentOrder by viewModel.currentOrders.collectAsState(initial = mapOf())
     val completedOrder by viewModel.completedOrders.collectAsState(initial = mapOf())
 
