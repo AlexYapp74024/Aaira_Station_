@@ -7,7 +7,7 @@ import com.example.aairastation.data.repository.TestRepository
 import com.example.aairastation.feature_menu.domain.MenuUseCases
 import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_menu.domain.model.formattedPrice
-import com.example.aairastation.feature_menu.presentation.view_models.AddEditViewModel
+import com.example.aairastation.feature_menu.presentation.add_edit.AddEditViewModel
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest

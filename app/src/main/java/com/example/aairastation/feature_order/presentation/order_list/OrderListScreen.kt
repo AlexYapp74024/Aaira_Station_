@@ -1,4 +1,4 @@
-package com.example.aairastation.feature_order.presentation
+package com.example.aairastation.feature_order.presentation.order_list
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -9,11 +9,14 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.aairastation.core.formatPriceToRM
 import com.example.aairastation.core.formatTo2dp
 import com.example.aairastation.core.ui_util.DefaultTopAppBar
@@ -25,18 +28,33 @@ import com.example.aairastation.feature_order.domain.model.OrderDetail
 import com.example.aairastation.ui.theme.AairaStationTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
+
+private lateinit var viewModel: OrderListViewModel
+private var navigator: DestinationsNavigator = EmptyDestinationsNavigator
 
 @RootNavGraph(start = true)
 @Destination
 @Composable
-fun OrderListScreen() {
-    OrderListPreview()
+fun OrderListScreen(navigatorIn: DestinationsNavigator) {
+
+    viewModel = hiltViewModel()
+    navigator = navigatorIn
+
+    val currentOrder by viewModel.currentOrders.collectAsState(initial = mapOf())
+    val completedOrder by viewModel.completedOrders.collectAsState(initial = mapOf())
+
+    OrderList(
+        currentOrder = currentOrder,
+        completedOrder = completedOrder,
+    )
 }
 
 //TODO add on Click for items
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun CurrentOrderList(
+fun OrderList(
     currentOrder: Map<FoodOrder, List<OrderDetail>>,
     completedOrder: Map<FoodOrder, List<OrderDetail>>,
     modifier: Modifier = Modifier,
@@ -210,7 +228,7 @@ fun OrderListPreview() {
     )
 
     AairaStationTheme {
-        CurrentOrderList(currentOrder = orderLists, completedOrder = orderLists)
+        OrderList(currentOrder = orderLists, completedOrder = orderLists)
     }
 }
 
@@ -222,6 +240,6 @@ fun EmptyOrderListPreview() {
     )
 
     AairaStationTheme {
-        CurrentOrderList(currentOrder = orderList, completedOrder = orderList)
+        OrderList(currentOrder = orderList, completedOrder = orderList)
     }
 }

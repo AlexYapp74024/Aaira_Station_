@@ -7,6 +7,7 @@ import com.example.aairastation.feature_menu.domain.use_case.food.GetFood
 import com.example.aairastation.feature_menu.domain.use_case.food.InsertFood
 import com.example.aairastation.feature_menu.domain.use_case.food_category.DeleteFoodCategory
 import com.example.aairastation.feature_menu.domain.use_case.food_category.GetAllFoodCategory
+import com.example.aairastation.feature_menu.domain.use_case.food_category.GroupAllFoodByCategory
 import com.example.aairastation.feature_menu.domain.use_case.food_category.InsertFoodCategory
 
 data class MenuUseCases(
@@ -17,6 +18,7 @@ data class MenuUseCases(
     val getAllFoodCategory: GetAllFoodCategory,
     val insertFoodCategory: InsertFoodCategory,
     val deleteFoodCategory: DeleteFoodCategory,
+    val groupAllFoodByCategory: GroupAllFoodByCategory,
 ) {
     companion object {
         fun create(
@@ -30,6 +32,7 @@ data class MenuUseCases(
             getAllFoodCategory = GetAllFoodCategory(repository),
             insertFoodCategory = InsertFoodCategory(repository),
             deleteFoodCategory = DeleteFoodCategory(repository),
+            groupAllFoodByCategory = GroupAllFoodByCategory(repository, imageRepository),
         )
     }
 }

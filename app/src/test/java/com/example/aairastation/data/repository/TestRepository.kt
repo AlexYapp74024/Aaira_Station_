@@ -18,6 +18,7 @@ class TestRepository : MainRepository {
     private val tables = mutableListOf<NumberedTable>()
 
     override suspend fun insertFood(item: Food): Long {
+        categories.add(item.category)
         foods.add(item)
         return item.foodId
     }

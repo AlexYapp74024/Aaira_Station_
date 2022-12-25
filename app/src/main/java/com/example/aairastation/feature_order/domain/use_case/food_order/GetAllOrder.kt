@@ -5,4 +5,5 @@ import com.example.aairastation.domain.MainRepository
 class GetAllOrder(
     private val repository: MainRepository,
 ) {
+    operator fun invoke() = repository.getAllOrder()
 }

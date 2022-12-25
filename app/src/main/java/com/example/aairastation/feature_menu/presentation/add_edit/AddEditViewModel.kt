@@ -1,4 +1,4 @@
-package com.example.aairastation.feature_menu.presentation.view_models
+package com.example.aairastation.feature_menu.presentation.add_edit
 
 import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel

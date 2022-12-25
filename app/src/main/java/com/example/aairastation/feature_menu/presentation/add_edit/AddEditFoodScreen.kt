@@ -1,4 +1,4 @@
-package com.example.aairastation.feature_menu.presentation
+package com.example.aairastation.feature_menu.presentation.add_edit
 
 import android.graphics.Bitmap
 import androidx.compose.foundation.layout.*
@@ -23,7 +23,6 @@ import com.example.aairastation.core.ui_util.BitmapWithDefault
 import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_menu.domain.model.FoodWithImage
 import com.example.aairastation.feature_menu.domain.model.priceInRinggit
-import com.example.aairastation.feature_menu.presentation.view_models.AddEditViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator

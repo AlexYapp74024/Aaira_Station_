@@ -12,7 +12,7 @@ data class Food(
     val foodId: Long = 0,
     val foodName: String = "",
     @Embedded
-    val category: FoodCategory? = null,
+    val category: FoodCategory = FoodCategory.noCategory,
     /**
      * Price is counted in cents to prevent inaccuracies when dealing with floating point values
      */

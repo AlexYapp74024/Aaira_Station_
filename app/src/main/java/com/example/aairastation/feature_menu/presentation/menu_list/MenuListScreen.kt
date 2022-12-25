@@ -1,4 +1,4 @@
-package com.example.aairastation.feature_menu.presentation
+package com.example.aairastation.feature_menu.presentation.menu_list
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -20,15 +20,14 @@ import com.example.aairastation.core.ui_util.TopAppBarCompose
 import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_menu.domain.model.formattedPrice
 import com.example.aairastation.feature_menu.domain.model.hardCodedList
-import com.example.aairastation.feature_menu.presentation.view_models.MenuListViewModel
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 private lateinit var viewModel: MenuListViewModel
 
-//@RootNavGraph(start = true)
 @Destination
 @Composable
-fun MenuListScreen() {
+fun MenuListScreen(navigatorIn: DestinationsNavigator) {
     viewModel = hiltViewModel()
 
     val items by viewModel.itemsAndCategories.collectAsState(initial = mapOf())
