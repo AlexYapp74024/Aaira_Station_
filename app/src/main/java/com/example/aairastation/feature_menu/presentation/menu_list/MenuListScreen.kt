@@ -18,7 +18,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.aairastation.core.ui_util.BitmapWithDefault
 import com.example.aairastation.core.ui_util.TopAppBarCompose
 import com.example.aairastation.feature_menu.domain.model.Food
-import com.example.aairastation.feature_menu.domain.model.formattedPrice
 import com.example.aairastation.feature_menu.domain.model.hardCodedList
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -93,7 +92,7 @@ fun MenuListContent(
 //                            modifier = Modifier.fillMaxWidth()
                         )
                         Text(text = food.foodName, modifier = Modifier.weight(1f))
-                        Text(text = food.formattedPrice)
+//                        Text(text = food.formattedPrice)
 //                        Text(text = food.description)
 //                        Text(text = food.description.toString())
                     }

@@ -19,6 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.aairastation.core.formatPriceToRM
 import com.example.aairastation.core.formatTo2dp
+import com.example.aairastation.core.ui_util.BottomNavItems
+import com.example.aairastation.core.ui_util.DefaultBottomNavigation
 import com.example.aairastation.core.ui_util.DefaultTopAppBar
 import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_menu.domain.model.priceInRinggit
@@ -41,7 +43,7 @@ fun OrderListScreen(navigatorIn: DestinationsNavigator) {
 
     viewModel = hiltViewModel()
     navigator = navigatorIn
-    
+
     val currentOrder by viewModel.currentOrders.collectAsState(initial = mapOf())
     val completedOrder by viewModel.completedOrders.collectAsState(initial = mapOf())
 
@@ -67,6 +69,12 @@ fun OrderList(
                 navigateUp = {},
             )
         },
+        bottomBar = {
+            DefaultBottomNavigation(
+                currentItem = BottomNavItems.Orders,
+                navigator = navigator,
+            )
+        }
     ) { padding ->
         LazyColumn(modifier = modifier.padding(padding)) {
             stickyHeader {
@@ -235,9 +243,7 @@ fun OrderListPreview() {
 @Preview(showBackground = true)
 @Composable
 fun EmptyOrderListPreview() {
-    val orderList = mapOf(
-        FoodOrder(1, NumberedTable.example, null) to listOf<OrderDetail>()
-    )
+    val orderList = mapOf<FoodOrder, List<OrderDetail>>()
 
     AairaStationTheme {
         OrderList(currentOrder = orderList, completedOrder = orderList)
