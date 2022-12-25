@@ -21,21 +21,14 @@ class OrderListViewModel @Inject constructor(
     val currentOrders: Flow<Map<FoodOrder, List<OrderDetail>>> =
         allOrders.map { map ->
             map.filter { (_, details) ->
-                // An order is current when at least 1 entry is not completed.
-                // That is, is at least one detail is not completed
-                !details.fold(true) { acc, detail ->
-                    detail.completed && acc
-                }
+                !useCases.isOrderCompleted(details)
             }
         }
 
     val completedOrders: Flow<Map<FoodOrder, List<OrderDetail>>> =
         allOrders.map { map ->
             map.filter { (_, details) ->
-                // An order is completed when at all entry completed.
-                details.fold(true) { acc, detail ->
-                    detail.completed && acc
-                }
+                useCases.isOrderCompleted(details)
             }
         }
 }

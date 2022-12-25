@@ -93,7 +93,7 @@ class MenuListViewModelTest {
     private suspend fun testViewModelItemState(expectedMap: Map<FoodCategory, List<Food>>) {
         addMapToRepository(expectedMap)
 
-        viewModel.refreshItemsSuspend()
+        viewModel.refreshItems()
         val vmMap = viewModel.itemsAndCategories.first()
 
         // scrub away all bitmap flows

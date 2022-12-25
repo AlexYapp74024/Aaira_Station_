@@ -42,7 +42,6 @@ fun DefaultBottomNavigation(
     navigator: DestinationsNavigator,
     modifier: Modifier = Modifier,
 ) {
-
     BottomNavigation(
         modifier = modifier,
         backgroundColor = MaterialTheme.colors.surface

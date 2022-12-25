@@ -4,6 +4,7 @@ import com.example.aairastation.domain.MainRepository
 import com.example.aairastation.feature_order.domain.use_case.food_order.GetAllOrder
 import com.example.aairastation.feature_order.domain.use_case.food_order.GetOrder
 import com.example.aairastation.feature_order.domain.use_case.food_order.InsertOrder
+import com.example.aairastation.feature_order.domain.use_case.food_order.IsOrderCompleted
 import com.example.aairastation.feature_order.domain.use_case.order_detail.GetAllDetail
 import com.example.aairastation.feature_order.domain.use_case.order_detail.InsertDetail
 import com.example.aairastation.feature_order.domain.use_case.table.DeleteTable
@@ -19,6 +20,7 @@ data class OrderUseCases(
     val deleteTable: DeleteTable,
     val getAllTable: GetAllTable,
     val insertTable: InsertTable,
+    val isOrderCompleted: IsOrderCompleted,
 ) {
     companion object {
         fun create(repository: MainRepository) =
@@ -31,6 +33,7 @@ data class OrderUseCases(
                 deleteTable = DeleteTable(repository),
                 getAllTable = GetAllTable(repository),
                 insertTable = InsertTable(repository),
+                isOrderCompleted = IsOrderCompleted(),
             )
     }
 }

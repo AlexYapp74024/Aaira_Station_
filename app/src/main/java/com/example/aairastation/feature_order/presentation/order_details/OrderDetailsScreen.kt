@@ -1,4 +1,4 @@
-package com.example.aairastation.feature_order.presentation
+package com.example.aairastation.feature_order.presentation.order_details
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -28,10 +28,6 @@ import com.example.aairastation.ui.theme.AairaStationTheme
 
 @Composable
 fun CheckOutScreen() {
-}
-
-@Composable
-fun NewIncomingOrderScreen() {
 }
 
 @Composable
@@ -225,7 +221,11 @@ fun OrderDetailsScreenPreview1() {
                 OrderDetail(2, FoodOrder.example, Food.example, 2),
                 OrderDetail(3, FoodOrder.example, Food.example, 3),
                 OrderDetail(4, FoodOrder.example, Food.example, 4),
-            ), listOf(NumberedTable(1), NumberedTable(2), NumberedTable(3)),
+            ), listOf(
+                NumberedTable(1, 1),
+                NumberedTable(2, 2),
+                NumberedTable(3, 3)
+            ),
             showCheckBoxes = true
         )
     }
@@ -244,7 +244,11 @@ fun OrderDetailsScreenPreview2() {
                 OrderDetail(3, FoodOrder.example, Food.example, 3),
                 OrderDetail(4, FoodOrder.example, Food.example, 4),
             ),
-            listOf(NumberedTable(1), NumberedTable(2), NumberedTable(3)),
+            listOf(
+                NumberedTable(1, 1),
+                NumberedTable(2, 2),
+                NumberedTable(3, 3)
+            ),
             showCheckBoxes = false,
             canChangeTableNumber = true,
         )

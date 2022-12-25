@@ -44,15 +44,11 @@ class MenuListViewModel @Inject constructor(
     }
 
     private var retrieveItemJob: Job? = null
-    private fun refreshItems() {
+    fun refreshItems() {
         retrieveItemJob?.cancel()
         retrieveItemJob = viewModelScope.launch {
-            refreshItemsSuspend()
+            getBitmap()
         }
-    }
-
-    suspend fun refreshItemsSuspend() {
-        getBitmap()
     }
 
     private suspend fun getBitmap() {
