@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import com.example.aairastation.ui.theme.AairaStationTheme
 import com.ramcosta.composedestinations.DestinationsNavHost
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.lifecycle.HiltViewModel
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
