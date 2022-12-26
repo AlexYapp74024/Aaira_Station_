@@ -74,7 +74,15 @@ fun CurrentOrderDetailScreen(
 
     OrderDetailsScreen(
         title = "Order Detail",
-        showCheckBoxes = true
+        showCheckBoxes = true,
+        bottomButtons = {
+            Button(
+                onClick = { viewModel.saveOrder() },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(text = "Save Changes")
+            }
+        }
     )
 }
 
@@ -107,7 +115,6 @@ private fun OrderDetailsScreen(
 
 }
 
-//TODO add on clicks
 @Composable
 private fun OrderDetailsScreenContent(
     order: FoodOrder?,
@@ -122,14 +129,12 @@ private fun OrderDetailsScreenContent(
     val screenPixelDensity = LocalContext.current.resources.displayMetrics.density
     val checkBoxWidth = checkBoxSizePx.width / screenPixelDensity
 
-    Column {
-
-        LazyColumn(
-            modifier = Modifier
-                .padding(16.dp)
-                .weight(1f)
-        ) {
-
+    Column(
+        modifier = modifier
+            .padding(16.dp)
+            .fillMaxSize()
+    ) {
+        LazyColumn {
             item {
                 if (canChangeTableNumber) {
                     TableNumber(tables = tables)
@@ -252,8 +257,10 @@ private fun OrderDetailsScreenContent(
                     Text(text = total)
                 }
             }
+
         }
 
+        Spacer(modifier = Modifier.weight(1f))
         bottomButtons()
     }
 }
