@@ -116,12 +116,16 @@ private fun OrderMenuListContent(
                         modifier = Modifier
                             .background(color = MaterialTheme.colors.primaryVariant)
                             .fillMaxWidth()
-                            .padding(8.dp),
+                            .padding(vertical = 8.dp, horizontal = 16.dp),
                     )
                 }
 
                 item {
-                    FoodList(items)
+                    FoodList(
+                        items, modifier = Modifier
+                            .fillMaxSize()
+                            .padding(vertical = 8.dp, horizontal = 16.dp),
+                    )
                 }
             }
             item { Spacer(modifier = Modifier.height(40.dp)) }
@@ -136,9 +140,7 @@ private fun FoodList(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(vertical = 16.dp),
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         foodList.onEach { (food, bitmapFlow) ->
