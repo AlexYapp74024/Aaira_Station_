@@ -25,25 +25,23 @@ class GetAllFoods(
         }
     }
 
-    suspend fun withImages(
+    fun withImages(
         onlyAvailable: Boolean = true,
         showDisabled: Boolean = false,
         scope: CoroutineScope
-    ): Flow<Map<Food, Flow<Bitmap?>>> {
-        return this(
-            onlyAvailable = onlyAvailable,
-            showDisabled = showDisabled,
-        ).map { items ->
-            mutableMapOf<Food, Flow<Bitmap?>>().also { map ->
-                items.map { item ->
-                    FoodWithImage(item)
-                }.map {
-                    map[it.item] = it.loadImage(imageRepository).shareIn(
-                        scope = scope,
-                        started = SharingStarted.Lazily,
-                        replay = 1
-                    )
-                }
+    ): Flow<Map<Food, Flow<Bitmap?>>> = this(
+        onlyAvailable = onlyAvailable,
+        showDisabled = showDisabled,
+    ).map { items ->
+        mutableMapOf<Food, Flow<Bitmap?>>().also { map ->
+            items.map { item ->
+                FoodWithImage(item)
+            }.map {
+                map[it.item] = it.loadImage(imageRepository).shareIn(
+                    scope = scope,
+                    started = SharingStarted.Lazily,
+                    replay = 1
+                )
             }
         }
     }

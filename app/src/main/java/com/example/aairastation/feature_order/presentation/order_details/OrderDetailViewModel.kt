@@ -27,7 +27,6 @@ class OrderDetailViewModel @Inject constructor(
     private var _table = MutableStateFlow<List<NumberedTable>>(listOf())
     val tables = _table.asStateFlow()
 
-    // Made specially to make unit Testing easier
     fun retrieveOrders(orderId: Long) = viewModelScope.launch {
         useCases.getAllDetail().collect { details ->
             details.filter { it.order.orderId == orderId }
