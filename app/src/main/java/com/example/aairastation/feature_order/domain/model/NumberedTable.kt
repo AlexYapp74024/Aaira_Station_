@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class NumberedTable(
     @PrimaryKey(autoGenerate = true)
-    val tableId: Long,
+    val tableId: Long = 0,
     val tableNumber: Long,
     /**
      * Marks a table is disabled when the table is no longer in use

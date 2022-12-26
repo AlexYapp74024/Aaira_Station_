@@ -50,7 +50,7 @@ fun DefaultBottomNavigation(
             val selected = item == currentItem
             BottomNavigationItem(
                 selected = selected,
-                onClick = { if (selected) navigator.navigate(item.direction) },
+                onClick = { if (!selected) navigator.navigate(item.direction) },
                 icon = {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,

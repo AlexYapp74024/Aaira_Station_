@@ -31,5 +31,6 @@ class MainRepositoryImpl(
 
     override suspend fun insertTable(item: NumberedTable): Long = dao.insertTable(item)
     override suspend fun deleteTable(item: NumberedTable) = dao.deleteTable(item)
+    override fun getTable(id: Long): Flow<NumberedTable?> = dao.getTable(id)
     override fun getAllTable(): Flow<List<NumberedTable>> = dao.getAllTable()
 }

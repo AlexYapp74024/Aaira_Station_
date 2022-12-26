@@ -34,7 +34,7 @@ class MenuListViewModel @Inject constructor(
             }
         }
 
-    fun viewItem(navigator: DestinationsNavigator, id: Int) {
+    fun viewItem(navigator: DestinationsNavigator, id: Long) {
 //        navigator.navigate(ForageItemDetailScreenDestination(id))
     }
 

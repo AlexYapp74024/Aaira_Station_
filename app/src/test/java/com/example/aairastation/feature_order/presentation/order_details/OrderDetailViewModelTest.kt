@@ -137,4 +137,21 @@ class OrderDetailViewModelTest {
 
         assertThat(repository.getAllOrderDetail().first()).contains(newDetailState)
     }
+
+    @Test
+    fun `Toggle incomplete order completes all details`() = runTest {
+        val orderId = 2L
+        viewModel.retrieveOrders(orderId)
+
+        viewModel.toggleAllOrders()
+
+        val newVmDetails = viewModel.details.first()
+        assertThat(newVmDetails).isEqualTo(
+            listOf(
+                mockDetail(4, orderId, true),
+                mockDetail(5, orderId, true),
+                mockDetail(6, orderId, true),
+            )
+        )
+    }
 }

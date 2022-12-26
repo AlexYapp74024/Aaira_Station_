@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class FoodCategory(
     @PrimaryKey(autoGenerate = true)
-    val categoryId: Long = 1,
+    val categoryId: Long = 0,
     val categoryName: String = "",
 ) {
     companion object {

@@ -31,5 +31,6 @@ interface MainRepository {
     // Table
     suspend fun insertTable(item: NumberedTable): Long
     suspend fun deleteTable(item: NumberedTable)
+    fun getTable(id: Long): Flow<NumberedTable?>
     fun getAllTable(): Flow<List<NumberedTable>>
 }

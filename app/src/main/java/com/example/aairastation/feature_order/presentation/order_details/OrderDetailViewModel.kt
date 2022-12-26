@@ -3,6 +3,7 @@ package com.example.aairastation.feature_order.presentation.order_details
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.aairastation.feature_order.domain.model.FoodOrder
+import com.example.aairastation.feature_order.domain.model.NumberedTable
 import com.example.aairastation.feature_order.domain.model.OrderDetail
 import com.example.aairastation.feature_order.domain.use_case.OrderUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,6 +23,9 @@ class OrderDetailViewModel @Inject constructor(
     private val _details = _detailsMap.map { it.map { (_, detail) -> detail } }
         .stateIn(viewModelScope, SharingStarted.Lazily, listOf())
     val details = _details
+
+    private var _table = MutableStateFlow<List<NumberedTable>>(listOf())
+    val tables = _table.asStateFlow()
 
     // Made specially to make unit Testing easier
     fun retrieveOrders(orderId: Long) = viewModelScope.launch {
@@ -58,5 +62,25 @@ class OrderDetailViewModel @Inject constructor(
         newID?.let { retrieveOrders(it) }
     }
 
-//    fun orderIsCompleted(): Boolean = useCases.isOrderCompleted(_details)
+    fun toggleAllOrders() = viewModelScope.launch {
+        val orderState = orderIsCompleted()
+
+        _details.value.map { detail ->
+            detail.copy(completed = !orderState)
+        }.forEach {
+            updateDetail(it)
+        }
+    }
+
+    fun addAndSetNewTable(number: Long) = viewModelScope.launch {
+        val newID =
+            useCases.insertTable(NumberedTable(tableNumber = number))
+        useCases.getTable(newID).collect { it ->
+            it?.let {
+                updateOrder(_order.value?.copy(table = it))
+            }
+        }
+    }
+
+    suspend fun orderIsCompleted(): Boolean = useCases.isOrderCompleted(_details.first())
 }

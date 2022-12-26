@@ -36,16 +36,16 @@ class AddEditViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun addNewCategory(name: String) {
-        viewModelScope.launch {
-            val newID = useCases.insertFoodCategory(FoodCategory(categoryName = name))
-            useCases.getFoodCategory(newID).collect { it ->
-                it?.let {
-                    updateItemState(_item.value.item.copy(category = it))
-                }
+    fun addAndSetNewCategory(name: String) = viewModelScope.launch {
+        val newID =
+            useCases.insertFoodCategory(FoodCategory(categoryName = name))
+        useCases.getFoodCategory(newID).collect { it ->
+            it?.let {
+                updateItemState(_item.value.item.copy(category = it))
             }
         }
     }
+
 
     fun updateItemBitmap(bitmap: Bitmap) {
         _item.value = _item.value.copy(bitmap = bitmap)
@@ -56,17 +56,14 @@ class AddEditViewModel @Inject constructor(
         _item.value = _item.value.copy(item = item)
     }
 
-    fun retrieveItem(id: Long) {
-        viewModelScope.launch {
-            useCases.getFood.withImage(id) {
-                _item.value = it
-            }
+    fun retrieveItem(id: Long) = viewModelScope.launch {
+        useCases.getFood.withImage(id) {
+            _item.value = it
         }
     }
 
-    fun addItem() {
-        viewModelScope.launch {
-            useCases.insertFood(item.value, imageUpdated)
-        }
+
+    fun addItem() = viewModelScope.launch {
+        useCases.insertFood(item.value, imageUpdated)
     }
 }

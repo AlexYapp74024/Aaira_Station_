@@ -2,6 +2,7 @@ package com.example.aairastation.feature_order.presentation.order_list
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -22,6 +23,8 @@ import com.example.aairastation.core.formatTo2dp
 import com.example.aairastation.core.ui_util.BottomNavItems
 import com.example.aairastation.core.ui_util.DefaultBottomNavigation
 import com.example.aairastation.core.ui_util.DefaultTopAppBar
+import com.example.aairastation.destinations.CompletedOrderDetailScreenDestination
+import com.example.aairastation.destinations.CurrentOrderDetailScreenDestination
 import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_menu.domain.model.priceInRinggit
 import com.example.aairastation.feature_order.domain.model.FoodOrder
@@ -40,7 +43,6 @@ private var navigator: DestinationsNavigator = EmptyDestinationsNavigator
 @Destination
 @Composable
 fun OrderListScreen(navigatorIn: DestinationsNavigator) {
-
     viewModel = hiltViewModel()
     navigator = navigatorIn
 
@@ -53,7 +55,6 @@ fun OrderListScreen(navigatorIn: DestinationsNavigator) {
     )
 }
 
-//TODO add on Click for items
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OrderList(
@@ -93,7 +94,7 @@ fun OrderList(
             }
 
             if (currentOrder.isNotEmpty()) {
-                itemsIndexed(currentOrder.toList()) { index, (_, details) ->
+                itemsIndexed(currentOrder.toList()) { index, (order, details) ->
                     val bgColor = if (index % 2 == 0) {
                         MaterialTheme.colors.primary
                     } else {
@@ -106,7 +107,9 @@ fun OrderList(
                             .fillMaxWidth()
                             .padding(8.dp)
                     ) {
-                        CurrentOrderList(details)
+                        CurrentOrderList(details, modifier = Modifier.clickable {
+                            navigator.navigate(CurrentOrderDetailScreenDestination(orderID = order.orderId))
+                        })
                     }
                 }
             } else {
@@ -134,7 +137,8 @@ fun OrderList(
             }
 
             if (completedOrder.isNotEmpty()) {
-                itemsIndexed(completedOrder.toList()) { index, (_, details) ->
+
+                itemsIndexed(completedOrder.toList()) { index, (order, details) ->
                     val bgColor = if (index % 2 == 0) {
                         MaterialTheme.colors.primary
                     } else {
@@ -147,7 +151,9 @@ fun OrderList(
                             .fillMaxWidth()
                             .padding(8.dp)
                     ) {
-                        CompletedOrderList(details)
+                        CompletedOrderList(details, modifier = Modifier.clickable {
+                            navigator.navigate(CompletedOrderDetailScreenDestination(orderID = order.orderId))
+                        })
                     }
                 }
             } else {
@@ -183,7 +189,10 @@ fun CompletedOrderList(
     details: List<OrderDetail>,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier.padding(horizontal = 32.dp)) {
+    Column(
+        modifier = modifier
+            .padding(horizontal = 32.dp)
+    ) {
         details.onEach { detail ->
             with(detail) {
                 Row {

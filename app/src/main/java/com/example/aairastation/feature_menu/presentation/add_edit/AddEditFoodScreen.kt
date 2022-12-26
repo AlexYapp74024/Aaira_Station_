@@ -163,7 +163,7 @@ fun AddEditFood(
             listItemToString = { it.categoryName },
             value = categories.find { it == food.category } ?: FoodCategory.noCategory,
             onAddNewItem = {
-                viewModel.addNewCategory(it)
+                viewModel.addAndSetNewCategory(it)
             },
             onSelect = {
                 viewModel.updateItemState(food.copy(category = it))

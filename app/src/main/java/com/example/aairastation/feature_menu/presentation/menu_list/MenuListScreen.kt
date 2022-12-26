@@ -1,143 +1,213 @@
 package com.example.aairastation.feature_menu.presentation.menu_list
 
+import android.graphics.Bitmap
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.aairastation.core.ui_util.BitmapWithDefault
+import com.example.aairastation.core.ui_util.BottomNavItems
+import com.example.aairastation.core.ui_util.DefaultBottomNavigation
 import com.example.aairastation.core.ui_util.DefaultTopAppBar
 import com.example.aairastation.feature_menu.domain.model.Food
-import com.example.aairastation.feature_menu.domain.model.formattedPrice
-import com.example.aairastation.feature_menu.domain.model.hardCodedList
+import com.example.aairastation.feature_menu.domain.model.FoodCategory
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.launch
 
 private lateinit var viewModel: MenuListViewModel
+private var navigator: DestinationsNavigator = EmptyDestinationsNavigator
 
 @Destination
 @Composable
-fun MenuListScreen() {
+fun MenuListScreen(navigatorIn: DestinationsNavigator) {
     viewModel = hiltViewModel()
+    navigator = navigatorIn
 
-    val items by viewModel.itemsAndCategories.collectAsState(initial = mapOf())
-    MenuListContent(hardCodedList)
+    MenuListScreen()
 }
 
 @Composable
+fun MenuListScreen() {
+    val items by viewModel.itemsAndCategories.collectAsState(initial = mapOf())
+
+    MenuListScaffold {
+        MenuListContent(items, itemOnClick = {
+
+        })
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
 fun MenuListContent(
-    foodList: List<Food>, modifier: Modifier = Modifier
+    foodList: Map<FoodCategory, Map<Food, Flow<Bitmap?>>>,
+    itemOnClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    Scaffold(
-        topBar = {
-            DefaultTopAppBar(title = "Menu", canNavigateBack = false, navigateUp = {})
+    Column(modifier = modifier) {
+        val columnState = rememberLazyListState()
+        val coroutineScope = rememberCoroutineScope()
 
-        },
-        modifier = modifier,
-    ) { padding ->
-
-        val categoryList = listOf("Promotion", "Rice", "Noodle", "Drinks")
-
-        Column(modifier = Modifier.padding(padding)) {
-            LazyRow(
-                modifier = Modifier
-                    .padding(vertical = 16.dp)
-                    .padding(horizontal = 16.dp)
-                    .fillMaxWidth()
-            ) {
-                items(categoryList) { category ->
-                    Text(
-                        text = category,
-                        modifier = Modifier.padding(horizontal = 8.dp),
-                        fontSize = 20.sp,
-                        textAlign = TextAlign.Center,
-                    )
-                }
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            itemsIndexed(foodList.keys.toList()) { index, category ->
+                Text(
+                    text = category.categoryName,
+                    style = MaterialTheme.typography.h5,
+                    modifier = Modifier.clickable {
+                        coroutineScope.launch {
+                            columnState.animateScrollToItem(index)
+                        }
+                    }
+                )
             }
+        }
 
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp)
-            ) {
-
-                item {
+        LazyColumn(
+            state = columnState,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            foodList.onEach { (category, items) ->
+                stickyHeader {
                     Text(
-                        text = "Promotion",
-                        fontSize = 20.sp,
-                        modifier = Modifier.padding(top = 20.dp)
+                        text = category.categoryName,
+                        style = MaterialTheme.typography.h5
                     )
                 }
-                items(foodList) { food ->
-
-                    Row {
-                        Text(text = food.foodName, modifier = Modifier.weight(1f))
-                        Text(text = food.priceInCents.toString())
-//                        Text(text = food.description.toString())
-                    }
-                }
 
                 item {
-                    Text(text = "Rice", fontSize = 20.sp, modifier = Modifier.padding(top = 20.dp))
-                }
-                items(foodList) { food ->
-
-                    Row {
-                        BitmapWithDefault(
-                            null, null,
-//                            modifier = Modifier.fillMaxWidth()
-                        )
-                        Text(text = food.foodName, modifier = Modifier.weight(1f))
-                        Text(text = food.formattedPrice)
-//                        Text(text = food.description)
-//                        Text(text = food.description.toString())
-                    }
-                }
-
-                item {
-                    Text(
-                        text = "Noodles", fontSize = 20.sp, modifier = Modifier.padding(top = 20.dp)
-                    )
-                }
-                items(foodList) { food ->
-
-                    Row {
-                        Text(text = food.foodName, modifier = Modifier.weight(1f))
-                        Text(text = food.priceInCents.toString())
-                    }
-                }
-
-
-                item {
-                    Text(
-                        text = "Drinks", fontSize = 20.sp, modifier = Modifier.padding(top = 20.dp)
-                    )
-                }
-                items(foodList) { food ->
-
-                    Row {
-                        Text(text = food.foodName, modifier = Modifier.weight(1f))
-                        Text(text = food.priceInCents.toString())
-//                        Text(text = food.description.toString())
-                    }
+                    FoodList(items, itemOnClick)
                 }
             }
         }
     }
 }
 
+
+@Composable
+fun FoodList(
+    foodList: Map<Food, Flow<Bitmap?>>,
+    itemOnClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        foodList.onEach { (food, bitmapFlow) ->
+            FoodListItemEntry(
+                food = food,
+                bitmapFlow = bitmapFlow,
+                itemOnClick = itemOnClick
+            )
+        }
+    }
+}
+
+@Composable
+fun FoodListItemEntry(
+    food: Food,
+    bitmapFlow: Flow<Bitmap?>,
+    itemOnClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Row(modifier = modifier
+        .fillMaxWidth()
+        .height(72.dp)
+        .clickable {
+            itemOnClick()
+        }) {
+
+        val bitmap by bitmapFlow.collectAsState(initial = null)
+        BitmapWithDefault(
+            bitmap = bitmap,
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxHeight()
+                .aspectRatio(1f)
+                .padding(4.dp),
+            contentScaleIfNotNull = ContentScale.Fit,
+        )
+
+        Spacer(modifier = Modifier.width(8.dp))
+
+        Column(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = food.foodName, style = MaterialTheme.typography.h5)
+        }
+    }
+}
+
+
+@Composable
+fun MenuListScaffold(
+    modifier: Modifier = Modifier,
+    content: @Composable (PaddingValues) -> Unit,
+) {
+    Scaffold(
+        topBar = {
+            DefaultTopAppBar(title = "Menu", canNavigateBack = false, navigateUp = {})
+        },
+        bottomBar = {
+            DefaultBottomNavigation(
+                currentItem = BottomNavItems.Menu,
+                navigator = navigator
+            )
+        },
+        modifier = modifier,
+        content = content,
+    )
+}
+
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
 
-    MenuListContent(hardCodedList)
+    MenuListContent(
+        mapOf(
+            FoodCategory.example to mapOf(
+                Food.example to flowOf(null),
+                Food.example to flowOf(null),
+                Food.example to flowOf(null),
+                Food.example to flowOf(null)
+            ),
+            FoodCategory.example to mapOf(
+                Food.example to flowOf(null),
+                Food.example to flowOf(null),
+                Food.example to flowOf(null),
+                Food.example to flowOf(null)
+            ),
+            FoodCategory.example to mapOf(
+                Food.example to flowOf(null),
+                Food.example to flowOf(null),
+                Food.example to flowOf(null),
+                Food.example to flowOf(null)
+            ),
+        ),
+
+        itemOnClick = {}
+    )
 }

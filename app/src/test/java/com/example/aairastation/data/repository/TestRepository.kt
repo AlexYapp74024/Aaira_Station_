@@ -32,8 +32,9 @@ class TestRepository : MainRepository {
     }
 
     override suspend fun insertFoodCategory(item: FoodCategory): Long {
-        categories.add(item)
-        return item.categoryId
+        val maxID = if (categories.isNotEmpty()) categories.maxOf { it.categoryId } + 1 else 1
+        categories.add(item.copy(categoryId = maxID))
+        return maxID
     }
 
     override suspend fun deleteFoodCategory(item: FoodCategory) {
@@ -77,6 +78,10 @@ class TestRepository : MainRepository {
 
     override suspend fun deleteTable(item: NumberedTable) {
         tables.remove(item)
+    }
+
+    override fun getTable(id: Long): Flow<NumberedTable?> {
+        return flowOf(tables.find { it.tableId == id })
     }
 
     override fun getAllTable(): Flow<List<NumberedTable>> {
