@@ -6,6 +6,7 @@ import com.example.aairastation.data.repository.TestRepository
 import com.example.aairastation.feature_menu.domain.MenuUseCases
 import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_menu.domain.model.FoodCategory
+import com.example.aairastation.feature_order.presentation.order_menu.OrderMenuListViewModel
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
@@ -21,7 +22,7 @@ class MenuListViewModelTest {
     var mainCoroutineRule = MainCoroutineRule()
 
     private lateinit var repository: TestRepository
-    private lateinit var viewModel: MenuListViewModel
+    private lateinit var viewModel: OrderMenuListViewModel
 
     @Before
     fun setup() {
@@ -32,7 +33,7 @@ class MenuListViewModelTest {
             repository = repository
         )
 
-        viewModel = MenuListViewModel(useCases)
+        viewModel = OrderMenuListViewModel(useCases)
     }
 
     @Test
@@ -92,8 +93,7 @@ class MenuListViewModelTest {
 
     private suspend fun testViewModelItemState(expectedMap: Map<FoodCategory, List<Food>>) {
         addMapToRepository(expectedMap)
-
-        viewModel.refreshItems()
+        
         val vmMap = viewModel.itemsAndCategories.first()
 
         // scrub away all bitmap flows

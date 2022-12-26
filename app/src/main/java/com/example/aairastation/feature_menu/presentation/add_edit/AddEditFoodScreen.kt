@@ -25,7 +25,7 @@ import com.example.aairastation.core.ui_util.BitmapWithDefault
 import com.example.aairastation.core.ui_util.DefaultTopAppBar
 import com.example.aairastation.core.ui_util.ExposedDropdownCanAddNewItem
 import com.example.aairastation.core.ui_util.getImageFromInternalStorageLauncher
-import com.example.aairastation.destinations.MenuListScreenDestination
+import com.example.aairastation.destinations.OrderMenuListScreenDestination
 import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_menu.domain.model.FoodCategory
 import com.example.aairastation.feature_menu.domain.model.FoodWithImage
@@ -182,7 +182,7 @@ fun AddEditFood(
         Button(
             onClick = {
                 viewModel.addItem()
-                navigator.navigate(MenuListScreenDestination)
+                navigator.navigate(OrderMenuListScreenDestination)
             },
             modifier = defaultModifier
         ) {
@@ -193,7 +193,7 @@ fun AddEditFood(
             OutlinedButton(
                 onClick = {
                     viewModel.updateItemState(food.copy(foodDisabled = true))
-                    navigator.navigate(MenuListScreenDestination)
+                    navigator.navigate(OrderMenuListScreenDestination)
                 },
                 modifier = defaultModifier
             ) {

@@ -11,8 +11,8 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.aairastation.R
-import com.example.aairastation.destinations.MenuListScreenDestination
 import com.example.aairastation.destinations.OrderListScreenDestination
+import com.example.aairastation.destinations.OrderMenuListScreenDestination
 import com.example.aairastation.destinations.SettingsScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.spec.Direction
@@ -24,7 +24,7 @@ enum class BottomNavItems(
         @Composable
         override fun icon(): ImageVector = ImageVector.vectorResource(id = R.drawable.order)
     },
-    Menu(MenuListScreenDestination) {
+    Menu(OrderMenuListScreenDestination) {
         @Composable
         override fun icon(): ImageVector = ImageVector.vectorResource(id = R.drawable.menu)
     },

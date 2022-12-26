@@ -1,4 +1,4 @@
-package com.example.aairastation.feature_menu.presentation.menu_list
+package com.example.aairastation.feature_order.presentation.order_menu
 
 import android.graphics.Bitmap
 import androidx.compose.runtime.mutableStateMapOf
@@ -7,18 +7,31 @@ import androidx.lifecycle.viewModelScope
 import com.example.aairastation.feature_menu.domain.MenuUseCases
 import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_menu.domain.model.FoodCategory
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MenuListViewModel @Inject constructor(
+class OrderMenuListViewModel @Inject constructor(
     private val useCases: MenuUseCases
 ) : ViewModel() {
 
-    private val items = useCases.getAllFood.withImages(scope = viewModelScope)
+    private val items = MutableStateFlow<Map<Food, Flow<Bitmap?>>>(mapOf())
+
+    init {
+        refreshItem()
+    }
+
+    fun refreshItem() = viewModelScope.launch {
+        useCases.getAllFood
+            .withImages(scope = viewModelScope)
+            .collect {
+                items.value = it
+            }
+    }
 
     val itemsAndCategories: Flow<Map<FoodCategory, Map<Food, Flow<Bitmap?>>>> =
         items.map { items ->
@@ -40,11 +53,5 @@ class MenuListViewModel @Inject constructor(
 
     fun deleteFood(food: Food) {
         foodQuantity.remove(food)
-    }
-
-
-
-    fun viewItem(navigator: DestinationsNavigator, id: Long) {
-//        navigator.navigate(ForageItemDetailScreenDestination(id))
     }
 }

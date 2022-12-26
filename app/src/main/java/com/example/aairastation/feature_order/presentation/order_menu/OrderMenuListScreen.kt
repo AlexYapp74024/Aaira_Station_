@@ -1,4 +1,4 @@
-package com.example.aairastation.feature_menu.presentation.menu_list
+package com.example.aairastation.feature_order.presentation.order_menu
 
 import android.graphics.Bitmap
 import androidx.compose.animation.animateColorAsState
@@ -26,6 +26,7 @@ import com.example.aairastation.core.ui_util.DefaultBottomNavigation
 import com.example.aairastation.core.ui_util.DefaultTopAppBar
 import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_menu.domain.model.FoodCategory
+import com.example.aairastation.feature_menu.domain.model.formattedPrice
 import com.example.aairastation.ui.theme.AairaStationTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -36,43 +37,31 @@ import kotlinx.coroutines.launch
 import me.saket.swipe.SwipeAction
 import me.saket.swipe.SwipeableActionsBox
 
-private lateinit var viewModel: MenuListViewModel
+private lateinit var viewModel: OrderMenuListViewModel
 private var navigator: DestinationsNavigator = EmptyDestinationsNavigator
 
 @Destination
 @Composable
-fun EditListScreen(navigatorIn: DestinationsNavigator) {
+fun OrderMenuListScreen(navigatorIn: DestinationsNavigator) {
     viewModel = hiltViewModel()
     navigator = navigatorIn
 
-    MenuListScreen()
-}
-
-@Destination
-@Composable
-fun MenuListScreen(navigatorIn: DestinationsNavigator) {
-    viewModel = hiltViewModel()
-    navigator = navigatorIn
-
-    MenuListScreen()
+    OrderMenuListScreen()
 }
 
 @Composable
-fun MenuListScreen() {
+private fun OrderMenuListScreen() {
     val items by viewModel.itemsAndCategories.collectAsState(initial = mapOf())
 
-    MenuListScaffold {
-        MenuListContent(items, itemOnClick = {
-
-        })
+    OrderMenuListScaffold {
+        OrderMenuListContent(items)
     }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MenuListContent(
+private fun OrderMenuListContent(
     foodList: Map<FoodCategory, Map<Food, Flow<Bitmap?>>>,
-    itemOnClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
@@ -80,7 +69,8 @@ fun MenuListContent(
         val coroutineScope = rememberCoroutineScope()
 
         LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            modifier = Modifier.padding(vertical = 8.dp)
         ) {
             item { Spacer(modifier = Modifier.width(8.dp)) }
 
@@ -115,7 +105,7 @@ fun MenuListContent(
             state = columnState,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(vertical = 16.dp),
+                .padding(bottom = 16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             foodList.onEach { (category, items) ->
@@ -124,24 +114,25 @@ fun MenuListContent(
                         text = category.categoryName,
                         style = MaterialTheme.typography.h5,
                         modifier = Modifier
-                            .background(color = MaterialTheme.colors.surface)
-                            .fillMaxWidth(),
+                            .background(color = MaterialTheme.colors.primaryVariant)
+                            .fillMaxWidth()
+                            .padding(8.dp),
                     )
                 }
 
                 item {
-                    FoodList(items, itemOnClick)
+                    FoodList(items)
                 }
             }
+            item { Spacer(modifier = Modifier.height(40.dp)) }
         }
+
     }
 }
 
-
 @Composable
-fun FoodList(
+private fun FoodList(
     foodList: Map<Food, Flow<Bitmap?>>,
-    itemOnClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -165,7 +156,7 @@ fun FoodList(
                 FoodListItemEntry(
                     food = food,
                     bitmapFlow = bitmapFlow,
-                    itemOnClick = itemOnClick,
+                    itemOnClick = { viewModel.incrementFood(food) },
                     modifier = Modifier.background(color = MaterialTheme.colors.background),
                 )
             }
@@ -174,7 +165,7 @@ fun FoodList(
 }
 
 @Composable
-fun FoodListItemEntry(
+private fun FoodListItemEntry(
     food: Food,
     bitmapFlow: Flow<Bitmap?>,
     itemOnClick: () -> Unit,
@@ -183,34 +174,40 @@ fun FoodListItemEntry(
     Row(modifier = modifier
         .fillMaxWidth()
         .height(72.dp)
+        .padding(horizontal = 8.dp)
         .clickable {
             itemOnClick()
         }) {
 
-        val bitmap by bitmapFlow.collectAsState(initial = null)
-        BitmapWithDefault(
-            bitmap = bitmap,
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxHeight()
-                .aspectRatio(1f)
-                .padding(4.dp),
-            contentScaleIfNotNull = ContentScale.Fit,
-        )
-
-        Spacer(modifier = Modifier.width(8.dp))
-
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(text = food.foodName, style = MaterialTheme.typography.h5)
+            Text(text = food.foodName, style = MaterialTheme.typography.h6)
+            if (food.description.isNotEmpty())
+                Text(text = food.description, style = MaterialTheme.typography.subtitle1)
+            Text(text = food.formattedPrice)
+        }
+
+        Spacer(modifier = Modifier.width(8.dp))
+
+        val bitmap by bitmapFlow.collectAsState(initial = null)
+        bitmap?.let {
+            BitmapWithDefault(
+                bitmap = bitmap,
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .aspectRatio(1f)
+                    .padding(4.dp),
+                contentScaleIfNotNull = ContentScale.Fit,
+            )
         }
     }
 }
 
 
 @Composable
-fun MenuListScaffold(
+private fun OrderMenuListScaffold(
     modifier: Modifier = Modifier,
     content: @Composable (PaddingValues) -> Unit,
 ) {
@@ -231,7 +228,7 @@ fun MenuListScaffold(
 
 @Preview(showBackground = true)
 @Composable
-fun DefaultPreview() {
+private fun DefaultPreview() {
     val foodMap = mapOf(
         Food.example.copy(foodId = 1) to flowOf(null),
         Food.example.copy(foodId = 2) to flowOf(null),
@@ -240,15 +237,13 @@ fun DefaultPreview() {
     )
 
     AairaStationTheme {
-        MenuListScaffold {
-            MenuListContent(
+        OrderMenuListScaffold {
+            OrderMenuListContent(
                 mapOf(
                     FoodCategory.example.copy(categoryId = 1) to foodMap,
                     FoodCategory.example.copy(categoryId = 2) to foodMap,
                     FoodCategory.example.copy(categoryId = 3) to foodMap,
                 ),
-
-                itemOnClick = {}
             )
         }
     }
