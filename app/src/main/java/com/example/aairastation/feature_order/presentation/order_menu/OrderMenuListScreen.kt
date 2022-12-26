@@ -149,7 +149,7 @@ private fun FoodList(
             val swipeAction = SwipeAction(
                 icon = { Icon(imageVector = Icons.Default.Delete, contentDescription = null) },
                 background = MaterialTheme.colors.error,
-                onSwipe = { viewModel.deleteFood(food) },
+                onSwipe = { viewModel.decrementFood(food) },
             )
 
             SwipeableActionsBox(

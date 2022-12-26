@@ -30,9 +30,11 @@ class OrderDetailViewModel @Inject constructor(
     fun retrieveOrders(orderId: Long) = viewModelScope.launch {
         useCases.getAllDetail().collect { details ->
             details.filter { it.order.orderId == orderId }
-                .onEach { updateDetail(it) }
-                .first().also {
-                    updateOrder(it.order)
+                .onEach { updateDetail(it) }.also { list ->
+                    if (list.isNotEmpty())
+                        updateOrder(list.first().order)
+                    else
+                        updateOrder(null)
                 }
         }
     }

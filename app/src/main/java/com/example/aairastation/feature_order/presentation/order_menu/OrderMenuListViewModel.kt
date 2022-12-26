@@ -1,7 +1,6 @@
 package com.example.aairastation.feature_order.presentation.order_menu
 
 import android.graphics.Bitmap
-import androidx.compose.runtime.mutableStateMapOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.aairastation.feature_menu.domain.MenuUseCases
@@ -10,6 +9,7 @@ import com.example.aairastation.feature_menu.domain.model.FoodCategory
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -45,13 +45,21 @@ class OrderMenuListViewModel @Inject constructor(
             }
         }
 
-    private val foodQuantity = mutableStateMapOf<Food, Int>()
+    private val _foodQuantity = MutableStateFlow<Map<Food, Int>>(mapOf())
+    val foodQuantity = _foodQuantity.asStateFlow()
 
     fun incrementFood(food: Food) {
-        foodQuantity[food] = (foodQuantity[food] ?: 0) + 1
+        val mutableMap = _foodQuantity.value.toMutableMap()
+        mutableMap[food] = (mutableMap[food] ?: 0) + 1
+        _foodQuantity.value = mutableMap
     }
 
-    fun deleteFood(food: Food) {
-        foodQuantity.remove(food)
+    fun decrementFood(food: Food) {
+        val mutableMap = _foodQuantity.value.toMutableMap()
+        if (mutableMap[food] == null) return
+
+        mutableMap[food] = mutableMap[food]!! - 1
+        if (mutableMap[food] == 0) mutableMap.remove(food)
+        _foodQuantity.value = mutableMap
     }
 }

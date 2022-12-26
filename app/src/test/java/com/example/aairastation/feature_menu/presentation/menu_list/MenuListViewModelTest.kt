@@ -1,5 +1,6 @@
 package com.example.aairastation.feature_menu.presentation.menu_list
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.aairastation.MainCoroutineRule
 import com.example.aairastation.data.repository.TestImageRepository
 import com.example.aairastation.data.repository.TestRepository
@@ -20,6 +21,9 @@ class MenuListViewModelTest {
 
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
+
+    @get:Rule
+    var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var repository: TestRepository
     private lateinit var viewModel: OrderMenuListViewModel
@@ -90,10 +94,10 @@ class MenuListViewModelTest {
         }
     }
 
-
     private suspend fun testViewModelItemState(expectedMap: Map<FoodCategory, List<Food>>) {
         addMapToRepository(expectedMap)
-        
+        viewModel.refreshItem()
+
         val vmMap = viewModel.itemsAndCategories.first()
 
         // scrub away all bitmap flows
