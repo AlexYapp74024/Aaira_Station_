@@ -54,11 +54,11 @@ fun <T> ExposedDropdown(
 fun <T> ExposedDropdownCanAddNewItem(
     options: List<T>,
     addNewItemPrompt: String,
+    onSelect: (T) -> Unit,
+    label: @Composable (() -> Unit)?,
     modifier: Modifier = Modifier,
     listItemToString: (T) -> String = { it.toString() },
-    onSelect: (T) -> Unit,
     onAddNewItem: (String) -> Unit = {},
-    label: @Composable (() -> Unit)?,
     value: T? = null,
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -113,13 +113,14 @@ fun <T> ExposedDropdownCanAddNewItem(
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun ExposedDropdownContainer(
-    modifier: Modifier = Modifier,
     selectedOptionText: String,
     expanded: Boolean,
     changeExpand: (Boolean) -> Unit,
     label: @Composable (() -> Unit)?,
+    modifier: Modifier = Modifier,
     content: @Composable (ColumnScope.() -> Unit),
 ) {
     ExposedDropdownMenuBox(modifier = modifier, expanded = expanded, onExpandedChange = {

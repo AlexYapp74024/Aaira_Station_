@@ -6,9 +6,14 @@ import androidx.room.PrimaryKey
 @Entity
 data class NumberedTable(
     @PrimaryKey(autoGenerate = true)
-    val id: Long,
+    val tableId: Long,
+    val tableNumber: Long,
     /**
      * Marks a table is disabled when the table is no longer in use
      */
-    val disabled: Boolean = false
-)
+    val tableDisabled: Boolean = false
+) {
+    companion object {
+        val example = NumberedTable(1, 1)
+    }
+}

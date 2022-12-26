@@ -1,4 +1,4 @@
-package com.example.aairastation.feature_menu.presentation.add_item
+package com.example.aairastation.feature_menu.presentation.add_edit
 
 import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
@@ -38,7 +38,7 @@ class AddEditViewModel @Inject constructor(
 
     fun addNewCategory(name: String) {
         viewModelScope.launch {
-            useCases.insertFoodCategory(FoodCategory(name = name))
+            useCases.insertFoodCategory(FoodCategory(categoryName = name))
         }
     }
 

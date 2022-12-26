@@ -1,4 +1,4 @@
-package com.example.aairastation.feature_menu.presentation.add_item
+package com.example.aairastation.feature_menu.presentation.add_edit
 
 import android.graphics.Bitmap
 import androidx.compose.foundation.layout.*
@@ -81,9 +81,9 @@ fun AddEditFood(
         )
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
-            value = food.name,
+            value = food.foodName,
             onValueChange = {
-                viewModel.updateItemState(food.copy(name = it))
+                viewModel.updateItemState(food.copy(foodName = it))
             },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
             maxLines = 1,
@@ -140,5 +140,5 @@ fun AddEditFood(
 @Preview(showBackground = true)
 @Composable
 fun Preview() {
-    AddEditFood(Food(name = "Nasi Lemak", priceInCents = 800, description = "Sedap"), null)
+    AddEditFood(Food(foodName = "Nasi Lemak", priceInCents = 800, description = "Sedap"), null)
 }

@@ -18,12 +18,13 @@ class TestRepository : MainRepository {
     private val tables = mutableListOf<NumberedTable>()
 
     override suspend fun insertFood(item: Food): Long {
+        categories.add(item.category)
         foods.add(item)
-        return item.id
+        return item.foodId
     }
 
     override fun getFood(id: Long): Flow<Food?> {
-        return flowOf(foods.find { it.id == id })
+        return flowOf(foods.find { it.foodId == id })
     }
 
     override fun getAllFood(): Flow<List<Food>> {
@@ -32,7 +33,7 @@ class TestRepository : MainRepository {
 
     override suspend fun insertFoodCategory(item: FoodCategory): Long {
         categories.add(item)
-        return item.id
+        return item.categoryId
     }
 
     override suspend fun deleteFoodCategory(item: FoodCategory) {
@@ -45,11 +46,11 @@ class TestRepository : MainRepository {
 
     override suspend fun insertOrder(item: FoodOrder): Long {
         orders.add(item)
-        return item.id
+        return item.orderId
     }
 
     override fun getOrder(id: Long): Flow<FoodOrder?> {
-        return flowOf(orders.find { it.id == id })
+        return flowOf(orders.find { it.orderId == id })
     }
 
     override fun getAllOrder(): Flow<List<FoodOrder>> {
@@ -58,7 +59,7 @@ class TestRepository : MainRepository {
 
     override suspend fun insertOrderDetail(item: OrderDetail): Long {
         orderDetails.add(item)
-        return item.id
+        return item.detailId
     }
 
     override fun getAllOrderDetail(): Flow<List<OrderDetail>> {
@@ -67,7 +68,7 @@ class TestRepository : MainRepository {
 
     override suspend fun insertTable(item: NumberedTable): Long {
         tables.add(item)
-        return item.id
+        return item.tableId
     }
 
     override suspend fun deleteTable(item: NumberedTable) {
@@ -77,38 +78,4 @@ class TestRepository : MainRepository {
     override fun getAllTable(): Flow<List<NumberedTable>> {
         return flowOf(tables)
     }
-
-    override suspend fun getFoodCategoryWithFood(category: FoodCategory): Map<FoodCategory, List<Food>> {
-        val items = foods.filter { it.categoryID == category.id }
-        return mapOf(category to items)
-    }
-
-    override suspend fun getFoodCategoryWithFood(): Map<FoodCategory, List<Food>> {
-        return categories.associateWith { category ->
-            foods.filter { it.categoryID == category.id }
-        }
-    }
-
-    override suspend fun getFoodWithOrderDetail(food: Food): Map<Food, List<OrderDetail>> {
-        val items = orderDetails.filter { it.foodID == food.id }
-        return mapOf(food to items)
-    }
-
-    override suspend fun getFoodWithOrderDetails(): Map<Food, List<OrderDetail>> {
-        return foods.associateWith { food ->
-            orderDetails.filter { it.foodID == food.id }
-        }
-    }
-
-    override suspend fun getOrderWithOrderDetail(order: FoodOrder): Map<FoodOrder, List<OrderDetail>> {
-        val items = orderDetails.filter { it.orderID == order.id }
-        return mapOf(order to items)
-    }
-
-    override suspend fun getOrderWithOrderDetail(): Map<FoodOrder, List<OrderDetail>> {
-        return orders.associateWith { order ->
-            orderDetails.filter { it.orderID == order.id }
-        }
-    }
-
 }

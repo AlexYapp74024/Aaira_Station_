@@ -6,6 +6,18 @@ plugins {
     id "com.google.devtools.ksp" version "1.7.10-1.0.6"
     id "com.google.dagger.hilt.android" version "$dagger_hilt_version"
 }
+
+kotlin {
+    sourceSets {
+        debug {
+            kotlin.srcDir("build/generated/ksp/debug/kotlin")
+        }
+        release {
+            kotlin.srcDir("build/generated/ksp/release/kotlin")
+        }
+    }
+}
+
 android {
     namespace 'com.example.aairastation'
     compileSdk 33

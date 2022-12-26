@@ -11,8 +11,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,22 +20,19 @@ class MenuListViewModel @Inject constructor(
     private val useCases: MenuUseCases
 ) : ViewModel() {
 
-    private var categories = MutableStateFlow<Map<FoodCategory, List<Food>>>(mapOf())
-    private var bitmaps = MutableStateFlow<Map<Food, Flow<Bitmap?>>>(mapOf())
+    private val items = MutableStateFlow<Map<Food, Flow<Bitmap?>>>(mapOf())
 
-    var itemsAndCategories = combine(categories, bitmaps) { categories, bitmaps ->
-        categories.map { (category, items) ->
-            val itemAndBitmap = items.associateWith {
-                bitmaps[it] ?: flowOf(null)
+    val itemsAndCategories: Flow<Map<FoodCategory, Map<Food, Flow<Bitmap?>>>> =
+        items.map { items ->
+            items.toList().groupBy { (food, _) ->
+                food.category
+            }.map { (category, list) ->
+                category to list.toMap()
+            }.toMap().filter { (_, items) ->
+                // Remove categories without items
+                items.isNotEmpty()
             }
-            category to itemAndBitmap
-        }.toMap().toMutableMap().also { map ->
-            val itemWithNullCategory = bitmaps.filter { (item, _) -> item.categoryID == null }
-            map[FoodCategory.noCategory] = itemWithNullCategory
-        }.filter { (_, items) ->
-            items.isNotEmpty()
         }
-    }
 
     fun viewItem(navigator: DestinationsNavigator, id: Int) {
 //        navigator.navigate(ForageItemDetailScreenDestination(id))
@@ -51,24 +47,15 @@ class MenuListViewModel @Inject constructor(
     fun refreshItems() {
         retrieveItemJob?.cancel()
         retrieveItemJob = viewModelScope.launch {
-            refreshItemsSuspend()
+            getBitmap()
         }
-    }
-
-    suspend fun refreshItemsSuspend() {
-        getCategories()
-        getBitmap()
-    }
-
-    private suspend fun getCategories() {
-        categories.value = useCases.getCategoryWithFood()
     }
 
     private suspend fun getBitmap() {
         useCases.getAllFood.withImages(
             scope = viewModelScope
         ).collect {
-            bitmaps.value = it
+            items.value = it
         }
     }
 }

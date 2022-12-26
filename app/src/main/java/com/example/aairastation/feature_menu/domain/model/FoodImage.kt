@@ -9,6 +9,6 @@ data class FoodWithImage(
 ) : EntityWithImage() {
 
     override val imagePath
-        get() = "${item.id}.png"
+        get() = "${item.foodId}.png"
 }
 
