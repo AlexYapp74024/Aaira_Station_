@@ -1,5 +1,6 @@
 package com.example.aairastation.feature_order.presentation.order_details
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -78,7 +79,7 @@ fun CurrentOrderDetailScreen(
 }
 
 @Composable
-fun OrderDetailsScreen(
+private fun OrderDetailsScreen(
     title: String,
     modifier: Modifier = Modifier,
     showCheckBoxes: Boolean = false,
@@ -106,9 +107,8 @@ fun OrderDetailsScreen(
 
 }
 
-//TODO add on clicks
 @Composable
-fun OrderDetailsScreenContent(
+private fun OrderDetailsScreenContent(
     order: FoodOrder?,
     details: List<OrderDetail>,
     tables: List<NumberedTable>,
@@ -194,11 +194,15 @@ fun OrderDetailsScreenContent(
             items(details) { detail ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(vertical = 4.dp),
+                    modifier = Modifier
+                        .padding(vertical = 8.dp)
+                        .clickable {
+                            if (showCheckBoxes) viewModel.toggleDetailCompletion(detail)
+                        },
                 ) {
                     if (showCheckBoxes) {
                         CheckBoxWithoutMargin(checked = detail.completed,
-                            onCheckedChange = { },
+                            onCheckedChange = {},
                             modifier = modifier.onSizeChanged {
                                 checkBoxSizePx = it
                             })
@@ -254,7 +258,7 @@ fun OrderDetailsScreenContent(
 }
 
 @Composable
-fun TableNumber(
+private fun TableNumber(
     tables: List<NumberedTable>,
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -274,7 +278,7 @@ fun TableNumber(
 }
 
 @Composable
-fun OrderDetailScreenScaffold(
+private fun OrderDetailScreenScaffold(
     title: String,
     modifier: Modifier = Modifier,
     content: @Composable (PaddingValues) -> Unit,
@@ -294,7 +298,7 @@ fun OrderDetailScreenScaffold(
 
 @Preview
 @Composable
-fun OrderDetailsScreenPreview1() {
+private fun OrderDetailsScreenPreview1() {
     AairaStationTheme {
         OrderDetailScreenScaffold(title = "App bar") {
             OrderDetailsScreenContent(
@@ -316,7 +320,7 @@ fun OrderDetailsScreenPreview1() {
 
 @Preview
 @Composable
-fun OrderDetailsScreenPreview2() {
+private fun OrderDetailsScreenPreview2() {
     AairaStationTheme {
         OrderDetailScreenScaffold(title = "App bar") {
             OrderDetailsScreenContent(
@@ -341,7 +345,7 @@ fun OrderDetailsScreenPreview2() {
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun CheckBoxWithoutMargin(
+private fun CheckBoxWithoutMargin(
     checked: Boolean,
     onCheckedChange: ((Boolean) -> Unit)?,
     modifier: Modifier = Modifier,

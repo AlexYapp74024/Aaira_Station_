@@ -57,7 +57,7 @@ fun OrderListScreen(navigatorIn: DestinationsNavigator) {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun OrderList(
+private fun OrderList(
     currentOrder: Map<FoodOrder, List<OrderDetail>>,
     completedOrder: Map<FoodOrder, List<OrderDetail>>,
     modifier: Modifier = Modifier,
@@ -105,7 +105,7 @@ fun OrderList(
                         modifier = Modifier
                             .background(color = bgColor)
                             .fillMaxWidth()
-                            .padding(8.dp)
+                            .padding(vertical = 8.dp, horizontal = 16.dp)
                     ) {
                         CurrentOrderList(details, modifier = Modifier
                             .fillMaxWidth()
@@ -151,7 +151,7 @@ fun OrderList(
                         modifier = Modifier
                             .background(color = bgColor)
                             .fillMaxWidth()
-                            .padding(8.dp)
+                            .padding(vertical = 8.dp, horizontal = 16.dp)
                     ) {
                         CompletedOrderList(details, modifier = Modifier
                             .fillMaxWidth()
@@ -173,11 +173,11 @@ fun OrderList(
 }
 
 @Composable
-fun CurrentOrderList(
+private fun CurrentOrderList(
     details: List<OrderDetail>,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier.padding(horizontal = 32.dp)) {
+    Column(modifier = modifier) {
         details.onEach { detail ->
             with(detail) {
                 Text(
@@ -189,14 +189,11 @@ fun CurrentOrderList(
 }
 
 @Composable
-fun CompletedOrderList(
+private fun CompletedOrderList(
     details: List<OrderDetail>,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier
-            .padding(horizontal = 32.dp)
-    ) {
+    Column(modifier = modifier) {
         details.onEach { detail ->
             with(detail) {
                 Row {
@@ -233,7 +230,7 @@ fun CompletedOrderList(
 
 @Preview(showBackground = true)
 @Composable
-fun OrderListPreview() {
+private fun OrderListPreview() {
     val orderList = listOf(
         OrderDetail(1, FoodOrder.example, Food.example, 1),
         OrderDetail(1, FoodOrder.example, Food.example, 1),
@@ -255,7 +252,7 @@ fun OrderListPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun EmptyOrderListPreview() {
+private fun EmptyOrderListPreview() {
     val orderList = mapOf<FoodOrder, List<OrderDetail>>()
 
     AairaStationTheme {
