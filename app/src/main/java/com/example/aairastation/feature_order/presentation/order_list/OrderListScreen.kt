@@ -105,7 +105,7 @@ private fun OrderList(
                         modifier = Modifier
                             .background(color = bgColor)
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp, horizontal = 16.dp)
+                            .padding(8.dp)
                     ) {
                         CurrentOrderList(details, modifier = Modifier
                             .fillMaxWidth()
@@ -151,7 +151,7 @@ private fun OrderList(
                         modifier = Modifier
                             .background(color = bgColor)
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp, horizontal = 16.dp)
+                            .padding(8.dp)
                     ) {
                         CompletedOrderList(details, modifier = Modifier
                             .fillMaxWidth()
@@ -177,7 +177,7 @@ private fun CurrentOrderList(
     details: List<OrderDetail>,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier) {
+    Column(modifier = modifier.padding(horizontal = 32.dp)) {
         details.onEach { detail ->
             with(detail) {
                 Text(
@@ -193,7 +193,10 @@ private fun CompletedOrderList(
     details: List<OrderDetail>,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier) {
+    Column(
+        modifier = modifier
+            .padding(horizontal = 32.dp)
+    ) {
         details.onEach { detail ->
             with(detail) {
                 Row {
