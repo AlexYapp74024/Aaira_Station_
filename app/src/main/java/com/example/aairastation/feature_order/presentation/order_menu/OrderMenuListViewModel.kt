@@ -48,6 +48,12 @@ class OrderMenuListViewModel @Inject constructor(
     private val _foodQuantity = MutableStateFlow<Map<Food, Int>>(mapOf())
     val foodQuantity = _foodQuantity.asStateFlow()
 
+    fun reviewOrder(food: Food) {
+        val mutableMap = _foodQuantity.value.toMutableMap()
+        mutableMap[food] = (mutableMap[food] ?: 0) + 1
+        _foodQuantity.value = mutableMap
+    }
+
     fun incrementFood(food: Food) {
         val mutableMap = _foodQuantity.value.toMutableMap()
         mutableMap[food] = (mutableMap[food] ?: 0) + 1
@@ -56,10 +62,7 @@ class OrderMenuListViewModel @Inject constructor(
 
     fun decrementFood(food: Food) {
         val mutableMap = _foodQuantity.value.toMutableMap()
-        if (mutableMap[food] == null) return
-
-        mutableMap[food] = mutableMap[food]!! - 1
-        if (mutableMap[food] == 0) mutableMap.remove(food)
+        mutableMap.remove(food)
         _foodQuantity.value = mutableMap
     }
 }

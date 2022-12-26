@@ -105,23 +105,12 @@ class OrderMenuListViewModelTest {
     }
 
     @Test
-    fun `Food decremented once`() = runTest {
+    fun `Food decremented becomes 0`() = runTest {
         val targetFood = getAllFood().first()
         repeat(5) {
             viewModel.incrementFood(targetFood)
         }
 
-        viewModel.decrementFood(targetFood)
-
-        assertThat(viewModel.foodQuantity.value).containsEntry(
-            targetFood, 4
-        )
-    }
-
-    @Test
-    fun `Food deleted when decremented to 0`() = runTest {
-        val targetFood = getAllFood().first()
-        viewModel.incrementFood(targetFood)
         viewModel.decrementFood(targetFood)
 
         assertThat(viewModel.foodQuantity.value).doesNotContainKey(targetFood)

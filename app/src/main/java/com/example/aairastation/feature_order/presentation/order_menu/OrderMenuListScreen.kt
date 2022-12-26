@@ -1,7 +1,7 @@
 package com.example.aairastation.feature_order.presentation.order_menu
 
 import android.graphics.Bitmap
-import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.*
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -53,8 +53,8 @@ private fun OrderMenuListScreen() {
     val items by viewModel.itemsAndCategories.collectAsState(initial = mapOf())
     val foodQuantity by viewModel.foodQuantity.collectAsState(initial = mapOf())
 
-    OrderMenuListScaffold {
-        OrderMenuListContent(items, foodQuantity)
+    OrderMenuListScaffold { padding ->
+        OrderMenuListContent(items, foodQuantity, paddingValues = padding)
     }
 }
 
@@ -64,8 +64,9 @@ private fun OrderMenuListContent(
     foodList: Map<FoodCategory, Map<Food, Flow<Bitmap?>>>,
     foodQuantity: Map<Food, Int>,
     modifier: Modifier = Modifier,
+    paddingValues: PaddingValues = PaddingValues(),
 ) {
-    Column(modifier = modifier) {
+    Column(modifier = modifier.fillMaxSize()) {
         val columnState = rememberLazyListState()
         val coroutineScope = rememberCoroutineScope()
 
@@ -106,7 +107,8 @@ private fun OrderMenuListContent(
             state = columnState,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(bottom = 16.dp),
+                .padding(bottom = 16.dp)
+                .weight(1f),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             foodList.onEach { (category, items) ->
@@ -131,11 +133,34 @@ private fun OrderMenuListContent(
                     )
                 }
             }
-            item { Spacer(modifier = Modifier.height(40.dp)) }
         }
 
+        AnimatedVisibility(
+            visible = foodQuantity.isNotEmpty(),
+            enter = slideInVertically(
+                initialOffsetY = { it }
+            ) + fadeIn(),
+            exit = slideOutVertically(
+                targetOffsetY = { it }
+            ) + fadeOut()
+        ) {
+            Button(
+                onClick = { },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+            ) {
+                Text(
+                    "Review Cart",
+                    style = MaterialTheme.typography.h6
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(paddingValues.calculateBottomPadding()))
     }
 }
+
 
 @Composable
 private fun FoodList(
