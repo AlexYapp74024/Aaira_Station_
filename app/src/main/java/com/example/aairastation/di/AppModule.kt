@@ -11,6 +11,7 @@ import com.example.aairastation.domain.MainRepository
 import com.example.aairastation.feature_menu.domain.MenuUseCases
 import com.example.aairastation.feature_menu.domain.use_case.*
 import com.example.aairastation.feature_order.domain.use_case.OrderUseCases
+import com.example.aairastation.feature_settings.domain.use_cases.SettingsUseCases
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -56,5 +57,13 @@ object AppModule {
         repository: MainRepository,
     ): OrderUseCases {
         return OrderUseCases.create(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSettingsUseCases(
+        repository: MainRepository,
+    ): SettingsUseCases {
+        return SettingsUseCases.create(repository)
     }
 }

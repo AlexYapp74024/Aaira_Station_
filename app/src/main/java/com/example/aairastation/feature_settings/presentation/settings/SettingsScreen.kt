@@ -1,4 +1,4 @@
-package com.example.aairastation.feature_settings.presentation
+package com.example.aairastation.feature_settings.presentation.settings
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.clickable
@@ -16,6 +16,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.aairastation.R
 import com.example.aairastation.core.ui_util.BottomNavItems
 import com.example.aairastation.core.ui_util.DefaultBottomNavigation
@@ -26,11 +27,13 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 
 private var navigator: DestinationsNavigator = EmptyDestinationsNavigator
+private lateinit var viewModel: SettingScreenViewModel
 
 @Destination
 @Composable
 fun SettingsScreen(navigatorIn: DestinationsNavigator) {
     navigator = navigatorIn
+    viewModel = hiltViewModel()
 
     SettingsScaffold {
         SettingsScreenContent()
@@ -42,9 +45,18 @@ enum class SettingsScreenItems(
     @DrawableRes val resId: Int,
     val onClick: () -> Unit,
 ) {
-    TopSeller("Top Seller", R.drawable.ranking, {}),
-    SalesReport("Sales Report", R.drawable.calendar, {}),
-    EditMenu("Edit Menu", R.drawable.edit, {}),
+    TopSeller("Top Seller", R.drawable.ranking, {
+
+    }),
+    SalesReport("Sales Report", R.drawable.calendar, {
+
+    }),
+    EditMenu("Edit Menu", R.drawable.edit, {
+
+    }),
+    LoadData("Load Preloaded Data", R.drawable.download, {
+        viewModel.injectPreloadedData()
+    })
 }
 
 @Composable

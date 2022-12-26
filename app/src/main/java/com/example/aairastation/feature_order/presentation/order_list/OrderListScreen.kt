@@ -96,7 +96,7 @@ fun OrderList(
             if (currentOrder.isNotEmpty()) {
                 itemsIndexed(currentOrder.toList()) { index, (order, details) ->
                     val bgColor = if (index % 2 == 0) {
-                        MaterialTheme.colors.primary
+                        MaterialTheme.colors.primaryVariant
                     } else {
                         MaterialTheme.colors.background
                     }
@@ -107,9 +107,11 @@ fun OrderList(
                             .fillMaxWidth()
                             .padding(8.dp)
                     ) {
-                        CurrentOrderList(details, modifier = Modifier.clickable {
-                            navigator.navigate(CurrentOrderDetailScreenDestination(orderID = order.orderId))
-                        })
+                        CurrentOrderList(details, modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                navigator.navigate(CurrentOrderDetailScreenDestination(orderID = order.orderId))
+                            })
                     }
                 }
             } else {
@@ -140,7 +142,7 @@ fun OrderList(
 
                 itemsIndexed(completedOrder.toList()) { index, (order, details) ->
                     val bgColor = if (index % 2 == 0) {
-                        MaterialTheme.colors.primary
+                        MaterialTheme.colors.primaryVariant
                     } else {
                         MaterialTheme.colors.background
                     }
@@ -151,9 +153,11 @@ fun OrderList(
                             .fillMaxWidth()
                             .padding(8.dp)
                     ) {
-                        CompletedOrderList(details, modifier = Modifier.clickable {
-                            navigator.navigate(CompletedOrderDetailScreenDestination(orderID = order.orderId))
-                        })
+                        CompletedOrderList(details, modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                navigator.navigate(CompletedOrderDetailScreenDestination(orderID = order.orderId))
+                            })
                     }
                 }
             } else {

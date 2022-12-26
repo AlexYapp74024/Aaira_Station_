@@ -6,30 +6,40 @@ import com.example.aairastation.feature_menu.domain.model.FoodCategory
 import com.example.aairastation.feature_order.domain.model.FoodOrder
 import com.example.aairastation.feature_order.domain.model.NumberedTable
 import com.example.aairastation.feature_order.domain.model.OrderDetail
+import kotlinx.coroutines.flow.first
 
 /**
  * Generates Preloaded Data
  * Is Solely designed for the purpose of testing
  */
-class PreloadDataUseCase(
+class LoadPreloadedData(
     private val repository: MainRepository
 ) {
     suspend operator fun invoke() {
-        category.forEach { (_, item) ->
-            repository.insertFoodCategory(item)
-        }
-        food.forEach { (_, item) ->
-            repository.insertFood(item)
-        }
-        order.forEach { (_, item) ->
-            repository.insertOrder(item)
-        }
-        detail.forEach { (_, item) ->
-            repository.insertOrderDetail(item)
-        }
-        table.forEach { (_, item) ->
-            repository.insertTable(item)
-        }
+        if (repository.getAllFoodCategory().first().isEmpty())
+            category.forEach { (_, item) ->
+                repository.insertFoodCategory(item)
+            }
+
+        if (repository.getAllFood().first().isEmpty())
+            food.forEach { (_, item) ->
+                repository.insertFood(item)
+            }
+
+        if (repository.getAllOrder().first().isEmpty())
+            order.forEach { (_, item) ->
+                repository.insertOrder(item)
+            }
+
+        if (repository.getAllOrderDetail().first().isEmpty())
+            detail.forEach { (_, item) ->
+                repository.insertOrderDetail(item)
+            }
+
+        if (repository.getAllTable().first().isEmpty())
+            table.forEach { (_, item) ->
+                repository.insertTable(item)
+            }
     }
 
     private val category = mapOf(
@@ -126,11 +136,11 @@ class PreloadDataUseCase(
         1 to OrderDetail(1, order[1]!!, food[1]!!, 1, false),
         2 to OrderDetail(2, order[1]!!, food[2]!!, 1, false),
         3 to OrderDetail(3, order[2]!!, food[3]!!, 1, true),
-        4 to OrderDetail(4, order[3]!!, food[4]!!, 1, false),
-        5 to OrderDetail(5, order[3]!!, food[5]!!, 1, true),
-        6 to OrderDetail(6, order[3]!!, food[6]!!, 1, false),
-        7 to OrderDetail(7, order[4]!!, food[7]!!, 1, true),
-        8 to OrderDetail(8, order[4]!!, food[8]!!, 1, true),
-        9 to OrderDetail(9, order[4]!!, food[9]!!, 1, true),
+        4 to OrderDetail(4, order[2]!!, food[4]!!, 1, false),
+        5 to OrderDetail(5, order[2]!!, food[5]!!, 1, true),
+        6 to OrderDetail(6, order[3]!!, food[6]!!, 1, true),
+        7 to OrderDetail(7, order[3]!!, food[7]!!, 1, true),
+        8 to OrderDetail(8, order[3]!!, food[8]!!, 1, true),
+        9 to OrderDetail(9, order[3]!!, food[9]!!, 1, true),
     )
 }

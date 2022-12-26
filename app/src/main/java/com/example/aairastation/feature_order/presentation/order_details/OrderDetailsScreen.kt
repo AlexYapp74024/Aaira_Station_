@@ -278,7 +278,7 @@ fun OrderDetailScreenScaffold(
             DefaultTopAppBar(
                 title = title,
                 canNavigateBack = true,
-                navigateUp = {},
+                navigateUp = { navigator.navigateUp() },
             )
         },
         modifier = modifier,

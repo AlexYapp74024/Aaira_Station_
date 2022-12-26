@@ -19,7 +19,8 @@ private val LightColorPalette = lightColors(
     onSurface = Color(0xFF333333),
     primary = Color(0xFFFFAE22),
     onPrimary = Color(0xFFFFFFFF),
-    secondary = Grey700
+    primaryVariant = Color(0xFFFFF0C4),
+    secondary = Grey700,
 )
 
 
