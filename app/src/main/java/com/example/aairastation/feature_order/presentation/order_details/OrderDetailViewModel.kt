@@ -46,6 +46,10 @@ class OrderDetailViewModel @Inject constructor(
         _order.value = order
     }
 
+    fun toggleDetailCompletion(detail: OrderDetail) {
+        updateDetail(detail.copy(completed = !detail.completed))
+    }
+
     fun updateDetail(detail: OrderDetail) {
         val mutableMap = _detailsMap.value.toMutableMap()
         mutableMap[detail.detailId] = detail

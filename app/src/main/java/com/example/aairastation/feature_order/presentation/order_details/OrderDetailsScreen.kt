@@ -58,7 +58,9 @@ fun CompletedOrderDetailScreen(
     viewModel = hiltViewModel()
     viewModel.retrieveOrders(orderID)
 
-    OrderDetailsScreen(title = "Order Detail")
+    OrderDetailsScreen(
+        title = "Order Detail"
+    )
 }
 
 @Destination
@@ -73,7 +75,15 @@ fun CurrentOrderDetailScreen(
 
     OrderDetailsScreen(
         title = "Order Detail",
-        showCheckBoxes = true
+        showCheckBoxes = true,
+        bottomButtons = {
+            Button(
+                onClick = { viewModel.saveOrder() },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(text = "Save Changes")
+            }
+        }
     )
 }
 
@@ -93,20 +103,24 @@ fun OrderDetailsScreen(
         title = title,
         modifier = modifier,
     ) { padding ->
-        OrderDetailsScreenContent(
-            order = order,
-            details = detail,
-            tables = tables,
-            modifier = Modifier.padding(padding),
-            showCheckBoxes = showCheckBoxes,
-            canChangeTableNumber = canChangeTableNumber,
-            bottomButtons = bottomButtons,
-        )
+        Column(modifier = Modifier.fillMaxSize()) {
+            OrderDetailsScreenContent(
+                order = order,
+                details = detail,
+                tables = tables,
+                modifier = Modifier
+                    .padding(padding)
+                    .weight(1f),
+                showCheckBoxes = showCheckBoxes,
+                canChangeTableNumber = canChangeTableNumber,
+            )
+
+            bottomButtons()
+        }
     }
 
 }
 
-//TODO add on clicks
 @Composable
 fun OrderDetailsScreenContent(
     order: FoodOrder?,
@@ -115,20 +129,13 @@ fun OrderDetailsScreenContent(
     modifier: Modifier = Modifier,
     showCheckBoxes: Boolean = false,
     canChangeTableNumber: Boolean = false,
-    bottomButtons: @Composable () -> Unit = {},
 ) {
-    var checkBoxSizePx by remember { mutableStateOf(IntSize.Zero) }
-    val screenPixelDensity = LocalContext.current.resources.displayMetrics.density
-    val checkBoxWidth = checkBoxSizePx.width / screenPixelDensity
+    Column(modifier = modifier) {
+        var checkBoxSizePx by remember { mutableStateOf(IntSize.Zero) }
+        val screenPixelDensity = LocalContext.current.resources.displayMetrics.density
+        val checkBoxWidth = checkBoxSizePx.width / screenPixelDensity
 
-    Column {
-
-        LazyColumn(
-            modifier = Modifier
-                .padding(16.dp)
-                .weight(1f)
-        ) {
-
+        LazyColumn {
             item {
                 if (canChangeTableNumber) {
                     TableNumber(tables = tables)
@@ -165,7 +172,8 @@ fun OrderDetailsScreenContent(
                             },
                             modifier = modifier.onSizeChanged {
                                 checkBoxSizePx = it
-                            })
+                            }
+                        )
                     }
 
                     Text(
@@ -248,8 +256,6 @@ fun OrderDetailsScreenContent(
                 }
             }
         }
-
-        bottomButtons()
     }
 }
 
@@ -364,4 +370,3 @@ fun CheckBoxWithoutMargin(
         )
     }
 }
-
