@@ -170,7 +170,9 @@ private fun FoodList(
                 // Only show badge when quantity > 0
                 if (quantity > 0) {
                     BadgedBox(badge = {
-                        Badge { Text("$quantity", fontSize = 15.sp) }
+                        Badge(backgroundColor = MaterialTheme.colors.primary) {
+                            Text("$quantity", fontSize = 15.sp)
+                        }
                     }) {
                         foodListEntry()
                     }
