@@ -11,7 +11,6 @@ import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
@@ -25,7 +24,6 @@ class OrderDetailViewModelTest {
 
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
-    private val dispatcher = StandardTestDispatcher()
 
     private lateinit var repository: TestRepository
     private lateinit var viewModel: OrderDetailViewModel
@@ -41,17 +39,11 @@ class OrderDetailViewModelTest {
         viewModel = OrderDetailViewModel(useCases)
 
         runBlocking {
-            val orderId1 = 1L
-            repository.insertOrder(mockOrder(orderId1))
-            repository.insertOrderDetail(mockDetail(1, orderId1, true))
-            repository.insertOrderDetail(mockDetail(2, orderId1, true))
-            repository.insertOrderDetail(mockDetail(3, orderId1, true))
-
-            val orderId2 = 2L
-            repository.insertOrder(mockOrder(orderId2))
-            repository.insertOrderDetail(mockDetail(1, orderId2, false))
-            repository.insertOrderDetail(mockDetail(2, orderId2, true))
-            repository.insertOrderDetail(mockDetail(3, orderId2, true))
+            val orderId = 2L
+            repository.insertOrder(mockOrder(orderId))
+            repository.insertOrderDetail(mockDetail(4, orderId, false))
+            repository.insertOrderDetail(mockDetail(5, orderId, false))
+            repository.insertOrderDetail(mockDetail(6, orderId, true))
         }
     }
 
@@ -63,18 +55,17 @@ class OrderDetailViewModelTest {
     @Test
     fun `Orders are retrieved from repository with ID`() = runTest {
         val orderId = 2L
+
         viewModel.retrieveOrders(orderId)
-
-        dispatcher.scheduler.advanceUntilIdle()
         val vmOrders = viewModel.order.first()
-        assertThat(vmOrders).isEqualTo(mockOrder(orderId))
-
         val vmDetails = viewModel.details.first()
+
+        assertThat(vmOrders).isEqualTo(mockOrder(orderId))
         assertThat(vmDetails).isEqualTo(
             listOf(
-                mockDetail(1, orderId, false),
-                mockDetail(2, orderId, true),
-                mockDetail(3, orderId, true),
+                mockDetail(4, orderId, false),
+                mockDetail(5, orderId, false),
+                mockDetail(6, orderId, true),
             )
         )
     }
@@ -85,10 +76,9 @@ class OrderDetailViewModelTest {
         viewModel.retrieveOrders(orderId)
 
         val vmOrders = viewModel.order.first()
+        val vmDetails = viewModel.details.first()
 
         assertThat(vmOrders).isEqualTo(null)
-
-        val vmDetails = viewModel.details.first()
         assertThat(vmDetails).isEmpty()
     }
 
@@ -99,13 +89,12 @@ class OrderDetailViewModelTest {
         val orderId = 3L
         val order = mockOrder(orderId)
         val details = listOf(
-            mockDetail(1, orderId, false),
-            mockDetail(2, orderId, true),
-            mockDetail(3, orderId, true),
+            mockDetail(7, orderId, false),
+            mockDetail(8, orderId, false),
+            mockDetail(9, orderId, true),
         )
 
-        viewModel.newOrder(order, details)
-        dispatcher.scheduler.advanceUntilIdle()
+        viewModel.updateAll(order, details)
 
         val vmOrders = viewModel.order.first()
         assertThat(vmOrders).isEqualTo(order)
@@ -115,6 +104,37 @@ class OrderDetailViewModelTest {
     }
 
     // Ongoing Order Detail Screen
-    // can cancel order
     // can complete order
+
+    @Test
+    fun `Set detail as completed changes state`() = runTest {
+        val orderId = 2L
+        viewModel.retrieveOrders(orderId)
+
+        val vmDetails = viewModel.details.first()
+        viewModel.updateDetail(vmDetails[1].copy(completed = true))
+
+        val newVmDetails = viewModel.details.first()
+        assertThat(newVmDetails).isEqualTo(
+            listOf(
+                mockDetail(4, orderId, false),
+                mockDetail(5, orderId, true),
+                mockDetail(6, orderId, true),
+            )
+        )
+    }
+
+    @Test
+    fun `Save order updates repository`() = runTest {
+        val orderId = 2L
+        viewModel.retrieveOrders(orderId)
+
+        val vmDetails = viewModel.details.first()
+        val newDetailState = vmDetails[1].copy(completed = true)
+
+        viewModel.updateDetail(newDetailState)
+        viewModel.saveOrder()
+
+        assertThat(repository.getAllOrderDetail().first()).contains(newDetailState)
+    }
 }
