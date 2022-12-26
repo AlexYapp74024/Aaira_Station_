@@ -7,10 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
@@ -18,7 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.aairastation.core.ui_util.BitmapWithDefault
 import com.example.aairastation.core.ui_util.BottomNavItems
@@ -52,9 +51,10 @@ fun OrderMenuListScreen(navigatorIn: DestinationsNavigator) {
 @Composable
 private fun OrderMenuListScreen() {
     val items by viewModel.itemsAndCategories.collectAsState(initial = mapOf())
+    val foodQuantity by viewModel.foodQuantity.collectAsState(initial = mapOf())
 
     OrderMenuListScaffold {
-        OrderMenuListContent(items)
+        OrderMenuListContent(items, foodQuantity)
     }
 }
 
@@ -62,6 +62,7 @@ private fun OrderMenuListScreen() {
 @Composable
 private fun OrderMenuListContent(
     foodList: Map<FoodCategory, Map<Food, Flow<Bitmap?>>>,
+    foodQuantity: Map<Food, Int>,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
@@ -123,6 +124,7 @@ private fun OrderMenuListContent(
                 item {
                     FoodList(
                         items,
+                        foodQuantity,
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(vertical = 8.dp, horizontal = 16.dp),
@@ -138,6 +140,7 @@ private fun OrderMenuListContent(
 @Composable
 private fun FoodList(
     foodList: Map<Food, Flow<Bitmap?>>,
+    foodQuantity: Map<Food, Int>,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -146,22 +149,48 @@ private fun FoodList(
     ) {
         foodList.onEach { (food, bitmapFlow) ->
 
+            val quantity = foodQuantity[food] ?: 0
+
             val swipeAction = SwipeAction(
                 icon = { Icon(imageVector = Icons.Default.Delete, contentDescription = null) },
                 background = MaterialTheme.colors.error,
                 onSwipe = { viewModel.decrementFood(food) },
             )
 
-            SwipeableActionsBox(
-                endActions = listOf(swipeAction),
-                modifier = Modifier.background(color = MaterialTheme.colors.background)
-            ) {
-                FoodListItemEntry(
-                    food = food,
-                    bitmapFlow = bitmapFlow,
-                    itemOnClick = { viewModel.incrementFood(food) },
+            val foodListWrapper: @Composable () -> Unit = {
+                val foodListEntry: @Composable () -> Unit = {
+                    FoodListItemEntry(
+                        food = food,
+                        bitmapFlow = bitmapFlow,
+                        itemOnClick = { viewModel.incrementFood(food) },
+                        modifier = Modifier.background(color = MaterialTheme.colors.background),
+                    )
+                }
+
+                // Only show badge when quantity > 0
+                if (quantity > 0) {
+                    BadgedBox(badge = {
+                        Badge { Text("$quantity", fontSize = 15.sp) }
+                    }) {
+                        foodListEntry()
+                    }
+                } else {
+                    foodListEntry()
+                }
+            }
+
+            // Swipe is only enabled when quantity > 0
+            if (quantity > 0) {
+                SwipeableActionsBox(
+                    endActions = listOf(swipeAction),
+                    startActions = listOf(swipeAction),
                     modifier = Modifier.background(color = MaterialTheme.colors.background),
-                )
+                    swipeThreshold = Dp(0.5f)
+                ) {
+                    foodListWrapper()
+                }
+            } else {
+                foodListWrapper()
             }
         }
     }
@@ -247,6 +276,7 @@ private fun DefaultPreview() {
                     FoodCategory.example.copy(categoryId = 2) to foodMap,
                     FoodCategory.example.copy(categoryId = 3) to foodMap,
                 ),
+                foodQuantity = mapOf(Food.example.copy(foodId = 1) to 1),
             )
         }
     }
