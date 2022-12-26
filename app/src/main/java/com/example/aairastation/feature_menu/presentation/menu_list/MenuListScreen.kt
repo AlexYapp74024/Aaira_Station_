@@ -135,5 +135,6 @@ fun MenuListContent(
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
+
     MenuListContent(hardCodedList)
 }
