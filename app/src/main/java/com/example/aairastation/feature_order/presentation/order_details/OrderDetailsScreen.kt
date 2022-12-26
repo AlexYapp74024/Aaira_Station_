@@ -21,6 +21,7 @@ import com.example.aairastation.core.formatPriceToRM
 import com.example.aairastation.core.formatTo2dp
 import com.example.aairastation.core.ui_util.DefaultTopAppBar
 import com.example.aairastation.core.ui_util.ExposedDropdown
+import com.example.aairastation.destinations.OrderListScreenDestination
 import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_menu.domain.model.priceInRinggit
 import com.example.aairastation.feature_order.domain.model.FoodOrder
@@ -77,7 +78,10 @@ fun CurrentOrderDetailScreen(
         showCheckBoxes = true,
         bottomButtons = {
             Button(
-                onClick = { viewModel.saveOrder() },
+                onClick = {
+                    viewModel.saveOrder()
+                    navigator.navigate(OrderListScreenDestination)
+                },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(text = "Save Changes")
