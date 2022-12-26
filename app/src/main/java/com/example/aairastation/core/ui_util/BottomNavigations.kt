@@ -1,5 +1,6 @@
 package com.example.aairastation.core.ui_util
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -51,29 +52,35 @@ fun DefaultBottomNavigation(
             BottomNavigationItem(
                 selected = selected,
                 onClick = { if (!selected) navigator.navigate(item.direction) },
+                modifier = Modifier.background(color = MaterialTheme.colors.primary),
                 icon = {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier.padding(4.dp),
                     ) {
+                        val itemColor = MaterialTheme.colors.onPrimary
+
                         if (selected) {
                             Spacer(modifier = Modifier.height(4.dp))
                             Icon(
                                 imageVector = item.icon(),
                                 contentDescription = item.name,
-                                modifier = Modifier.weight(1f)
+                                modifier = Modifier.weight(1f),
+                                tint = itemColor,
                             )
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
                                 text = item.name,
                                 textAlign = TextAlign.Center,
                                 style = MaterialTheme.typography.body2,
+                                color = itemColor,
                             )
                         } else {
                             Icon(
                                 imageVector = item.icon(),
                                 contentDescription = item.name,
-                                modifier = Modifier.fillMaxHeight(0.5f)
+                                modifier = Modifier.fillMaxHeight(0.5f),
+                                tint = itemColor,
                             )
                         }
                     }
