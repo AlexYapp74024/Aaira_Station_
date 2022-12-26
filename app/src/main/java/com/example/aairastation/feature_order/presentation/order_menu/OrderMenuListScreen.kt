@@ -122,7 +122,8 @@ private fun OrderMenuListContent(
 
                 item {
                     FoodList(
-                        items, modifier = Modifier
+                        items,
+                        modifier = Modifier
                             .fillMaxSize()
                             .padding(vertical = 8.dp, horizontal = 16.dp),
                     )

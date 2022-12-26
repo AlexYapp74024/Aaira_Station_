@@ -53,6 +53,10 @@ class OrderDetailViewModel @Inject constructor(
         _detailsMap.value = mutableMap
     }
 
+    fun toggleDetailCompletion(detail: OrderDetail) {
+        updateDetail(detail.copy(completed = !detail.completed))
+    }
+
     fun saveOrder() = viewModelScope.launch {
         val newID = _order.value?.let { useCases.insertOrder(it) }
         details.value.forEach { detail ->
