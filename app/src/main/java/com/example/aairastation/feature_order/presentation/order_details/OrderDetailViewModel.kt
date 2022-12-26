@@ -29,12 +29,12 @@ class OrderDetailViewModel @Inject constructor(
 
     // Made specially to make unit Testing easier
     fun retrieveOrders(orderId: Long) = viewModelScope.launch {
-        useCases.getOrder(orderId).collect {
-            updateOrder(it)
-        }
         useCases.getAllDetail().collect { details ->
             details.filter { it.order.orderId == orderId }
-                .forEach { updateDetail(it) }
+                .onEach { updateDetail(it) }
+                .first().also {
+                    updateOrder(it.order)
+                }
         }
     }
 

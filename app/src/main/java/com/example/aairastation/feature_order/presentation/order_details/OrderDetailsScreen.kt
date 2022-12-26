@@ -42,7 +42,10 @@ fun CheckOutScreen(
     navigator = navigatorIn
     viewModel = hiltViewModel()
 
-    OrderDetailsScreen("Check out")
+    OrderDetailsScreen(
+        title = "Check out",
+        canChangeTableNumber = true
+    )
 }
 
 @Destination
@@ -55,7 +58,7 @@ fun CompletedOrderDetailScreen(
     viewModel = hiltViewModel()
     viewModel.retrieveOrders(orderID)
 
-    OrderDetailsScreen("Order Detail")
+    OrderDetailsScreen(title = "Order Detail")
 }
 
 @Destination
@@ -68,7 +71,10 @@ fun CurrentOrderDetailScreen(
     viewModel = hiltViewModel()
     viewModel.retrieveOrders(orderID)
 
-    OrderDetailsScreen("Order Detail")
+    OrderDetailsScreen(
+        title = "Order Detail",
+        showCheckBoxes = true
+    )
 }
 
 @Composable
