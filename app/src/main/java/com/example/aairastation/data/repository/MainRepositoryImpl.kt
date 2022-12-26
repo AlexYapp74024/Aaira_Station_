@@ -19,6 +19,7 @@ class MainRepositoryImpl(
 
     override suspend fun insertFoodCategory(item: FoodCategory): Long = dao.insertFoodCategory(item)
     override suspend fun deleteFoodCategory(item: FoodCategory) = dao.deleteFoodCategory(item)
+    override fun getFoodCategory(id: Long): Flow<FoodCategory?> = dao.getFoodCategory(id)
     override fun getAllFoodCategory(): Flow<List<FoodCategory>> = dao.getAllFoodCategory()
 
     override suspend fun insertOrder(item: FoodOrder): Long = dao.insertOrder(item)

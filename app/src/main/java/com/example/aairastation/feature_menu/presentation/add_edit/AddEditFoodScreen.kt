@@ -1,34 +1,43 @@
 package com.example.aairastation.feature_menu.presentation.add_edit
 
 import android.graphics.Bitmap
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Switch
-import androidx.compose.material.Text
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.canhub.cropper.CropImageContractOptions
+import com.canhub.cropper.CropImageOptions
+import com.example.aairastation.core.formatTo2dp
 import com.example.aairastation.core.ui_util.BitmapWithDefault
+import com.example.aairastation.core.ui_util.DefaultTopAppBar
+import com.example.aairastation.core.ui_util.ExposedDropdownCanAddNewItem
+import com.example.aairastation.core.ui_util.getImageFromInternalStorageLauncher
+import com.example.aairastation.destinations.MenuListScreenDestination
 import com.example.aairastation.feature_menu.domain.model.Food
+import com.example.aairastation.feature_menu.domain.model.FoodCategory
 import com.example.aairastation.feature_menu.domain.model.FoodWithImage
 import com.example.aairastation.feature_menu.domain.model.priceInRinggit
+import com.example.aairastation.ui.theme.AairaStationTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 
 private lateinit var viewModel: AddEditViewModel
 private var navigator: DestinationsNavigator = EmptyDestinationsNavigator
+private var showDelete: Boolean = false
 
 @Destination
 @Composable
@@ -58,87 +67,174 @@ fun EditFoodScreen(
 @Composable
 fun AddEditFoodScreenContent() {
     val food by viewModel.item.collectAsState(initial = FoodWithImage(Food()))
-    AddEditFood(
-        food = food.item,
-        bitmap = food.bitmap,
-    )
+    val categories by viewModel.categories.collectAsState(initial = listOf())
+    AddEditFoodScaffold(title = "Edit Item") {
+        AddEditFood(
+            food = food.item,
+            bitmap = food.bitmap,
+            categories = categories,
+            modifier = Modifier.padding(it)
+        )
+    }
 }
 
 @Composable
 fun AddEditFood(
     food: Food,
     bitmap: Bitmap?,
+    categories: List<FoodCategory>,
     modifier: Modifier = Modifier,
 ) {
     val focusManager = LocalFocusManager.current
 
-    Column(modifier = modifier) {
-        Text(text = "Items Details")
+    val launcher = getImageFromInternalStorageLauncher {
+        viewModel.updateItemBitmap(it)
+    }
+
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        val defaultModifier = Modifier.fillMaxWidth()
+
         BitmapWithDefault(
             bitmap = bitmap,
-            contentDescription = null,
-            modifier = Modifier.height(310.dp)
+            contentDescription = "Change picture",
+            modifier = Modifier
+                .aspectRatio(2f)
+                .clickable {
+                    launcher.launch(
+                        CropImageContractOptions(
+                            null, CropImageOptions(
+                                imageSourceIncludeCamera = false
+                            )
+                        )
+                    )
+                },
+            contentScaleIfNotNull = ContentScale.Fit,
         )
+
         OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = defaultModifier,
             value = food.foodName,
             onValueChange = {
-                viewModel.updateItemState(food.copy(foodName = it))
+                if (!it.contains('\n'))
+                    viewModel.updateItemState(food.copy(foodName = it))
             },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
             maxLines = 1,
-            label = {
-                Text(text = "Name")
-            }
+            label = { Text(text = "Name") }
         )
+
         OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = food.priceInRinggit.toString(),
-            onValueChange = {
-                it.toDoubleOrNull()?.let { price ->
-                    val priceInCents = (price * 100).toInt()
-                    viewModel.updateItemState(food.copy(priceInCents = priceInCents))
+            modifier = defaultModifier,
+            value = food.priceInRinggit.formatTo2dp(),
+            onValueChange = { value ->
+                value.toIntOrNull()?.let {
+                    viewModel.updateItemState(food.copy(priceInCents = it))
                 }
             },
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Number,
-                imeAction = ImeAction.Next
-            ),
-            keyboardActions = KeyboardActions(onNext = { focusManager.moveFocus(FocusDirection.Down) }),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
             maxLines = 1,
-            label = {
-                Text(text = "Price")
-            }
+            label = { Text(text = "Name") }
         )
+
+        Row(
+            modifier = defaultModifier,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text("Available:", modifier = Modifier.weight(1f))
+
+            Switch(
+                checked = food.available,
+                onCheckedChange = {
+                    viewModel.updateItemState(food.copy(available = it))
+                },
+            )
+        }
+
+        ExposedDropdownCanAddNewItem(
+            options = categories,
+            addNewItemPrompt = "Add New Category",
+            modifier = defaultModifier,
+            listItemToString = { it.categoryName },
+            value = categories.find { it == food.category } ?: FoodCategory.noCategory,
+            onAddNewItem = {
+                viewModel.addNewCategory(it)
+            },
+            onSelect = {
+                viewModel.updateItemState(food.copy(category = it))
+            },
+            label = { Text("Category") },
+        )
+
         OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = defaultModifier,
             value = food.description,
             onValueChange = {
                 viewModel.updateItemState(food.copy(description = it))
             },
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-            maxLines = 1,
-            label = {
-                Text(text = "Description")
-            }
-        )
-        Row(modifier = Modifier.padding(start = 15.dp, end = 15.dp, top = 15.dp, bottom = 15.dp)) {
-            Text(text = "Available")
-            Switch(
-                checked = true,
-                onCheckedChange = null,
-                modifier = Modifier.padding(start = 265.dp)
-            )
+            label = { Text(text = "Description") })
+
+        Button(
+            onClick = {
+                viewModel.addItem()
+                navigator.navigate(MenuListScreenDestination)
+            },
+            modifier = defaultModifier
+        ) {
+            Text(text = "Save")
         }
 
-        Button(onClick = { viewModel.addItem() }, modifier = Modifier.fillMaxWidth()) {
-            Text(text = "Save Changes")
+        if (showDelete) {
+            OutlinedButton(
+                onClick = {
+                    viewModel.updateItemState(food.copy(foodDisabled = true))
+                    navigator.navigate(MenuListScreenDestination)
+                },
+                modifier = defaultModifier
+            ) {
+                Text(text = "Delete")
+            }
         }
     }
 }
 
+@Composable
+fun AddEditFoodScaffold(
+    title: String,
+    modifier: Modifier = Modifier,
+    content: @Composable (PaddingValues) -> Unit,
+) {
+    Scaffold(
+        modifier = modifier,
+        topBar = {
+            DefaultTopAppBar(
+                title,
+                canNavigateBack = true,
+                navigateUp = {
+                    navigator.navigateUp()
+                },
+            )
+        },
+        content = content
+    )
+
+}
+
 @Preview(showBackground = true)
 @Composable
-fun Preview() {
-    AddEditFood(Food(foodName = "Nasi Lemak", priceInCents = 800, description = "Sedap"), null)
+fun AddEditFoodScreenPreview() {
+    AairaStationTheme {
+        AddEditFoodScaffold("Add") {
+            AddEditFood(
+                Food(foodName = "Nasi Lemak", priceInCents = 800, description = "Sedap"),
+                null,
+                listOf(FoodCategory.example)
+            )
+        }
+    }
 }

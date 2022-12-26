@@ -38,7 +38,12 @@ class AddEditViewModel @Inject constructor(
 
     fun addNewCategory(name: String) {
         viewModelScope.launch {
-            useCases.insertFoodCategory(FoodCategory(categoryName = name))
+            val newID = useCases.insertFoodCategory(FoodCategory(categoryName = name))
+            useCases.getFoodCategory(newID).collect { it ->
+                it?.let {
+                    updateItemState(_item.value.item.copy(category = it))
+                }
+            }
         }
     }
 

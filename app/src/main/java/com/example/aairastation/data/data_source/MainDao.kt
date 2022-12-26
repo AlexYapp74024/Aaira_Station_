@@ -27,6 +27,9 @@ interface MainDao {
     @Delete
     suspend fun deleteFoodCategory(item: FoodCategory)
 
+    @Query("SELECT * FROM FoodCategory WHERE categoryId = :id")
+    fun getFoodCategory(id: Long): Flow<FoodCategory?>
+
     @Query("SELECT * FROM FoodCategory")
     fun getAllFoodCategory(): Flow<List<FoodCategory>>
 

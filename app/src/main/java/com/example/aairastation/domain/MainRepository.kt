@@ -16,6 +16,7 @@ interface MainRepository {
     // Food Category
     suspend fun insertFoodCategory(item: FoodCategory): Long
     suspend fun deleteFoodCategory(item: FoodCategory)
+    fun getFoodCategory(id: Long): Flow<FoodCategory?>
     fun getAllFoodCategory(): Flow<List<FoodCategory>>
 
     // Order

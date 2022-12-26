@@ -16,16 +16,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.aairastation.core.ui_util.BitmapWithDefault
-import com.example.aairastation.core.ui_util.TopAppBarCompose
+import com.example.aairastation.core.ui_util.DefaultTopAppBar
 import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_menu.domain.model.formattedPrice
 import com.example.aairastation.feature_menu.domain.model.hardCodedList
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.annotation.RootNavGraph
 
 private lateinit var viewModel: MenuListViewModel
 
-@RootNavGraph(start = true)
 @Destination
 @Composable
 fun MenuListScreen() {
@@ -37,10 +35,15 @@ fun MenuListScreen() {
 
 @Composable
 fun MenuListContent(
-    foodList: List<Food>,
-    modifier: Modifier = Modifier
+    foodList: List<Food>, modifier: Modifier = Modifier
 ) {
-    Scaffold(topBar = { TopAppBarCompose() }) { padding ->
+    Scaffold(
+        topBar = {
+            DefaultTopAppBar(title = "Menu", canNavigateBack = false, navigateUp = {})
+
+        },
+        modifier = modifier,
+    ) { padding ->
 
         val categoryList = listOf("Promotion", "Rice", "Noodle", "Drinks")
 
@@ -77,7 +80,7 @@ fun MenuListContent(
                 items(foodList) { food ->
 
                     Row {
-                        Text(text = food.name, modifier = Modifier.weight(1f))
+                        Text(text = food.foodName, modifier = Modifier.weight(1f))
                         Text(text = food.priceInCents.toString())
 //                        Text(text = food.description.toString())
                     }
@@ -93,7 +96,7 @@ fun MenuListContent(
                             null, null,
 //                            modifier = Modifier.fillMaxWidth()
                         )
-                        Text(text = food.name, modifier = Modifier.weight(1f))
+                        Text(text = food.foodName, modifier = Modifier.weight(1f))
                         Text(text = food.formattedPrice)
 //                        Text(text = food.description)
 //                        Text(text = food.description.toString())
@@ -108,7 +111,7 @@ fun MenuListContent(
                 items(foodList) { food ->
 
                     Row {
-                        Text(text = food.name, modifier = Modifier.weight(1f))
+                        Text(text = food.foodName, modifier = Modifier.weight(1f))
                         Text(text = food.priceInCents.toString())
                     }
                 }
@@ -122,7 +125,7 @@ fun MenuListContent(
                 items(foodList) { food ->
 
                     Row {
-                        Text(text = food.name, modifier = Modifier.weight(1f))
+                        Text(text = food.foodName, modifier = Modifier.weight(1f))
                         Text(text = food.priceInCents.toString())
 //                        Text(text = food.description.toString())
                     }

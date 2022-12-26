@@ -40,6 +40,10 @@ class TestRepository : MainRepository {
         categories.remove(item)
     }
 
+    override fun getFoodCategory(id: Long): Flow<FoodCategory?> {
+        return flowOf(categories.find { it.categoryId == id })
+    }
+
     override fun getAllFoodCategory(): Flow<List<FoodCategory>> {
         return flowOf(categories)
     }

@@ -6,7 +6,5 @@ import com.example.aairastation.feature_menu.domain.model.FoodCategory
 class InsertFoodCategory(
     private val repository: MainRepository,
 ) {
-    suspend operator fun invoke(category: FoodCategory) {
-        repository.insertFoodCategory(category)
-    }
+    suspend operator fun invoke(category: FoodCategory) = repository.insertFoodCategory(category)
 }
