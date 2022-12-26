@@ -35,6 +35,15 @@ private var navigator: DestinationsNavigator = EmptyDestinationsNavigator
 
 @Destination
 @Composable
+fun EditListScreen(navigatorIn: DestinationsNavigator) {
+    viewModel = hiltViewModel()
+    navigator = navigatorIn
+
+    MenuListScreen()
+}
+
+@Destination
+@Composable
 fun MenuListScreen(navigatorIn: DestinationsNavigator) {
     viewModel = hiltViewModel()
     navigator = navigatorIn
