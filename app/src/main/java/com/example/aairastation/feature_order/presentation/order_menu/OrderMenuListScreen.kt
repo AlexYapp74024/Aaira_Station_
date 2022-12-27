@@ -226,7 +226,7 @@ private fun FoodListItemEntry(
         }) {
 
         Column(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.weight(1f)
         ) {
             Text(text = food.foodName, style = MaterialTheme.typography.h6)
             if (food.description.isNotEmpty())

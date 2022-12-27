@@ -26,7 +26,7 @@ class EditMenuListViewModel @Inject constructor(
         refreshItem()
     }
 
-    fun refreshItem() = viewModelScope.launch {
+    private fun refreshItem() = viewModelScope.launch {
         useCases.getAllFood
             .withImages(scope = viewModelScope)
             .collect {

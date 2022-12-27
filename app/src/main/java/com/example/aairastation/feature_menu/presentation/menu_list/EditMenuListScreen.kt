@@ -1,15 +1,13 @@
 package com.example.aairastation.feature_menu.presentation.menu_list
 
 import android.graphics.Bitmap
-import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.*
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,15 +39,15 @@ fun EditListScreen(navigatorIn: DestinationsNavigator) {
     viewModel = hiltViewModel()
     navigator = navigatorIn
 
-    EditMenuListContent()
+    EditMenuList()
 }
 
 @Composable
-private fun EditMenuListContent() {
+private fun EditMenuList() {
     val items by viewModel.itemsAndCategories.collectAsState(initial = mapOf())
 
-    EditMenuListScaffold {
-        EditMenuListContent(items)
+    EditMenuListScaffold { padding ->
+        EditMenuListContent(items, paddingValues = padding)
     }
 }
 
@@ -58,8 +56,9 @@ private fun EditMenuListContent() {
 private fun EditMenuListContent(
     foodList: Map<FoodCategory, Map<Food, Flow<Bitmap?>>>,
     modifier: Modifier = Modifier,
+    paddingValues: PaddingValues = PaddingValues(),
 ) {
-    Column(modifier = modifier) {
+    Column(modifier = modifier.fillMaxSize()) {
         val columnState = rememberLazyListState()
         val coroutineScope = rememberCoroutineScope()
 
@@ -100,7 +99,8 @@ private fun EditMenuListContent(
             state = columnState,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(bottom = 16.dp),
+                .padding(bottom = 16.dp)
+                .weight(1f),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             foodList.onEach { (category, items) ->
@@ -111,19 +111,25 @@ private fun EditMenuListContent(
                         modifier = Modifier
                             .background(color = MaterialTheme.colors.primaryVariant)
                             .fillMaxWidth()
-                            .padding(8.dp),
+                            .padding(vertical = 8.dp, horizontal = 16.dp),
                     )
                 }
 
                 item {
-                    FoodList(items)
+                    FoodList(
+                        items,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(vertical = 8.dp, horizontal = 16.dp),
+                    )
                 }
             }
-            item { Spacer(modifier = Modifier.height(40.dp)) }
         }
 
+        Spacer(modifier = Modifier.height(paddingValues.calculateBottomPadding()))
     }
 }
+
 
 @Composable
 private fun FoodList(
@@ -131,16 +137,18 @@ private fun FoodList(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(vertical = 16.dp),
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         foodList.onEach { (food, bitmapFlow) ->
             FoodListItemEntry(
                 food = food,
                 bitmapFlow = bitmapFlow,
-                itemOnClick = { viewModel.viewItem(navigator, food.foodId) },
+                itemOnClick = {
+                    viewModel.viewItem(
+                        navigator, food.foodId
+                    )
+                },
                 modifier = Modifier.background(color = MaterialTheme.colors.background),
             )
         }
@@ -163,7 +171,7 @@ private fun FoodListItemEntry(
         }) {
 
         Column(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.weight(1f)
         ) {
             Text(text = food.foodName, style = MaterialTheme.typography.h6)
             if (food.description.isNotEmpty())
