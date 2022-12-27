@@ -12,7 +12,7 @@ data class FoodOrder(
      * a Null tableID is for takeaways since table number are not applicable in those scenarios
      */
     @Embedded val table: NumberedTable?,
-    val createdAt: Long? = System.currentTimeMillis(),
+    val createdAt: Long = System.currentTimeMillis(),
     /**
      * New orders that have not been confirmed
      * will not be counted in stats
