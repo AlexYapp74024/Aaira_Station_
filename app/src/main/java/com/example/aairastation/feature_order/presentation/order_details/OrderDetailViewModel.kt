@@ -2,6 +2,7 @@ package com.example.aairastation.feature_order.presentation.order_details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_order.domain.model.FoodOrder
 import com.example.aairastation.feature_order.domain.model.NumberedTable
 import com.example.aairastation.feature_order.domain.model.OrderDetail
@@ -9,6 +10,8 @@ import com.example.aairastation.feature_order.domain.use_case.OrderUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
 @HiltViewModel
@@ -77,6 +80,8 @@ class OrderDetailViewModel @Inject constructor(
         }
     }
 
+    suspend fun orderIsCompleted(): Boolean = useCases.isOrderCompleted(_details.first())
+
     fun addAndSetNewTable(number: Long) = viewModelScope.launch {
         val newID =
             useCases.insertTable(NumberedTable(tableNumber = number))
@@ -87,5 +92,8 @@ class OrderDetailViewModel @Inject constructor(
         }
     }
 
-    suspend fun orderIsCompleted(): Boolean = useCases.isOrderCompleted(_details.first())
+    fun parseFoodQuantity(foodQuantityJson: String) {
+        val format = Json { allowStructuredMapKeys = true }
+        val map = format.decodeFromString<Map<Food,Int>>(foodQuantityJson)
+    }
 }

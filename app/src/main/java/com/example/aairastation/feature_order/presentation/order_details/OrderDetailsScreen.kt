@@ -39,10 +39,13 @@ private var navigator: DestinationsNavigator = EmptyDestinationsNavigator
 @Destination
 @Composable
 fun CheckOutScreen(
+    foodQuantityJson: String,
     navigatorIn: DestinationsNavigator
 ) {
     navigator = navigatorIn
     viewModel = hiltViewModel()
+
+    viewModel.parseFoodQuantity(foodQuantityJson)
 
     OrderDetailsScreen(
         title = "Check out",

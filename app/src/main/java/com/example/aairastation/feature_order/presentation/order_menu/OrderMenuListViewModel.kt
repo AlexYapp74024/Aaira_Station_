@@ -3,15 +3,19 @@ package com.example.aairastation.feature_order.presentation.order_menu
 import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.aairastation.destinations.CheckOutScreenDestination
 import com.example.aairastation.feature_menu.domain.MenuUseCases
 import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_menu.domain.model.FoodCategory
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
 @HiltViewModel
@@ -64,5 +68,11 @@ class OrderMenuListViewModel @Inject constructor(
         val mutableMap = _foodQuantity.value.toMutableMap()
         mutableMap.remove(food)
         _foodQuantity.value = mutableMap
+    }
+
+    fun submitOrder(navigator: DestinationsNavigator) {
+        val format = Json { allowStructuredMapKeys = true }
+        val json = format.encodeToString(foodQuantity.value)
+        navigator.navigate(CheckOutScreenDestination(json))
     }
 }

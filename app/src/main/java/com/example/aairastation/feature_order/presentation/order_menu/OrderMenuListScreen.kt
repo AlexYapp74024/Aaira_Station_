@@ -145,7 +145,7 @@ private fun OrderMenuListContent(
             ) + fadeOut()
         ) {
             Button(
-                onClick = { },
+                onClick = { viewModel.submitOrder(navigator)},
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp)
