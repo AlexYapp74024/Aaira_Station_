@@ -8,6 +8,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -16,9 +18,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.aairastation.core.ui_util.BitmapWithDefault
-import com.example.aairastation.core.ui_util.BottomNavItems
-import com.example.aairastation.core.ui_util.DefaultBottomNavigation
 import com.example.aairastation.core.ui_util.DefaultTopAppBar
+import com.example.aairastation.destinations.AddFoodScreenDestination
 import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_menu.domain.model.FoodCategory
 import com.example.aairastation.feature_menu.domain.model.formattedPrice
@@ -204,17 +205,35 @@ private fun EditMenuListScaffold(
 ) {
     Scaffold(
         topBar = {
-            DefaultTopAppBar(title = "Menu", canNavigateBack = false, navigateUp = {})
+            DefaultTopAppBar(
+                title = "Menu",
+                canNavigateBack = true,
+                navigateUp = { navigator.navigateUp() })
         },
-        bottomBar = {
-            DefaultBottomNavigation(
-                currentItem = BottomNavItems.Menu,
-                navigator = navigator
-            )
+        floatingActionButton = {
+            AddItemFloatingActionButton(floatingActionBtnOnClick = {
+                navigator.navigate(AddFoodScreenDestination)
+            })
         },
         modifier = modifier,
         content = content,
     )
+}
+
+
+@Composable
+private fun AddItemFloatingActionButton(
+    floatingActionBtnOnClick: () -> Unit
+) {
+    FloatingActionButton(
+        onClick = floatingActionBtnOnClick,
+        backgroundColor = MaterialTheme.colors.primary,
+        contentColor = MaterialTheme.colors.onPrimary
+    ) {
+        Icon(
+            Icons.Filled.Add, contentDescription = "Add Item"
+        )
+    }
 }
 
 @Preview(showBackground = true)
