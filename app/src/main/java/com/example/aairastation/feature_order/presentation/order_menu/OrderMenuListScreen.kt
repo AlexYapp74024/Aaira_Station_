@@ -5,17 +5,18 @@ import androidx.compose.animation.*
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -33,8 +34,7 @@ import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
-import me.saket.swipe.SwipeAction
-import me.saket.swipe.SwipeableActionsBox
+import kotlin.math.roundToInt
 
 private lateinit var viewModel: OrderMenuListViewModel
 private var navigator: DestinationsNavigator = EmptyDestinationsNavigator
@@ -145,7 +145,7 @@ private fun OrderMenuListContent(
             ) + fadeOut()
         ) {
             Button(
-                onClick = { viewModel.submitOrder(navigator)},
+                onClick = { viewModel.submitOrder(navigator) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp)
@@ -175,49 +175,36 @@ private fun FoodList(
         foodList.onEach { (food, bitmapFlow) ->
 
             val quantity = foodQuantity[food] ?: 0
+            var offsetX by remember { mutableStateOf(0f) }
 
-            val swipeAction = SwipeAction(
-                icon = { Icon(imageVector = Icons.Default.Delete, contentDescription = null) },
-                background = MaterialTheme.colors.error,
-                onSwipe = { viewModel.decrementFood(food) },
-            )
-
-            val foodListWrapper: @Composable () -> Unit = {
-                val foodListEntry: @Composable () -> Unit = {
-                    FoodListItemEntry(
-                        food = food,
-                        bitmapFlow = bitmapFlow,
-                        itemOnClick = { viewModel.incrementFood(food) },
-                        modifier = Modifier.background(color = MaterialTheme.colors.background),
-                    )
-                }
-
-                // Only show badge when quantity > 0
-                if (quantity > 0) {
-                    BadgedBox(badge = {
+            // Only show badge when quantity > 0
+            BadgedBox(
+                modifier = Modifier
+                    .offset { IntOffset(offsetX.roundToInt(), 0) }
+                    .draggable(
+                        orientation = Orientation.Horizontal,
+                        enabled = quantity > 0,
+                        state = rememberDraggableState { delta ->
+                            offsetX += delta
+                        },
+                        onDragStopped = {
+                            offsetX = 0f
+                            viewModel.deleteFood(food)
+                        }
+                    ),
+                badge = {
+                    if (quantity > 0) {
                         Badge(backgroundColor = MaterialTheme.colors.primary) {
                             Text("$quantity", fontSize = 15.sp)
                         }
-                    }) {
-                        foodListEntry()
                     }
-                } else {
-                    foodListEntry()
-                }
-            }
-
-            // Swipe is only enabled when quantity > 0
-            if (quantity > 0) {
-                SwipeableActionsBox(
-                    endActions = listOf(swipeAction),
-                    startActions = listOf(swipeAction),
+                }) {
+                FoodListItemEntry(
+                    food = food,
+                    bitmapFlow = bitmapFlow,
+                    itemOnClick = { viewModel.incrementFood(food) },
                     modifier = Modifier.background(color = MaterialTheme.colors.background),
-                    swipeThreshold = Dp(0.5f)
-                ) {
-                    foodListWrapper()
-                }
-            } else {
-                foodListWrapper()
+                )
             }
         }
     }

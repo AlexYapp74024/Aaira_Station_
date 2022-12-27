@@ -64,14 +64,14 @@ class OrderMenuListViewModel @Inject constructor(
         _foodQuantity.value = mutableMap
     }
 
-    fun decrementFood(food: Food) {
+    fun deleteFood(food: Food) {
         val mutableMap = _foodQuantity.value.toMutableMap()
         mutableMap.remove(food)
         _foodQuantity.value = mutableMap
     }
 
     private val format = Json { allowStructuredMapKeys = true }
-    
+
     fun submitOrder(navigator: DestinationsNavigator) {
         val json = format.encodeToString(foodQuantity.value)
         navigator.navigate(CheckOutScreenDestination(json))

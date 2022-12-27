@@ -21,6 +21,7 @@ import com.example.aairastation.R
 import com.example.aairastation.core.ui_util.BottomNavItems
 import com.example.aairastation.core.ui_util.DefaultBottomNavigation
 import com.example.aairastation.core.ui_util.DefaultTopAppBar
+import com.example.aairastation.destinations.EditListScreenDestination
 import com.example.aairastation.ui.theme.AairaStationTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -52,7 +53,7 @@ enum class SettingsScreenItems(
 
     }),
     EditMenu("Edit Menu", R.drawable.edit, {
-
+        navigator.navigate(EditListScreenDestination)
     }),
     LoadData("Load Preloaded Data", R.drawable.download, {
         viewModel.injectPreloadedData()

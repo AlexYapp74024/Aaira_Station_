@@ -111,7 +111,7 @@ class OrderMenuListViewModelTest {
             viewModel.incrementFood(targetFood)
         }
 
-        viewModel.decrementFood(targetFood)
+        viewModel.deleteFood(targetFood)
 
         assertThat(viewModel.foodQuantity.value).doesNotContainKey(targetFood)
     }
