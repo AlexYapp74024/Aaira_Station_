@@ -14,6 +14,6 @@ data class NumberedTable(
     val tableDisabled: Boolean = false
 ) {
     companion object {
-        val example = NumberedTable(1, 1)
+        val example = NumberedTable(0, 0)
     }
 }

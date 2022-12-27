@@ -115,6 +115,7 @@ private fun OrderDetailsScreen(
     val order by viewModel.order.collectAsState(initial = FoodOrder(0, NumberedTable.example))
     val detail by viewModel.details.collectAsState(initial = listOf())
     val tables by viewModel.tables.collectAsState(initial = listOf())
+    val table by viewModel.table.collectAsState(initial = NumberedTable.example)
 
     OrderDetailScreenScaffold(
         title = title,
@@ -124,6 +125,7 @@ private fun OrderDetailsScreen(
             order = order,
             details = detail,
             tables = tables,
+            table = table,
             modifier = Modifier.padding(padding),
             showCheckBoxes = showCheckBoxes,
             canChangeTableNumber = canChangeTableNumber,
@@ -137,6 +139,7 @@ private fun OrderDetailsScreen(
 private fun OrderDetailsScreenContent(
     order: FoodOrder?,
     details: List<OrderDetail>,
+    table: NumberedTable,
     tables: List<NumberedTable>,
     modifier: Modifier = Modifier,
     showCheckBoxes: Boolean = false,
@@ -155,7 +158,19 @@ private fun OrderDetailsScreenContent(
         LazyColumn {
             item {
                 if (canChangeTableNumber) {
-                    TableNumber(tables = tables)
+                    ExposedDropdown(
+                        options = tables,
+                        modifier = Modifier.fillMaxWidth(),
+                        listItemToString = {
+                            if (it.tableNumber == 0L)
+                                "Take Away"
+                            else
+                                it.tableNumber.toString()
+                        },
+                        value = table,
+                        onSelect = { viewModel.setTable(it) },
+                        label = { Text("Table Number") },
+                    )
                 } else {
                     val displayText = if (order?.table != null) {
                         "Table No:  ${order.table.tableId}"
@@ -284,26 +299,6 @@ private fun OrderDetailsScreenContent(
 }
 
 @Composable
-private fun TableNumber(
-    tables: List<NumberedTable>,
-) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Text(
-            text = "Table No:", style = MaterialTheme.typography.h6, fontWeight = FontWeight.Bold
-        )
-
-        Spacer(modifier = Modifier.width(32.dp))
-
-        ExposedDropdown(
-            options = tables,
-            onSelect = {},
-            listItemToString = { it.tableId.toString() },
-            label = {},
-        )
-    }
-}
-
-@Composable
 private fun OrderDetailScreenScaffold(
     title: String,
     modifier: Modifier = Modifier,
@@ -333,11 +328,13 @@ private fun OrderDetailsScreenPreview1() {
                     OrderDetail(2, FoodOrder.example, Food.example, 2),
                     OrderDetail(3, FoodOrder.example, Food.example, 3),
                     OrderDetail(4, FoodOrder.example, Food.example, 4),
-                ), listOf(
+                ),
+                tables = listOf(
                     NumberedTable(1, 1),
                     NumberedTable(2, 2),
                     NumberedTable(3, 3)
                 ),
+                table = NumberedTable.example,
                 showCheckBoxes = true
             )
         }
@@ -357,11 +354,12 @@ private fun OrderDetailsScreenPreview2() {
                     OrderDetail(3, FoodOrder.example, Food.example, 3),
                     OrderDetail(4, FoodOrder.example, Food.example, 4),
                 ),
-                listOf(
+                tables = listOf(
                     NumberedTable(1, 1),
                     NumberedTable(2, 2),
                     NumberedTable(3, 3)
                 ),
+                table = NumberedTable.example,
                 showCheckBoxes = false,
                 canChangeTableNumber = true,
             )

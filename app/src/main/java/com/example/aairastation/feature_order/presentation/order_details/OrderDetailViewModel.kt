@@ -26,8 +26,10 @@ class OrderDetailViewModel @Inject constructor(
     val details = _detailsMap.map { it.map { (_, detail) -> detail } }
         .stateIn(viewModelScope, SharingStarted.Lazily, listOf())
 
-    private var _table = MutableStateFlow<List<NumberedTable>>(listOf())
-    val tables = _table.asStateFlow()
+    private var _table = MutableStateFlow(NumberedTable.example)
+    val table = _table.asStateFlow()
+
+    val tables = useCases.getAllTable().stateIn(viewModelScope, SharingStarted.Lazily, listOf())
 
     fun retrieveOrders(orderId: Long) = viewModelScope.launch {
         useCases.getAllDetail().collect { details ->
@@ -81,14 +83,8 @@ class OrderDetailViewModel @Inject constructor(
 
     suspend fun orderIsCompleted(): Boolean = useCases.isOrderCompleted(this.details.first())
 
-    fun addAndSetNewTable(number: Long) = viewModelScope.launch {
-        val newID =
-            useCases.insertTable(NumberedTable(tableNumber = number))
-        useCases.getTable(newID).collect { it ->
-            it?.let {
-                updateOrder(_order.value?.copy(table = it))
-            }
-        }
+    fun setTable(table: NumberedTable) {
+        _table.value = table
     }
 
     private val format = Json { allowStructuredMapKeys = true }
@@ -103,7 +99,7 @@ class OrderDetailViewModel @Inject constructor(
     }
 
     fun submitNewOrder() = viewModelScope.launch {
-        val newID = useCases.insertOrder(FoodOrder.example)
+        val newID = useCases.insertOrder(FoodOrder.example.copy(table = table.value))
         val newOrder = useCases.getOrder(newID).first()!!
 
         details.value.map {
