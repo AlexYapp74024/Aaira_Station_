@@ -19,13 +19,12 @@ class OrderDetailViewModel @Inject constructor(
     private val useCases: OrderUseCases
 ) : ViewModel() {
 
-    private val _order = MutableStateFlow<FoodOrder?>(FoodOrder.example)
+    private val _order = MutableStateFlow<FoodOrder?>(null)
     val order = _order.asStateFlow()
 
     private val _detailsMap = MutableStateFlow<Map<Long, OrderDetail>>(mapOf())
-    private val _details = _detailsMap.map { it.map { (_, detail) -> detail } }
+    val details = _detailsMap.map { it.map { (_, detail) -> detail } }
         .stateIn(viewModelScope, SharingStarted.Lazily, listOf())
-    val details = _details
 
     private var _table = MutableStateFlow<List<NumberedTable>>(listOf())
     val tables = _table.asStateFlow()
@@ -42,29 +41,29 @@ class OrderDetailViewModel @Inject constructor(
         }
     }
 
-    fun updateAll(order: FoodOrder, details: List<OrderDetail>) {
+    fun updateAll(order: FoodOrder, details: List<OrderDetail>) = viewModelScope.launch {
         updateOrder(order)
         details.forEach { updateDetail(it) }
     }
 
-    fun updateOrder(order: FoodOrder?) {
+    fun updateOrder(order: FoodOrder?) = viewModelScope.launch {
         _order.value = order
     }
 
-    fun updateDetail(detail: OrderDetail) {
+    fun updateDetail(detail: OrderDetail) = viewModelScope.launch {
         val mutableMap = _detailsMap.value.toMutableMap()
         mutableMap[detail.detailId] = detail
 
         _detailsMap.value = mutableMap
     }
 
-    fun toggleDetailCompletion(detail: OrderDetail) {
+    fun toggleDetailCompletion(detail: OrderDetail) = viewModelScope.launch {
         updateDetail(detail.copy(completed = !detail.completed))
     }
 
     fun saveOrder() = viewModelScope.launch {
         val newID = _order.value?.let { useCases.insertOrder(it) }
-        details.value.forEach { detail ->
+        this@OrderDetailViewModel.details.value.forEach { detail ->
             useCases.insertDetail(detail)
         }
         newID?.let { retrieveOrders(it) }
@@ -73,14 +72,14 @@ class OrderDetailViewModel @Inject constructor(
     fun toggleAllOrders() = viewModelScope.launch {
         val orderState = orderIsCompleted()
 
-        _details.value.map { detail ->
+        this@OrderDetailViewModel.details.value.map { detail ->
             detail.copy(completed = !orderState)
         }.forEach {
             updateDetail(it)
         }
     }
 
-    suspend fun orderIsCompleted(): Boolean = useCases.isOrderCompleted(_details.first())
+    suspend fun orderIsCompleted(): Boolean = useCases.isOrderCompleted(this.details.first())
 
     fun addAndSetNewTable(number: Long) = viewModelScope.launch {
         val newID =
@@ -92,8 +91,25 @@ class OrderDetailViewModel @Inject constructor(
         }
     }
 
-    fun parseFoodQuantity(foodQuantityJson: String) {
-        val format = Json { allowStructuredMapKeys = true }
-        val map = format.decodeFromString<Map<Food,Int>>(foodQuantityJson)
+    private val format = Json { allowStructuredMapKeys = true }
+
+    fun parseFoodQuantity(foodQuantityJson: String) = viewModelScope.launch {
+        val map = format.decodeFromString<Map<Food, Int>>(foodQuantityJson)
+        _detailsMap.value = map.map { (food, amount) ->
+            OrderDetail(order = FoodOrder.example, food = food, amount = amount)
+        }.mapIndexed { index, detail ->
+            index.toLong() to detail
+        }.toMap()
+    }
+
+    fun submitNewOrder() = viewModelScope.launch {
+        val newID = useCases.insertOrder(FoodOrder.example)
+        val newOrder = useCases.getOrder(newID).first()!!
+
+        details.value.map {
+            it.copy(order = newOrder)
+        }.onEach {
+            useCases.insertDetail(it)
+        }
     }
 }

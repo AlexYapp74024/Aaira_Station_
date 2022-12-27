@@ -70,8 +70,9 @@ class OrderMenuListViewModel @Inject constructor(
         _foodQuantity.value = mutableMap
     }
 
+    private val format = Json { allowStructuredMapKeys = true }
+    
     fun submitOrder(navigator: DestinationsNavigator) {
-        val format = Json { allowStructuredMapKeys = true }
         val json = format.encodeToString(foodQuantity.value)
         navigator.navigate(CheckOutScreenDestination(json))
     }

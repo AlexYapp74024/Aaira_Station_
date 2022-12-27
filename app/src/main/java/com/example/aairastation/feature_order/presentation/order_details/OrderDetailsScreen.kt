@@ -49,7 +49,18 @@ fun CheckOutScreen(
 
     OrderDetailsScreen(
         title = "Check out",
-        canChangeTableNumber = true
+        canChangeTableNumber = true,
+        bottomButtons = {
+            Button(
+                onClick = {
+                    viewModel.submitNewOrder()
+                    navigator.navigate(OrderListScreenDestination)
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(text = "Save Changes")
+            }
+        }
     )
 }
 

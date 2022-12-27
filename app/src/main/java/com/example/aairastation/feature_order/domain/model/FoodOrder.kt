@@ -20,6 +20,6 @@ data class FoodOrder(
     val newOrder: Boolean = true,
 ) {
     companion object {
-        val example = FoodOrder(1, NumberedTable.example)
+        val example = FoodOrder(0, NumberedTable.example)
     }
 }

@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.aairastation.MainCoroutineRule
 import com.example.aairastation.data.repository.TestRepository
 import com.example.aairastation.feature_menu.domain.model.Food
+import com.example.aairastation.feature_menu.domain.model.FoodCategory
 import com.example.aairastation.feature_order.domain.model.FoodOrder
 import com.example.aairastation.feature_order.domain.model.OrderDetail
 import com.example.aairastation.feature_order.domain.use_case.OrderUseCases
@@ -12,6 +13,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -145,13 +148,42 @@ class OrderDetailViewModelTest {
 
         viewModel.toggleAllOrders()
 
-        val newVmDetails = viewModel.details.first()
-        assertThat(newVmDetails).isEqualTo(
+        val vmDetails = viewModel.details.first()
+        assertThat(vmDetails).isEqualTo(
             listOf(
                 mockDetail(4, orderId, true),
                 mockDetail(5, orderId, true),
                 mockDetail(6, orderId, true),
             )
         )
+    }
+
+    private fun mockCategory(id: Long?) =
+        if (id == null)
+            FoodCategory.noCategory
+        else
+            FoodCategory.example.copy(categoryId = id)
+
+    private fun mockFood(id: Long, categoryId: Long?) =
+        Food(id, "Item $id", mockCategory(categoryId))
+
+    private val format = Json { allowStructuredMapKeys = true }
+
+    @Test
+    fun `Details Parsed correctly`() = runTest {
+        val foodQuantity = mapOf(
+            mockFood(1, 1) to 1,
+            mockFood(2, 1) to 2,
+            mockFood(3, 2) to 2,
+        )
+        viewModel.parseFoodQuantity(format.encodeToString(foodQuantity))
+
+        val vmDetails = viewModel.details.first()
+        assertThat(vmDetails).isNotEmpty()
+        vmDetails.forEach {
+            assertThat(foodQuantity).containsEntry(
+                it.food, it.amount
+            )
+        }
     }
 }
