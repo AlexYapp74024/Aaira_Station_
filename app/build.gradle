@@ -3,6 +3,7 @@ plugins {
     id "kotlin-android"
     id "kotlin-kapt"
     id "kotlin-parcelize"
+    id "kotlinx-serialization"
     id "com.google.devtools.ksp" version "1.7.10-1.0.6"
     id "com.google.dagger.hilt.android" version "$dagger_hilt_version"
 }
@@ -98,6 +99,8 @@ dependencies {
 
     // Swipe action
     implementation "me.saket.swipe:swipe:1.0.0"
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1'
 
     // Local Unit Tests
     implementation "androidx.test:core:1.5.0"

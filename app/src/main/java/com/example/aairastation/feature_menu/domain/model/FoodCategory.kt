@@ -2,8 +2,10 @@ package com.example.aairastation.feature_menu.domain.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.serialization.Serializable
 
 @Entity
+@Serializable
 data class FoodCategory(
     @PrimaryKey(autoGenerate = true)
     val categoryId: Long = 0,

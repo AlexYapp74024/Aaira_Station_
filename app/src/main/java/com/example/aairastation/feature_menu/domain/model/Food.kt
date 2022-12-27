@@ -4,9 +4,10 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.aairastation.core.formatPriceToRM
-import java.io.Serializable
+import kotlinx.serialization.Serializable
 
 @Entity
+@Serializable
 data class Food(
     @PrimaryKey(autoGenerate = true)
     val foodId: Long = 0,
@@ -24,7 +25,7 @@ data class Food(
      * we still need to keep it around to record transactions
      */
     val foodDisabled: Boolean = false,
-) : Serializable {
+) {
     companion object {
         val example = Food(
             foodName = "Nasi Lemak",
