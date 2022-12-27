@@ -239,10 +239,10 @@ private fun OrderListPreview() {
     )
 
     val orderLists = mapOf(
-        FoodOrder(1, NumberedTable.example, null) to orderList,
-        FoodOrder(2, NumberedTable.example, null) to orderList,
-        FoodOrder(3, NumberedTable.example, null) to orderList,
-        FoodOrder(4, NumberedTable.example, null) to orderList,
+        FoodOrder(1, NumberedTable.example) to orderList,
+        FoodOrder(2, NumberedTable.example) to orderList,
+        FoodOrder(3, NumberedTable.example) to orderList,
+        FoodOrder(4, NumberedTable.example) to orderList,
     )
 
     AairaStationTheme {
