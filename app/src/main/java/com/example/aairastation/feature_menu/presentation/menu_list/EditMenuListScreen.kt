@@ -12,13 +12,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.aairastation.core.ui_util.BitmapWithDefault
 import com.example.aairastation.core.ui_util.DefaultTopAppBar
+import com.example.aairastation.core.ui_util.LazyRowIndexedSelector
 import com.example.aairastation.destinations.AddFoodScreenDestination
 import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_menu.domain.model.FoodCategory
@@ -63,38 +63,18 @@ private fun EditMenuListContent(
         val columnState = rememberLazyListState()
         val coroutineScope = rememberCoroutineScope()
 
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            modifier = Modifier.padding(vertical = 8.dp)
-        ) {
-            item { Spacer(modifier = Modifier.width(8.dp)) }
-
-            itemsIndexed(foodList.keys.toList()) { index, category ->
-                val isCurrentCategory by remember {
-                    derivedStateOf { columnState.firstVisibleItemIndex == index }
+        LazyRowIndexedSelector(
+            items = foodList.keys.toList(),
+            isCurrentValue = { index, _ ->
+                columnState.firstVisibleItemIndex == index
+            },
+            itemToString = { it.categoryName },
+            onSelected = { index, _ ->
+                coroutineScope.launch {
+                    columnState.animateScrollToItem(index)
                 }
-
-                val textColor by animateColorAsState(
-                    targetValue = if (isCurrentCategory)
-                        MaterialTheme.colors.primary
-                    else
-                        Color.Black
-                )
-
-                Text(
-                    text = category.categoryName,
-                    style = MaterialTheme.typography.h5,
-                    color = textColor,
-                    modifier = Modifier.clickable {
-                        coroutineScope.launch {
-                            columnState.animateScrollToItem(index)
-                        }
-                    }
-                )
             }
-
-            item { Spacer(modifier = Modifier.width(8.dp)) }
-        }
+        )
 
         LazyColumn(
             state = columnState,

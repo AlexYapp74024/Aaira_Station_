@@ -17,39 +17,60 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.minus
 import kotlinx.datetime.todayIn
 import javax.inject.Inject
+import com.example.aairastation.feature_settings.domain.model.Grouping as Grouping
 
 @HiltViewModel
 class TopSellerViewModel @Inject constructor(
     useCases: OrderUseCases
 ) : ViewModel() {
 
-    private var _grouping = MutableStateFlow(TimeGrouping.Daily)
-    val grouping = _grouping.asStateFlow()
+    private val details = useCases.getAllDetail()
+
+    private var _timeGrouping = MutableStateFlow(TimeGrouping.Daily)
+    val timeGrouping = _timeGrouping.asStateFlow()
 
     private var shiftInterval = MutableStateFlow(0)
 
-    private val fromDate = combine(shiftInterval, grouping) { shiftInterval, filter ->
+    private val fromDate = combine(shiftInterval, timeGrouping) { shiftInterval, filter ->
         Clock.System.todayIn(TimeZone.currentSystemDefault())
             .minus(shiftInterval, filter.dateTimeUnit)
             .firstDayOf(filter.dateTimeUnit)
     }
 
-    private val toDate = combine(shiftInterval, grouping) { shiftInterval, filter ->
+    private val toDate = combine(shiftInterval, timeGrouping) { shiftInterval, filter ->
         Clock.System.todayIn(TimeZone.currentSystemDefault())
             .minus(shiftInterval, filter.dateTimeUnit)
             .lastDayOf(filter.dateTimeUnit)
     }
 
-    private val details = useCases.getAllDetail()
     val filtered = combine(fromDate, toDate, details) { fromTime, toTime, details ->
         ParseOrderDetails()(details).filter {
             it.creationTime in fromTime..toTime
         }
     }
 
-    fun setGrouping(grouping: TimeGrouping) = viewModelScope.launch {
+    private var _grouping = MutableStateFlow(Grouping.Price)
+    var grouping = _grouping.asStateFlow()
+
+    fun setTimeGrouping(timeGrouping: TimeGrouping) {
+        _timeGrouping.value = timeGrouping
+    }
+
+    fun setGrouping(grouping: Grouping) {
         _grouping.value = grouping
     }
+
+    val items = combine(filtered, grouping) { filtered, grouping ->
+        filtered.groupBy { it.foodName }
+            .map { (foodName, data) ->
+                val total = data.map { grouping.valueOf(it) }
+                    .fold(0) { acc, value -> acc + value }
+                foodName to total
+            }.sortedByDescending { (_, total) ->
+                total
+            }
+    }
+
 
     fun shiftTimeForward() = viewModelScope.launch {
         if (shiftInterval.value > 0)

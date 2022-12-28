@@ -29,6 +29,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 private lateinit var viewModel: OrderMenuListViewModel
@@ -63,11 +64,19 @@ private fun OrderMenuListContent(
 ) {
     Column(modifier = modifier.fillMaxSize()) {
         val columnState = rememberLazyListState()
+        val coroutineScope = rememberCoroutineScope()
 
-        TopBarSelector(
+        LazyRowIndexedSelector(
             items = foodList.keys.toList(),
+            isCurrentValue = { index, _ ->
+                columnState.firstVisibleItemIndex == index
+            },
             itemToString = { it.categoryName },
-            lazyListState = columnState,
+            onSelected = { index, _ ->
+                coroutineScope.launch {
+                    columnState.animateScrollToItem(index)
+                }
+            }
         )
 
         LazyColumn(

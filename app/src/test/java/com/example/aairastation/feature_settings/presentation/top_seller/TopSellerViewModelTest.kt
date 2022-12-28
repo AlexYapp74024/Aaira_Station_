@@ -8,6 +8,7 @@ import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_order.domain.model.FoodOrder
 import com.example.aairastation.feature_order.domain.model.OrderDetail
 import com.example.aairastation.feature_order.domain.use_case.OrderUseCases
+import com.example.aairastation.feature_settings.domain.model.Grouping
 import com.example.aairastation.feature_settings.domain.model.TimeGrouping
 import com.example.aairastation.feature_settings.domain.use_cases.ParseOrderDetails
 import com.google.common.truth.Truth.assertThat
@@ -91,7 +92,7 @@ class TopSellerViewModelTest {
 
     @Test
     fun `Default is sort by day`() {
-        val filter = viewModel.grouping.value
+        val filter = viewModel.timeGrouping.value
         assertThat(filter).isEqualTo(TimeGrouping.Daily)
     }
 
@@ -125,7 +126,7 @@ class TopSellerViewModelTest {
 
     @Test
     fun `Get This week's orders`() = runTest {
-        viewModel.setGrouping(TimeGrouping.Weekly)
+        viewModel.setTimeGrouping( TimeGrouping.Weekly)
 
         assertDetailsContain(
             // 3 orders today
@@ -142,7 +143,7 @@ class TopSellerViewModelTest {
 
     @Test
     fun `Get Last week's orders`() = runTest {
-        viewModel.setGrouping(TimeGrouping.Weekly)
+        viewModel.setTimeGrouping( TimeGrouping.Weekly)
         viewModel.shiftTimeBackward()
 
         assertDetailsContain(
@@ -155,7 +156,7 @@ class TopSellerViewModelTest {
 
     @Test
     fun `Get This month's orders`() = runTest {
-        viewModel.setGrouping(TimeGrouping.Monthly)
+        viewModel.setTimeGrouping( TimeGrouping.Monthly)
 
         assertDetailsContain(
             // 3 orders today
@@ -177,7 +178,7 @@ class TopSellerViewModelTest {
 
     @Test
     fun `Get Last month's orders`() = runTest {
-        viewModel.setGrouping(TimeGrouping.Monthly)
+        viewModel.setTimeGrouping( TimeGrouping.Monthly)
         viewModel.shiftTimeBackward()
 
         assertDetailsContain(
@@ -190,7 +191,7 @@ class TopSellerViewModelTest {
 
     @Test
     fun `Get This year's orders`() = runTest {
-        viewModel.setGrouping(TimeGrouping.Yearly)
+        viewModel.setTimeGrouping( TimeGrouping.Yearly)
 
         assertDetailsContain(
             // 3 orders today
@@ -217,7 +218,7 @@ class TopSellerViewModelTest {
 
     @Test
     fun `Get Last year's orders`() = runTest {
-        viewModel.setGrouping(TimeGrouping.Yearly)
+        viewModel.setTimeGrouping(TimeGrouping.Yearly)
         viewModel.shiftTimeBackward()
 
         assertDetailsContain(
@@ -251,6 +252,38 @@ class TopSellerViewModelTest {
             mockDetail(food1, 1, timeFromNow()),
             mockDetail(food2, 2, timeFromNow()),
             mockDetail(food2, 2, timeFromNow()),
+        )
+    }
+
+    @Test
+    fun `Default is Sum of price`() = runTest {
+        val grouping = viewModel.grouping.value
+
+        assertThat(grouping).isEqualTo(Grouping.Price)
+    }
+
+    @Test
+    fun `Details are grouped by sum`() = runTest {
+        val grouped = viewModel.items.first()
+
+        assertThat(grouped).isEqualTo(
+            listOf(
+                food1.foodName to 1000,
+                food2.foodName to 400,
+            )
+        )
+    }
+
+    @Test
+    fun `Details are grouped by amount`() = runTest {
+        viewModel.setGrouping( Grouping.Amount)
+        val grouped = viewModel.items.first()
+
+        assertThat(grouped).isEqualTo(
+            listOf(
+                food2.foodName to 4,
+                food1.foodName to 1,
+            )
         )
     }
 }

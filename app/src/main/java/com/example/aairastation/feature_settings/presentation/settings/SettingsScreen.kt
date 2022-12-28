@@ -22,6 +22,7 @@ import com.example.aairastation.core.ui_util.BottomNavItems
 import com.example.aairastation.core.ui_util.DefaultBottomNavigation
 import com.example.aairastation.core.ui_util.DefaultTopAppBar
 import com.example.aairastation.destinations.EditListScreenDestination
+import com.example.aairastation.destinations.TopSellerScreenDestination
 import com.example.aairastation.ui.theme.AairaStationTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -47,7 +48,7 @@ enum class SettingsScreenItems(
     val onClick: () -> Unit,
 ) {
     TopSeller("Top Seller", R.drawable.ranking, {
-
+        navigator.navigate(TopSellerScreenDestination)
     }),
     SalesReport("Sales Report", R.drawable.calendar, {
 
