@@ -102,6 +102,8 @@ dependencies {
 
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1'
 
+    implementation "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
+
     // Local Unit Tests
     implementation "androidx.test:core:1.5.0"
     testImplementation "junit:junit:4.13.2"

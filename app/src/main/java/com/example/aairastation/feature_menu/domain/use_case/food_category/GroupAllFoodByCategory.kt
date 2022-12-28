@@ -14,7 +14,7 @@ class GroupAllFoodByCategory(
     private val repository: MainRepository,
     private val imageRepository: ImageRepository,
 ) {
-    suspend operator fun invoke(
+    operator fun invoke(
         onlyAvailable: Boolean = true,
         showDisabled: Boolean = false,
         scope: CoroutineScope
@@ -29,9 +29,6 @@ class GroupAllFoodByCategory(
                 bitmaps.filter { (food, _) ->
                     food.category == category
                 }
-            }.toMutableMap().also { map ->
-                // Append food without categories
-                map[FoodCategory.noCategory] = bitmaps.filter { (item, _) -> item.category == null }
             }.filter { (_, items) ->
                 // Remove categories without items
                 items.isNotEmpty()
