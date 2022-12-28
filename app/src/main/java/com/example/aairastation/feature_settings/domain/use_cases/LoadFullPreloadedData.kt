@@ -1124,7 +1124,7 @@ class LoadFullPreloadedData(
         129 to Food(
             foodId = 129 ,
             foodName = " Tom Yam Seafood ",
-            category = category[]!!,
+            category = category[4]!!,
             priceInCents = 1500,
             available = true,
             description = "Sedap"
