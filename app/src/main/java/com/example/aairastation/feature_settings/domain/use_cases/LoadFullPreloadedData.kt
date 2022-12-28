@@ -691,6 +691,133 @@ class LoadFullPreloadedData(
             description = "Sedap"
         ),
 
+        82 to Food(
+            foodId = 82 ,
+            foodName = " Nasi Putih Ayam Berempah",
+            category = category[1]!!,
+            priceInCents = 700 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        83 to Food(
+            foodId = 83 ,
+            foodName = " Nasi Putih Ayam Mask Halia",
+            category = category[1]!!,
+            priceInCents = 800 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        84 to Food(
+            foodId 84 82 ,
+            foodName = " Nasi Putih Daging Masak Halia",
+            category = category[1]!!,
+            priceInCents = 900 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        85 to Food(
+            foodId = 85 ,
+            foodName = " Nasi Putih Ayam Berempah",
+            category = category[1]!!,
+            priceInCents = 1000 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        86 to Food(
+            foodId = 86 ,
+            foodName = " Nasi Putih Ayom Kunyit",
+            category = category[1]!!,
+            priceInCents = 800 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        87 to Food(
+            foodId = 87 ,
+            foodName = " Nasi Putih Ayam Poprik",
+            category = category[1]!!,
+            priceInCents = 800 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        88 to Food(
+            foodId = 88 ,
+            foodName = " Nosi Putih Daging Paprik",
+            category = category[1]!!,
+            priceInCents = 900 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        89 to Food(
+            foodId = 89 ,
+            foodName = " Nosi Putih Paprik Campur",
+            category = category[1]!!,
+            priceInCents = 900 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        90 to Food(
+            foodId = 90 ,
+            foodName = " Nasi Putih Ayam Butter",
+            category = category[1]!!,
+            priceInCents = 900 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        91 to Food(
+            foodId = 91 ,
+            foodName = " Lelapan lkan Keli",
+            category = category[1]!!,
+            priceInCents = 1500 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        92 to Food(
+            foodId = 92 ,
+            foodName = " Lelapan Ikan Talopia",
+            category = category[1]!!,
+            priceInCents = 1500 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        93 to Food(
+            foodId = 93 ,
+            foodName = " Nosi Kerabu Ayam Berempah",
+            category = category[1]!!,
+            priceInCents = 1300 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        94 to Food(
+            foodId = 94 ,
+            foodName = " Nasi Kerabu Ikan Kembung",
+            category = category[1]!!,
+            priceInCents = 1300 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        95 to Food(
+            foodId = 95 ,
+            foodName = " Nasi Kerabu lkan Keli",
+            category = category[1]!!,
+            priceInCents = 1300 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+
         )
     private val table = mapOf(
         1 to NumberedTable(1, 1),
