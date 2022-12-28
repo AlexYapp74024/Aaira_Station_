@@ -43,21 +43,3 @@ val Food.formattedPrice: String
 
 val Food.priceInRinggit: Double
     get() = priceInCents / 100.0
-
-// Temporary data
-val hardCodedList = listOf(
-    Food(
-        foodName = "Nasi Lemak",
-        priceInCents = 800,
-        description = "Nasi lemak is a dish originating in Malay cuisine that consists of fragrant rice cooked in coconut milk and pandan leaf."
-    ),
-    Food(
-        foodName = "Nasi Goreng",
-        priceInCents = 600,
-        description = "Nasi goreng is a Southeast Asian fried rice dish, usually cooked with pieces of meat and vegetables. "
-    ),
-    Food(foodName = "Kueh Tiau", priceInCents = 700),
-    Food(foodName = "Satay", priceInCents = 200),
-    Food(foodName = "Popia", priceInCents = 100),
-    Food(foodName = "Keropok Lekor", priceInCents = 500),
-)
