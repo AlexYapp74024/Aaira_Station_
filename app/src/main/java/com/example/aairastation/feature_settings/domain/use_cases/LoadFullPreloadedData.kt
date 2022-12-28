@@ -691,6 +691,465 @@ class LoadFullPreloadedData(
             description = "Sedap"
         ),
 
+        82 to Food(
+            foodId = 82 ,
+            foodName = " Nasi Putih Ayam Berempah",
+            category = category[1]!!,
+            priceInCents = 700 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        83 to Food(
+            foodId = 83 ,
+            foodName = " Nasi Putih Ayam Mask Halia",
+            category = category[1]!!,
+            priceInCents = 800 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        84 to Food(
+            foodId =84 ,
+            foodName = " Nasi Putih Daging Masak Halia",
+            category = category[1]!!,
+            priceInCents = 900 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        85 to Food(
+            foodId = 85 ,
+            foodName = " Nasi Putih Ayam Berempah",
+            category = category[1]!!,
+            priceInCents = 1000 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        86 to Food(
+            foodId = 86 ,
+            foodName = " Nasi Putih Ayom Kunyit",
+            category = category[1]!!,
+            priceInCents = 800 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        87 to Food(
+            foodId = 87 ,
+            foodName = " Nasi Putih Ayam Poprik",
+            category = category[1]!!,
+            priceInCents = 800 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        88 to Food(
+            foodId = 88 ,
+            foodName = " Nosi Putih Daging Paprik",
+            category = category[1]!!,
+            priceInCents = 900 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        89 to Food(
+            foodId = 89 ,
+            foodName = " Nosi Putih Paprik Campur",
+            category = category[1]!!,
+            priceInCents = 900 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        90 to Food(
+            foodId = 90 ,
+            foodName = " Nasi Putih Ayam Butter",
+            category = category[1]!!,
+            priceInCents = 900 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        91 to Food(
+            foodId = 91 ,
+            foodName = " Lelapan lkan Keli",
+            category = category[1]!!,
+            priceInCents = 1500 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        92 to Food(
+            foodId = 92 ,
+            foodName = " Lelapan Ikan Talopia",
+            category = category[1]!!,
+            priceInCents = 1500 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        93 to Food(
+            foodId = 93 ,
+            foodName = " Nosi Kerabu Ayam Berempah",
+            category = category[1]!!,
+            priceInCents = 1300 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        94 to Food(
+            foodId = 94 ,
+            foodName = " Nasi Kerabu Ikan Kembung",
+            category = category[1]!!,
+            priceInCents = 1300 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        95 to Food(
+            foodId = 95 ,
+            foodName = " Nasi Kerabu lkan Keli",
+            category = category[1]!!,
+            priceInCents = 1300 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        96 to Food(
+            foodId = 96 ,
+            foodName = " Nasi Goreng Ayam Crispy",
+            category = category[1]!!,
+            priceInCents = 500 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        97 to Food(
+            foodId = 97 ,
+            foodName = " Nasi Goreng Ikan Masin",
+            category = category[1]!!,
+            priceInCents = 750 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        98 to Food(
+            foodId = 98 ,
+            foodName = " Nasi Goreng Daging",
+            category = category[1]!!,
+            priceInCents = 800 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        99 to Food(
+            foodId = 99 ,
+            foodName = " Nasi Goreng Seafood",
+            category = category[1]!!,
+            priceInCents = 800 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        100 to Food(
+            foodId = 100 ,
+            foodName = " Nasi Coreng Pataya",
+            category = category[1]!!,
+            priceInCents = 900,
+            available = true,
+            description = "Sedap"
+        ),
+
+        101 to Food(
+            foodId = 101 ,
+            foodName = " Nasi Goreng Cina",
+            category = category[1]!!,
+            priceInCents = 900,
+            available = true,
+            description = "Sedap"
+        ),
+
+        102 to Food(
+            foodId = 102 ,
+            foodName = " Nasi Goreng Dabai",
+            category = category[1]!!,
+            priceInCents = 900,
+            available = true,
+            description = "Sedap"
+        ),
+
+        103 to Food(
+            foodId = 103 ,
+            foodName = " Nasi Goreng Udang",
+            category = category[1]!!,
+            priceInCents = 800,
+            available = true,
+            description = "Sedap"
+        ),
+
+        104 to Food(
+            foodId = 104 ,
+            foodName = " Nasi Goreng Sotong",
+            category = category[1]!!,
+            priceInCents = 700,
+            available = true,
+            description = "Sedap"
+        ),
+
+        105 to Food(
+            foodId = 105 ,
+            foodName = " Nasi Goreng Kerang",
+            category = category[1]!!,
+            priceInCents = 900,
+            available = true,
+            description = "Sedap"
+        ),
+
+        106 to Food(
+            foodId = 106 ,
+            foodName = " Nasi Putih",
+            category = category[4]!!,
+            priceInCents = 200,
+            available = true,
+            description = "Sedap"
+        ),
+
+
+        107 to Food(
+            foodId = 107 ,
+            foodName = " Telur Mata",
+            category = category[4]!!,
+            priceInCents = 200,
+            available = true,
+            description = "Sedap"
+        ),
+
+
+        108 to Food(
+            foodId = 108 ,
+            foodName = " Telur Dadar",
+            category = category[4]!!,
+            priceInCents = 300,
+            available = true,
+            description = "Sedap"
+        ),
+
+        109 to Food(
+            foodId = 109 ,
+            foodName = " Mee Goreng Ayam",
+            category = category[2]!!,
+            priceInCents = 700,
+            available = true,
+            description = "Sedap"
+        ),
+
+        110 to Food(
+            foodId = 110 ,
+            foodName = " Mee Goreng Daging",
+            category = category[2]!!,
+            priceInCents = 800,
+            available = true,
+            description = "Sedap"
+        ),
+
+        111 to Food(
+            foodId = 111 ,
+            foodName = " Moo Gorong Seafood",
+            category = category[2]!!,
+            priceInCents = 900,
+            available = true,
+            description = "Sedap"
+        ),
+
+        112 to Food(
+            foodId = 112 ,
+            foodName = " Mee Sup Tulang",
+            category = category[2]!!,
+            priceInCents = 800,
+            available = true,
+            description = "Sedap"
+        ),
+
+        113 to Food(
+            foodId = 113 ,
+            foodName = " Meg Hoon Goreng Ayam",
+            category = category[2]!!,
+            priceInCents = 700,
+            available = true,
+            description = "Sedap"
+        ),
+
+        114 to Food(
+            foodId = 114 ,
+            foodName = " Mee Hoon Goreng Daging",
+            category = category[2]!!,
+            priceInCents = 800,
+            available = true,
+            description = "Sedap"
+        ),
+
+        115 to Food(
+            foodId = 115 ,
+            foodName = " Mee Hoon Goreng Seafood",
+            category = category[2]!!,
+            priceInCents = 900,
+            available = true,
+            description = "Sedap"
+        ),
+
+        116 to Food(
+            foodId = 116 ,
+            foodName = " Mee Hoon Sup",
+            category = category[2]!!,
+            priceInCents = 800,
+            available = true,
+            description = "Sedap"
+        ),
+
+        117 to Food(
+            foodId = 117 ,
+            foodName = " Kuey Teow Goreng Ayam",
+            category = category[2]!!,
+            priceInCents = 700,
+            available = true,
+            description = "Sedap"
+        ),
+
+        118 to Food(
+            foodId = 118 ,
+            foodName = " Kuey Teow Goreng Daging",
+            category = category[2]!!,
+            priceInCents = 800,
+            available = true,
+            description = "Sedap"
+        ),
+
+        119 to Food(
+            foodId = 119 ,
+            foodName = " Kuey Teow Goreng Seafood",
+            category = category[2]!!,
+            priceInCents = 900,
+            available = true,
+            description = "Sedap"
+        ),
+
+        120 to Food(
+            foodId = 120 ,
+            foodName = " Kuey Teow Sup",
+            category = category[2]!!,
+            priceInCents = 800,
+            available = true,
+            description = "Sedap"
+        ),
+
+
+        121 to Food(
+            foodId = 121 ,
+            foodName = " Mee Udang Galah",
+            category = category[2]!!,
+            priceInCents = 900,
+            available = true,
+            description = "Sedap"
+        ),
+
+
+        122 to Food(
+            foodId = 122 ,
+            foodName = " Char Kuey Teow Ayam",
+            category = category[2]!!,
+            priceInCents = 700,
+            available = true,
+            description = "Sedap"
+        ),
+
+
+        123 to Food(
+            foodId = 123 ,
+            foodName = " Char Kuey Teow Daging",
+            category = category[2]!!,
+            priceInCents = 800,
+            available = true,
+            description = "Sedap"
+        ),
+
+
+        124 to Food(
+            foodId = 124 ,
+            foodName = " Char Kuey Teow Sotong",
+            category = category[2]!!,
+            priceInCents = 800,
+            available = true,
+            description = "Sedap"
+        ),
+
+
+        125 to Food(
+            foodId = 125 ,
+            foodName = " Char Kuey Teow Udang",
+            category = category[2]!!,
+            priceInCents = 800,
+            available = true,
+            description = "Sedap"
+        ),
+
+        126 to Food(
+            foodId = 125 ,
+            foodName = " Char Kuey Teow Kerang",
+            category = category[2]!!,
+            priceInCents = 800,
+            available = true,
+            description = "Sedap"
+        ),
+
+        127 to Food(
+            foodId = 125 ,
+            foodName = " Char Kuey Teow Seafood ",
+            category = category[2]!!,
+            priceInCents = 950,
+            available = true,
+            description = "Sedap"
+        ),
+
+        128 to Food(
+            foodId = 125 ,
+            foodName = " Char Kuey Teow Special ",
+            category = category[2]!!,
+            priceInCents = 1050,
+            available = true,
+            description = "Sedap"
+        ),
+
+        129 to Food(
+            foodId = 129 ,
+            foodName = " Tom Yam Seafood ",
+            category = category[4]!!,
+            priceInCents = 1500,
+            available = true,
+            description = "Sedap"
+        ),
+
+        130 to Food(
+            foodId = 129 ,
+            foodName = " Tom Yam Ayam ",
+            category = category[4]!!,
+            priceInCents = 1300,
+            available = true,
+            description = "Sedap"
+        ),
+
+        131 to Food(
+            foodId = 131 ,
+            foodName = " Sup Tulang ",
+            category = category[4]!!,
+            priceInCents = 1300,
+            available = true,
+            description = "Sedap"
+        ),
+
+
+
         )
     private val table = mapOf(
         1 to NumberedTable(1, 1),
