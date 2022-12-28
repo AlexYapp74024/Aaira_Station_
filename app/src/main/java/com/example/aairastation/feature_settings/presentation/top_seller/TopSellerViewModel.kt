@@ -22,7 +22,7 @@ class TopSellerViewModel @Inject constructor(
     useCases: OrderUseCases
 ) : ViewModel() {
 
-    private val details = useCases.getAllDetail()
+    private val details = ParseOrderDetails()(useCases.getAllDetail())
 
     private var _timeGrouping = MutableStateFlow(TimeGrouping.Daily)
     val timeGrouping = _timeGrouping.asStateFlow()
@@ -42,7 +42,7 @@ class TopSellerViewModel @Inject constructor(
     }
 
     val filtered = combine(fromDate, toDate, details) { fromTime, toTime, details ->
-        ParseOrderDetails()(details).filter {
+        details.filter {
             it.creationTime in fromTime..toTime
         }
     }

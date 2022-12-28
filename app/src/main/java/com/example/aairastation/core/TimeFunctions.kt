@@ -49,8 +49,27 @@ fun LocalDate.lastDayOfYear() =
 fun LocalDate.format() = "$dayOfMonth/$monthNumber/${year % 100}"
 
 fun LocalDate.Companion.formatRange(from: LocalDate, to: LocalDate) =
-    if (from == to) {
-        from.format()
-    } else {
-        "${from.format()} - ${to.format()}"
+    if (from == to) from.format()
+    else "${from.format()} - ${to.format()}"
+
+@Suppress("KotlinConstantConditions")
+fun LocalDate.minus(other: LocalDate, unit: DateTimeUnit.DateBased): Int {
+    return when (unit) {
+        DateTimeUnit.DAY -> {
+            this.toEpochDays() - other.toEpochDays()
+        }
+        DateTimeUnit.WEEK -> {
+            (this.toEpochDays() - other.toEpochDays()) / 7
+        }
+        DateTimeUnit.MONTH -> {
+            val difference = this - other
+            difference.months + difference.years * 12
+        }
+        DateTimeUnit.YEAR -> {
+            (this- other).years * 12
+        }
+        else -> throw UnsupportedOperationException("Date Time Unit not supported")
     }
+}
+
+
