@@ -4,13 +4,15 @@ import com.example.aairastation.domain.MainRepository
 
 data class SettingsUseCases(
     val loadPreloadedData: LoadPreloadedData,
-    val getAndParseSales: GetAndParseSales
+    val loadFullPreloadedData: LoadFullPreloadedData,
+    val getAndParseSales: GetAndParseSales,
 ) {
     companion object {
         fun create(repository: MainRepository) =
             SettingsUseCases(
                 loadPreloadedData = LoadPreloadedData(repository),
                 getAndParseSales = GetAndParseSales(repository),
+                loadFullPreloadedData = LoadFullPreloadedData(repository),
             )
     }
 }

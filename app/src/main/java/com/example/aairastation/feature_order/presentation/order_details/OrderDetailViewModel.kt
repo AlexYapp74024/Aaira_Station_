@@ -48,7 +48,7 @@ class OrderDetailViewModel @Inject constructor(
         details.forEach { updateDetail(it) }
     }
 
-    fun updateOrder(order: FoodOrder?) = viewModelScope.launch {
+    private fun updateOrder(order: FoodOrder?) = viewModelScope.launch {
         _order.value = order
     }
 

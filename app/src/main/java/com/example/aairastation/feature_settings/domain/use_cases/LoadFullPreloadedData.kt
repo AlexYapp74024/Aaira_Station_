@@ -3,9 +3,7 @@ package com.example.aairastation.feature_settings.domain.use_cases
 import com.example.aairastation.domain.MainRepository
 import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_menu.domain.model.FoodCategory
-import com.example.aairastation.feature_order.domain.model.FoodOrder
 import com.example.aairastation.feature_order.domain.model.NumberedTable
-import com.example.aairastation.feature_order.domain.model.OrderDetail
 import kotlinx.coroutines.flow.first
 
 class LoadFullPreloadedData(
@@ -20,16 +18,6 @@ class LoadFullPreloadedData(
         if (repository.getAllFood().first().isEmpty())
             food.forEach { (_, item) ->
                 repository.insertFood(item)
-            }
-
-        if (repository.getAllOrder().first().isEmpty())
-            order.forEach { (_, item) ->
-                repository.insertOrder(item)
-            }
-
-        if (repository.getAllOrderDetail().first().isEmpty())
-            detail.forEach { (_, item) ->
-                repository.insertOrderDetail(item)
             }
 
         if (repository.getAllTable().first().isEmpty())
@@ -118,7 +106,7 @@ class LoadFullPreloadedData(
             description = "Sedap"
         ),
         10 to Food(
-            foodId = 10 ,
+            foodId = 10,
             foodName = " Milo Tarik",
             category = category[3]!!,
             priceInCents = 450,
@@ -126,7 +114,7 @@ class LoadFullPreloadedData(
             description = "Sedap"
         ),
         11 to Food(
-            foodId = 11 ,
+            foodId = 11,
             foodName = "Milo Tabur",
             category = category[3]!!,
             priceInCents = 400,
@@ -134,15 +122,15 @@ class LoadFullPreloadedData(
             description = "Sedap"
         ),
         12 to Food(
-            foodId = 12 ,
+            foodId = 12,
             foodName = " Milo Dinasour",
             category = category[3]!!,
-            priceInCents = 500 ,
+            priceInCents = 500,
             available = true,
             description = "Sedap"
         ),
         13 to Food(
-            foodId = 13 ,
+            foodId = 13,
             foodName = " Nescafé O",
             category = category[3]!!,
             priceInCents = 350,
@@ -150,7 +138,7 @@ class LoadFullPreloadedData(
             description = "Sedap"
         ),
         14 to Food(
-            foodId = 14 ,
+            foodId = 14,
             foodName = " Nescafé Tarik",
             category = category[3]!!,
             priceInCents = 350,
@@ -158,7 +146,7 @@ class LoadFullPreloadedData(
             description = "Sedap"
         ),
         15 to Food(
-            foodId = 15 ,
+            foodId = 15,
             foodName = " Nescafé Susu",
             category = category[3]!!,
             priceInCents = 350,
@@ -166,7 +154,7 @@ class LoadFullPreloadedData(
             description = "Sedap"
         ),
         16 to Food(
-            foodId =16 ,
+            foodId = 16,
             foodName = " Neslo ",
             category = category[3]!!,
             priceInCents = 400,
@@ -174,7 +162,7 @@ class LoadFullPreloadedData(
             description = "Sedap"
         ),
         17 to Food(
-            foodId = 17 ,
+            foodId = 17,
             foodName = " Neslo Tarik",
             category = category[3]!!,
             priceInCents = 450,
@@ -182,7 +170,7 @@ class LoadFullPreloadedData(
             description = "Sedap"
         ),
         18 to Food(
-            foodId = 18 ,
+            foodId = 18,
             foodName = " Horlickh ",
             category = category[3]!!,
             priceInCents = 600,
@@ -190,7 +178,7 @@ class LoadFullPreloadedData(
             description = "Sedap"
         ),
         19 to Food(
-            foodId = 19 ,
+            foodId = 19,
             foodName = " Horlickh O",
             category = category[3]!!,
             priceInCents = 650,
@@ -198,7 +186,7 @@ class LoadFullPreloadedData(
             description = "Sedap"
         ),
         20 to Food(
-            foodId = 20 ,
+            foodId = 20,
             foodName = " Horlickh Tarik",
             category = category[3]!!,
             priceInCents = 700,
@@ -206,7 +194,7 @@ class LoadFullPreloadedData(
             description = "Sedap"
         ),
         21 to Food(
-            foodId = 21 ,
+            foodId = 21,
             foodName = " Jus Apple",
             category = category[3]!!,
             priceInCents = 600,
@@ -214,7 +202,7 @@ class LoadFullPreloadedData(
             description = "Sedap"
         ),
         22 to Food(
-            foodId = 22 ,
+            foodId = 22,
             foodName = " Jus Oren",
             category = category[3]!!,
             priceInCents = 550,
@@ -222,7 +210,7 @@ class LoadFullPreloadedData(
             description = "Sedap"
         ),
         23 to Food(
-            foodId = 23 ,
+            foodId = 23,
             foodName = " Jus Carrot",
             category = category[3]!!,
             priceInCents = 600,
@@ -230,7 +218,7 @@ class LoadFullPreloadedData(
             description = "Sedap"
         ),
         24 to Food(
-            foodId = 24 ,
+            foodId = 24,
             foodName = " Jus Manggo",
             category = category[3]!!,
             priceInCents = 650,
@@ -238,7 +226,7 @@ class LoadFullPreloadedData(
             description = "Sedap"
         ),
         26 to Food(
-            foodId = 26 ,
+            foodId = 26,
             foodName = " Jus Watermelon",
             category = category[3]!!,
             priceInCents = 600,
@@ -246,7 +234,7 @@ class LoadFullPreloadedData(
             description = "Sedap"
         ),
         27 to Food(
-            foodId = 27 ,
+            foodId = 27,
             foodName = " Jus Dragonfruit",
             category = category[3]!!,
             priceInCents = 500,
@@ -254,607 +242,607 @@ class LoadFullPreloadedData(
             description = "Sedap"
         ),
         28 to Food(
-            foodId = 28 ,
+            foodId = 28,
             foodName = " Chocolate ",
             category = category[3]!!,
-            priceInCents = 400 ,
+            priceInCents = 400,
             available = true,
             description = "Sedap"
         ),
         29 to Food(
-            foodId = 29 ,
+            foodId = 29,
             foodName = " Moccacino ",
             category = category[3]!!,
-            priceInCents = 450 ,
+            priceInCents = 450,
             available = true,
             description = "Sedap"
         ),
         30 to Food(
-            foodId = 30 ,
+            foodId = 30,
             foodName = " Bubble gum",
             category = category[3]!!,
-            priceInCents = 450 ,
+            priceInCents = 450,
             available = true,
             description = "Sedap"
         ),
         31 to Food(
-            foodId = 31 ,
+            foodId = 31,
             foodName = " Vanilla blue",
             category = category[3]!!,
-            priceInCents = 450 ,
+            priceInCents = 450,
             available = true,
             description = "Sedap"
         ),
         32 to Food(
-            foodId = 32 ,
+            foodId = 32,
             foodName = " Grape ",
             category = category[3]!!,
-            priceInCents = 550 ,
+            priceInCents = 550,
             available = true,
             description = "Sedap"
         ),
         33 to Food(
-            foodId = 33 ,
+            foodId = 33,
             foodName = " Guava ",
             category = category[3]!!,
-            priceInCents = 500 ,
+            priceInCents = 500,
             available = true,
             description = "Sedap"
         ),
         34 to Food(
-            foodId = 34 ,
+            foodId = 34,
             foodName = " Durian ",
             category = category[3]!!,
-            priceInCents = 500 ,
+            priceInCents = 500,
             available = true,
             description = "Sedap"
         ),
         35 to Food(
-            foodId = 35 ,
+            foodId = 35,
             foodName = " Manggo ",
             category = category[3]!!,
-            priceInCents = 500 ,
+            priceInCents = 500,
             available = true,
             description = "Sedap"
         ),
         36 to Food(
-            foodId = 36 ,
+            foodId = 36,
             foodName = " Honeydew ",
             category = category[3]!!,
-            priceInCents = 500 ,
+            priceInCents = 500,
             available = true,
             description = "Sedap"
         ),
         37 to Food(
-            foodId = 37 ,
+            foodId = 37,
             foodName = " Avocado ",
             category = category[3]!!,
-            priceInCents = 500 ,
+            priceInCents = 500,
             available = true,
             description = "Sedap"
         ),
         38 to Food(
-            foodId = 38 ,
+            foodId = 38,
             foodName = " Yogurt strawberry",
             category = category[3]!!,
-            priceInCents = 600 ,
+            priceInCents = 600,
             available = true,
             description = "Sedap"
         ),
         39 to Food(
-            foodId = 39 ,
+            foodId = 39,
             foodName = " Cola ",
             category = category[3]!!,
-            priceInCents = 200 ,
+            priceInCents = 200,
             available = true,
             description = "Sedap"
         ),
         40 to Food(
-            foodId = 40 ,
+            foodId = 40,
             foodName = " Pepsi ",
             category = category[3]!!,
-            priceInCents = 200 ,
+            priceInCents = 200,
             available = true,
             description = "Sedap"
         ),
         41 to Food(
-            foodId = 41 ,
+            foodId = 41,
             foodName = " Sprite ",
             category = category[3]!!,
-            priceInCents = 200 ,
+            priceInCents = 200,
             available = true,
             description = "Sedap"
         ),
         42 to Food(
-            foodId = 42 ,
+            foodId = 42,
             foodName = " 100plus ",
             category = category[3]!!,
-            priceInCents = 250 ,
+            priceInCents = 250,
             available = true,
             description = "Sedap"
         ),
         43 to Food(
-            foodId = 43 ,
+            foodId = 43,
             foodName = " Soda F&N",
             category = category[3]!!,
-            priceInCents = 200 ,
+            priceInCents = 200,
             available = true,
             description = "Sedap"
         ),
         44 to Food(
-            foodId = 44 ,
+            foodId = 44,
             foodName = " Sarsi ",
             category = category[3]!!,
-            priceInCents = 200 ,
+            priceInCents = 200,
             available = true,
             description = "Sedap"
         ),
         45 to Food(
-            foodId = 45 ,
+            foodId = 45,
             foodName = " Soya ",
             category = category[3]!!,
-            priceInCents = 200 ,
+            priceInCents = 200,
             available = true,
             description = "Sedap"
         ),
         46 to Food(
-            foodId = 46 ,
+            foodId = 46,
             foodName = " Cincau ",
             category = category[3]!!,
-            priceInCents = 350 ,
+            priceInCents = 350,
             available = true,
             description = "Sedap"
         ),
         47 to Food(
-            foodId = 47 ,
+            foodId = 47,
             foodName = " Teh Bunga",
             category = category[3]!!,
-            priceInCents = 300 ,
+            priceInCents = 300,
             available = true,
             description = "Sedap"
         ),
         48 to Food(
-            foodId = 48 ,
+            foodId = 48,
             foodName = " Sirap Rose",
             category = category[3]!!,
-            priceInCents = 400 ,
+            priceInCents = 400,
             available = true,
             description = "Sedap"
         ),
         49 to Food(
-            foodId = 49 ,
+            foodId = 49,
             foodName = " Sirap Oren",
             category = category[3]!!,
-            priceInCents = 400 ,
+            priceInCents = 400,
             available = true,
             description = "Sedap"
         ),
         50 to Food(
-            foodId = 50 ,
+            foodId = 50,
             foodName = " Sirap Sarsi",
             category = category[3]!!,
-            priceInCents = 350 ,
+            priceInCents = 350,
             available = true,
             description = "Sedap"
         ),
         51 to Food(
-            foodId = 51 ,
+            foodId = 51,
             foodName = " Sunquick oren",
             category = category[3]!!,
-            priceInCents = 350 ,
+            priceInCents = 350,
             available = true,
             description = "Sedap"
         ),
         52 to Food(
-            foodId = 52 ,
+            foodId = 52,
             foodName = "Ribena ",
             category = category[3]!!,
-            priceInCents = 400 ,
+            priceInCents = 400,
             available = true,
             description = "Sedap"
         ),
         53 to Food(
-            foodId = 53 ,
+            foodId = 53,
             foodName = " Ribena Sprite",
             category = category[3]!!,
-            priceInCents = 450 ,
+            priceInCents = 450,
             available = true,
             description = "Sedap"
         ),
         54 to Food(
-            foodId = 54 ,
+            foodId = 54,
             foodName = " Wheatgrass C",
             category = category[3]!!,
-            priceInCents = 450 ,
+            priceInCents = 450,
             available = true,
             description = "Sedap"
         ),
         55 to Food(
-            foodId = 55 ,
+            foodId = 55,
             foodName = " Jagung ",
             category = category[3]!!,
-            priceInCents = 400 ,
+            priceInCents = 400,
             available = true,
             description = "Sedap"
         ),
         56 to Food(
-            foodId = 56 ,
+            foodId = 56,
             foodName = " Bandung ",
             category = category[3]!!,
-            priceInCents = 450 ,
+            priceInCents = 450,
             available = true,
             description = "Sedap"
         ),
 
         57 to Food(
-            foodId = 57 ,
+            foodId = 57,
             foodName = " Bandung Susu",
             category = category[3]!!,
-            priceInCents = 500 ,
+            priceInCents = 500,
             available = true,
             description = "Sedap"
         ),
 
         58 to Food(
-            foodId = 58 ,
+            foodId = 58,
             foodName = " Bandung Laici",
             category = category[3]!!,
-            priceInCents = 500 ,
+            priceInCents = 500,
             available = true,
             description = "Sedap"
         ),
 
         59 to Food(
-            foodId = 59 ,
+            foodId = 59,
             foodName = " Bandung Cincau",
             category = category[3]!!,
-            priceInCents = 550 ,
+            priceInCents = 550,
             available = true,
             description = "Sedap"
         ),
 
         60 to Food(
-            foodId = 60 ,
+            foodId = 60,
             foodName = " Green Tea",
             category = category[3]!!,
-            priceInCents = 300 ,
+            priceInCents = 300,
             available = true,
             description = "Sedap"
         ),
         61 to Food(
-            foodId = 61 ,
+            foodId = 61,
             foodName = " Green Tea Lemon",
             category = category[3]!!,
-            priceInCents = 350 ,
+            priceInCents = 350,
             available = true,
             description = "Sedap"
         ),
         62 to Food(
-            foodId = 62 ,
+            foodId = 62,
             foodName = " Longan ",
             category = category[3]!!,
-            priceInCents = 400 ,
+            priceInCents = 400,
             available = true,
             description = "Sedap"
         ),
         63 to Food(
-            foodId = 63 ,
+            foodId = 63,
             foodName = " Longan Susu",
             category = category[3]!!,
-            priceInCents = 450 ,
+            priceInCents = 450,
             available = true,
             description = "Sedap"
         ),
         64 to Food(
-            foodId = 64 ,
+            foodId = 64,
             foodName = " Longan Lemon",
             category = category[3]!!,
-            priceInCents = 450 ,
+            priceInCents = 450,
             available = true,
             description = "Sedap"
         ),
         65 to Food(
-            foodId = 65 ,
+            foodId = 65,
             foodName = " Laici ",
             category = category[3]!!,
-            priceInCents = 350 ,
+            priceInCents = 350,
             available = true,
             description = "Sedap"
         ),
         66 to Food(
-            foodId = 66 ,
+            foodId = 66,
             foodName = " Laici Susu",
             category = category[3]!!,
-            priceInCents = 400 ,
+            priceInCents = 400,
             available = true,
             description = "Sedap"
         ),
         67 to Food(
-            foodId = 67 ,
+            foodId = 67,
             foodName = " Laici Lemon",
             category = category[3]!!,
-            priceInCents = 400 ,
+            priceInCents = 400,
             available = true,
             description = "Sedap"
         ),
         68 to Food(
-            foodId = 68 ,
+            foodId = 68,
             foodName = " Lemon ",
             category = category[3]!!,
-            priceInCents = 300 ,
+            priceInCents = 300,
             available = true,
             description = "Sedap"
         ),
         69 to Food(
-            foodId = 69 ,
+            foodId = 69,
             foodName = " Limau ",
             category = category[3]!!,
-            priceInCents = 300 ,
+            priceInCents = 300,
             available = true,
             description = "Sedap"
         ),
         70 to Food(
-            foodId = 70 ,
+            foodId = 70,
             foodName = " Asamboi Oren",
             category = category[3]!!,
-            priceInCents = 400 ,
+            priceInCents = 400,
             available = true,
             description = "Sedap"
         ),
         71 to Food(
-            foodId = 71 ,
+            foodId = 71,
             foodName = " Asamboi Putih",
             category = category[3]!!,
-            priceInCents = 400 ,
+            priceInCents = 400,
             available = true,
             description = "Sedap"
         ),
         72 to Food(
-            foodId = 72 ,
+            foodId = 72,
             foodName = " Lemon Samboi",
             category = category[3]!!,
-            priceInCents = 400 ,
+            priceInCents = 400,
             available = true,
             description = "Sedap"
         ),
         73 to Food(
-            foodId = 73 ,
+            foodId = 73,
             foodName = " Limau Samboi",
             category = category[3]!!,
-            priceInCents = 350 ,
+            priceInCents = 350,
             available = true,
             description = "Sedap"
         ),
         74 to Food(
-            foodId = 74 ,
+            foodId = 74,
             foodName = " Barli ",
             category = category[3]!!,
-            priceInCents = 300 ,
+            priceInCents = 300,
             available = true,
             description = "Sedap"
         ),
         75 to Food(
-            foodId = 75 ,
+            foodId = 75,
             foodName = " Barli Lemon",
             category = category[3]!!,
-            priceInCents = 350 ,
+            priceInCents = 350,
             available = true,
             description = "Sedap"
         ),
         76 to Food(
-            foodId = 76 ,
+            foodId = 76,
             foodName = " Barli Susu",
             category = category[3]!!,
-            priceInCents = 400 ,
+            priceInCents = 400,
             available = true,
             description = "Sedap"
         ),
         77 to Food(
-            foodId = 77 ,
+            foodId = 77,
             foodName = "Kundur ",
             category = category[3]!!,
-            priceInCents = 300 ,
+            priceInCents = 300,
             available = true,
             description = "Sedap"
         ),
         78 to Food(
-            foodId = 78 ,
+            foodId = 78,
             foodName = "Blackcurrant ",
             category = category[3]!!,
-            priceInCents = 400 ,
+            priceInCents = 400,
             available = true,
             description = "Sedap"
         ),
         79 to Food(
-            foodId = 79 ,
+            foodId = 79,
             foodName = " BlueLagoon ",
             category = category[3]!!,
-            priceInCents = 400 ,
+            priceInCents = 400,
             available = true,
             description = "Sedap"
         ),
         80 to Food(
-            foodId = 80 ,
+            foodId = 80,
             foodName = " Bluerose ",
             category = category[3]!!,
-            priceInCents = 400 ,
+            priceInCents = 400,
             available = true,
             description = "Sedap"
         ),
 
         81 to Food(
-            foodId = 81 ,
+            foodId = 81,
             foodName = " Jambu batu",
             category = category[3]!!,
-            priceInCents = 500 ,
+            priceInCents = 500,
             available = true,
             description = "Sedap"
         ),
 
         82 to Food(
-            foodId = 82 ,
+            foodId = 82,
             foodName = " Nasi Putih Ayam Berempah",
             category = category[1]!!,
-            priceInCents = 700 ,
+            priceInCents = 700,
             available = true,
             description = "Sedap"
         ),
 
         83 to Food(
-            foodId = 83 ,
+            foodId = 83,
             foodName = " Nasi Putih Ayam Mask Halia",
             category = category[1]!!,
-            priceInCents = 800 ,
+            priceInCents = 800,
             available = true,
             description = "Sedap"
         ),
 
         84 to Food(
-            foodId =84 ,
+            foodId = 84,
             foodName = " Nasi Putih Daging Masak Halia",
             category = category[1]!!,
-            priceInCents = 900 ,
+            priceInCents = 900,
             available = true,
             description = "Sedap"
         ),
 
         85 to Food(
-            foodId = 85 ,
+            foodId = 85,
             foodName = " Nasi Putih Ayam Berempah",
             category = category[1]!!,
-            priceInCents = 1000 ,
+            priceInCents = 1000,
             available = true,
             description = "Sedap"
         ),
 
         86 to Food(
-            foodId = 86 ,
+            foodId = 86,
             foodName = " Nasi Putih Ayom Kunyit",
             category = category[1]!!,
-            priceInCents = 800 ,
+            priceInCents = 800,
             available = true,
             description = "Sedap"
         ),
 
         87 to Food(
-            foodId = 87 ,
+            foodId = 87,
             foodName = " Nasi Putih Ayam Poprik",
             category = category[1]!!,
-            priceInCents = 800 ,
+            priceInCents = 800,
             available = true,
             description = "Sedap"
         ),
 
         88 to Food(
-            foodId = 88 ,
+            foodId = 88,
             foodName = " Nosi Putih Daging Paprik",
             category = category[1]!!,
-            priceInCents = 900 ,
+            priceInCents = 900,
             available = true,
             description = "Sedap"
         ),
 
         89 to Food(
-            foodId = 89 ,
+            foodId = 89,
             foodName = " Nosi Putih Paprik Campur",
             category = category[1]!!,
-            priceInCents = 900 ,
+            priceInCents = 900,
             available = true,
             description = "Sedap"
         ),
 
         90 to Food(
-            foodId = 90 ,
+            foodId = 90,
             foodName = " Nasi Putih Ayam Butter",
             category = category[1]!!,
-            priceInCents = 900 ,
+            priceInCents = 900,
             available = true,
             description = "Sedap"
         ),
 
         91 to Food(
-            foodId = 91 ,
+            foodId = 91,
             foodName = " Lelapan lkan Keli",
             category = category[1]!!,
-            priceInCents = 1500 ,
+            priceInCents = 1500,
             available = true,
             description = "Sedap"
         ),
 
         92 to Food(
-            foodId = 92 ,
+            foodId = 92,
             foodName = " Lelapan Ikan Talopia",
             category = category[1]!!,
-            priceInCents = 1500 ,
+            priceInCents = 1500,
             available = true,
             description = "Sedap"
         ),
 
         93 to Food(
-            foodId = 93 ,
+            foodId = 93,
             foodName = " Nosi Kerabu Ayam Berempah",
             category = category[1]!!,
-            priceInCents = 1300 ,
+            priceInCents = 1300,
             available = true,
             description = "Sedap"
         ),
 
         94 to Food(
-            foodId = 94 ,
+            foodId = 94,
             foodName = " Nasi Kerabu Ikan Kembung",
             category = category[1]!!,
-            priceInCents = 1300 ,
+            priceInCents = 1300,
             available = true,
             description = "Sedap"
         ),
 
         95 to Food(
-            foodId = 95 ,
+            foodId = 95,
             foodName = " Nasi Kerabu lkan Keli",
             category = category[1]!!,
-            priceInCents = 1300 ,
+            priceInCents = 1300,
             available = true,
             description = "Sedap"
         ),
 
         96 to Food(
-            foodId = 96 ,
+            foodId = 96,
             foodName = " Nasi Goreng Ayam Crispy",
             category = category[1]!!,
-            priceInCents = 500 ,
+            priceInCents = 500,
             available = true,
             description = "Sedap"
         ),
 
         97 to Food(
-            foodId = 97 ,
+            foodId = 97,
             foodName = " Nasi Goreng Ikan Masin",
             category = category[1]!!,
-            priceInCents = 750 ,
+            priceInCents = 750,
             available = true,
             description = "Sedap"
         ),
 
         98 to Food(
-            foodId = 98 ,
+            foodId = 98,
             foodName = " Nasi Goreng Daging",
             category = category[1]!!,
-            priceInCents = 800 ,
+            priceInCents = 800,
             available = true,
             description = "Sedap"
         ),
 
         99 to Food(
-            foodId = 99 ,
+            foodId = 99,
             foodName = " Nasi Goreng Seafood",
             category = category[1]!!,
-            priceInCents = 800 ,
+            priceInCents = 800,
             available = true,
             description = "Sedap"
         ),
 
         100 to Food(
-            foodId = 100 ,
+            foodId = 100,
             foodName = " Nasi Coreng Pataya",
             category = category[1]!!,
             priceInCents = 900,
@@ -863,7 +851,7 @@ class LoadFullPreloadedData(
         ),
 
         101 to Food(
-            foodId = 101 ,
+            foodId = 101,
             foodName = " Nasi Goreng Cina",
             category = category[1]!!,
             priceInCents = 900,
@@ -872,7 +860,7 @@ class LoadFullPreloadedData(
         ),
 
         102 to Food(
-            foodId = 102 ,
+            foodId = 102,
             foodName = " Nasi Goreng Dabai",
             category = category[1]!!,
             priceInCents = 900,
@@ -881,7 +869,7 @@ class LoadFullPreloadedData(
         ),
 
         103 to Food(
-            foodId = 103 ,
+            foodId = 103,
             foodName = " Nasi Goreng Udang",
             category = category[1]!!,
             priceInCents = 800,
@@ -890,7 +878,7 @@ class LoadFullPreloadedData(
         ),
 
         104 to Food(
-            foodId = 104 ,
+            foodId = 104,
             foodName = " Nasi Goreng Sotong",
             category = category[1]!!,
             priceInCents = 700,
@@ -899,7 +887,7 @@ class LoadFullPreloadedData(
         ),
 
         105 to Food(
-            foodId = 105 ,
+            foodId = 105,
             foodName = " Nasi Goreng Kerang",
             category = category[1]!!,
             priceInCents = 900,
@@ -908,7 +896,7 @@ class LoadFullPreloadedData(
         ),
 
         106 to Food(
-            foodId = 106 ,
+            foodId = 106,
             foodName = " Nasi Putih",
             category = category[4]!!,
             priceInCents = 200,
@@ -918,7 +906,7 @@ class LoadFullPreloadedData(
 
 
         107 to Food(
-            foodId = 107 ,
+            foodId = 107,
             foodName = " Telur Mata",
             category = category[4]!!,
             priceInCents = 200,
@@ -928,7 +916,7 @@ class LoadFullPreloadedData(
 
 
         108 to Food(
-            foodId = 108 ,
+            foodId = 108,
             foodName = " Telur Dadar",
             category = category[4]!!,
             priceInCents = 300,
@@ -937,7 +925,7 @@ class LoadFullPreloadedData(
         ),
 
         109 to Food(
-            foodId = 109 ,
+            foodId = 109,
             foodName = " Mee Goreng Ayam",
             category = category[2]!!,
             priceInCents = 700,
@@ -946,7 +934,7 @@ class LoadFullPreloadedData(
         ),
 
         110 to Food(
-            foodId = 110 ,
+            foodId = 110,
             foodName = " Mee Goreng Daging",
             category = category[2]!!,
             priceInCents = 800,
@@ -955,7 +943,7 @@ class LoadFullPreloadedData(
         ),
 
         111 to Food(
-            foodId = 111 ,
+            foodId = 111,
             foodName = " Moo Gorong Seafood",
             category = category[2]!!,
             priceInCents = 900,
@@ -964,7 +952,7 @@ class LoadFullPreloadedData(
         ),
 
         112 to Food(
-            foodId = 112 ,
+            foodId = 112,
             foodName = " Mee Sup Tulang",
             category = category[2]!!,
             priceInCents = 800,
@@ -973,7 +961,7 @@ class LoadFullPreloadedData(
         ),
 
         113 to Food(
-            foodId = 113 ,
+            foodId = 113,
             foodName = " Meg Hoon Goreng Ayam",
             category = category[2]!!,
             priceInCents = 700,
@@ -982,7 +970,7 @@ class LoadFullPreloadedData(
         ),
 
         114 to Food(
-            foodId = 114 ,
+            foodId = 114,
             foodName = " Mee Hoon Goreng Daging",
             category = category[2]!!,
             priceInCents = 800,
@@ -991,7 +979,7 @@ class LoadFullPreloadedData(
         ),
 
         115 to Food(
-            foodId = 115 ,
+            foodId = 115,
             foodName = " Mee Hoon Goreng Seafood",
             category = category[2]!!,
             priceInCents = 900,
@@ -1000,7 +988,7 @@ class LoadFullPreloadedData(
         ),
 
         116 to Food(
-            foodId = 116 ,
+            foodId = 116,
             foodName = " Mee Hoon Sup",
             category = category[2]!!,
             priceInCents = 800,
@@ -1009,7 +997,7 @@ class LoadFullPreloadedData(
         ),
 
         117 to Food(
-            foodId = 117 ,
+            foodId = 117,
             foodName = " Kuey Teow Goreng Ayam",
             category = category[2]!!,
             priceInCents = 700,
@@ -1018,7 +1006,7 @@ class LoadFullPreloadedData(
         ),
 
         118 to Food(
-            foodId = 118 ,
+            foodId = 118,
             foodName = " Kuey Teow Goreng Daging",
             category = category[2]!!,
             priceInCents = 800,
@@ -1027,7 +1015,7 @@ class LoadFullPreloadedData(
         ),
 
         119 to Food(
-            foodId = 119 ,
+            foodId = 119,
             foodName = " Kuey Teow Goreng Seafood",
             category = category[2]!!,
             priceInCents = 900,
@@ -1036,7 +1024,7 @@ class LoadFullPreloadedData(
         ),
 
         120 to Food(
-            foodId = 120 ,
+            foodId = 120,
             foodName = " Kuey Teow Sup",
             category = category[2]!!,
             priceInCents = 800,
@@ -1046,7 +1034,7 @@ class LoadFullPreloadedData(
 
 
         121 to Food(
-            foodId = 121 ,
+            foodId = 121,
             foodName = " Mee Udang Galah",
             category = category[2]!!,
             priceInCents = 900,
@@ -1056,7 +1044,7 @@ class LoadFullPreloadedData(
 
 
         122 to Food(
-            foodId = 122 ,
+            foodId = 122,
             foodName = " Char Kuey Teow Ayam",
             category = category[2]!!,
             priceInCents = 700,
@@ -1066,7 +1054,7 @@ class LoadFullPreloadedData(
 
 
         123 to Food(
-            foodId = 123 ,
+            foodId = 123,
             foodName = " Char Kuey Teow Daging",
             category = category[2]!!,
             priceInCents = 800,
@@ -1076,7 +1064,7 @@ class LoadFullPreloadedData(
 
 
         124 to Food(
-            foodId = 124 ,
+            foodId = 124,
             foodName = " Char Kuey Teow Sotong",
             category = category[2]!!,
             priceInCents = 800,
@@ -1086,7 +1074,7 @@ class LoadFullPreloadedData(
 
 
         125 to Food(
-            foodId = 125 ,
+            foodId = 125,
             foodName = " Char Kuey Teow Udang",
             category = category[2]!!,
             priceInCents = 800,
@@ -1095,7 +1083,7 @@ class LoadFullPreloadedData(
         ),
 
         126 to Food(
-            foodId = 125 ,
+            foodId = 125,
             foodName = " Char Kuey Teow Kerang",
             category = category[2]!!,
             priceInCents = 800,
@@ -1104,7 +1092,7 @@ class LoadFullPreloadedData(
         ),
 
         127 to Food(
-            foodId = 125 ,
+            foodId = 125,
             foodName = " Char Kuey Teow Seafood ",
             category = category[2]!!,
             priceInCents = 950,
@@ -1113,7 +1101,7 @@ class LoadFullPreloadedData(
         ),
 
         128 to Food(
-            foodId = 125 ,
+            foodId = 125,
             foodName = " Char Kuey Teow Special ",
             category = category[2]!!,
             priceInCents = 1050,
@@ -1122,7 +1110,7 @@ class LoadFullPreloadedData(
         ),
 
         129 to Food(
-            foodId = 129 ,
+            foodId = 129,
             foodName = " Tom Yam Seafood ",
             category = category[4]!!,
             priceInCents = 1500,
@@ -1131,7 +1119,7 @@ class LoadFullPreloadedData(
         ),
 
         130 to Food(
-            foodId = 129 ,
+            foodId = 129,
             foodName = " Tom Yam Ayam ",
             category = category[4]!!,
             priceInCents = 1300,
@@ -1140,7 +1128,7 @@ class LoadFullPreloadedData(
         ),
 
         131 to Food(
-            foodId = 131 ,
+            foodId = 131,
             foodName = " Sup Tulang ",
             category = category[4]!!,
             priceInCents = 1300,
@@ -1149,27 +1137,10 @@ class LoadFullPreloadedData(
         ),
 
 
-
         )
     private val table = mapOf(
         1 to NumberedTable(1, 1),
         2 to NumberedTable(2, 2),
         3 to NumberedTable(3, 3),
-    )
-    private val order = mapOf(
-        1 to FoodOrder(1, table[1]),
-        2 to FoodOrder(2, table[1]),
-        3 to FoodOrder(3, table[2]),
-    )
-    private val detail = mapOf(
-        1 to OrderDetail(1, order[1]!!, food[1]!!, 1, false),
-        2 to OrderDetail(2, order[1]!!, food[2]!!, 1, false),
-        3 to OrderDetail(3, order[2]!!, food[3]!!, 1, true),
-        4 to OrderDetail(4, order[2]!!, food[4]!!, 1, false),
-        5 to OrderDetail(5, order[2]!!, food[5]!!, 1, true),
-        6 to OrderDetail(6, order[3]!!, food[6]!!, 1, true),
-        7 to OrderDetail(7, order[3]!!, food[7]!!, 1, true),
-        8 to OrderDetail(8, order[3]!!, food[8]!!, 1, true),
-        9 to OrderDetail(9, order[3]!!, food[9]!!, 1, true),
     )
 }

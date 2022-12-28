@@ -22,6 +22,7 @@ import com.example.aairastation.core.ui_util.BottomNavItems
 import com.example.aairastation.core.ui_util.DefaultBottomNavigation
 import com.example.aairastation.core.ui_util.DefaultTopAppBar
 import com.example.aairastation.destinations.EditListScreenDestination
+import com.example.aairastation.destinations.SalesReportScreenDestination
 import com.example.aairastation.destinations.TopSellerScreenDestination
 import com.example.aairastation.ui.theme.AairaStationTheme
 import com.ramcosta.composedestinations.annotation.Destination
@@ -51,7 +52,7 @@ enum class SettingsScreenItems(
         navigator.navigate(TopSellerScreenDestination)
     }),
     SalesReport("Sales Report", R.drawable.calendar, {
-
+        navigator.navigate(SalesReportScreenDestination)
     }),
     EditMenu("Edit Menu", R.drawable.edit, {
         navigator.navigate(EditListScreenDestination)

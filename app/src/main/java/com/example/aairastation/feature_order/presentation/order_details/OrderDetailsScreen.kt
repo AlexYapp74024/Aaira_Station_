@@ -35,6 +35,7 @@ import kotlinx.coroutines.runBlocking
 
 private lateinit var viewModel: OrderDetailViewModel
 private var navigator: DestinationsNavigator = EmptyDestinationsNavigator
+private var isCheckout = false
 
 @Destination
 @Composable
@@ -44,6 +45,7 @@ fun CheckOutScreen(
 ) {
     navigator = navigatorIn
     viewModel = hiltViewModel()
+    isCheckout = true
 
     viewModel.parseFoodQuantity(foodQuantityJson)
 
@@ -269,10 +271,6 @@ private fun OrderDetailsScreenContent(
             }
 
             item {
-                val total = (details.toList().foldRight(0) { detail, acc ->
-                    acc + (detail.food.priceInCents * detail.amount)
-                } / 100.0).formatPriceToRM()
-
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.padding(vertical = 4.dp),
@@ -287,7 +285,7 @@ private fun OrderDetailsScreenContent(
                         modifier = Modifier.weight(1f),
                     )
 
-                    Text(text = total)
+                    Text(text = total(details))
                 }
             }
 
@@ -297,6 +295,26 @@ private fun OrderDetailsScreenContent(
         bottomButtons()
     }
 }
+
+@Composable
+private fun ChangeCalculator(
+    details: List<OrderDetail>,
+    modifier: Modifier = Modifier,
+) {
+    val change by remember {
+        mutableStateOf(0.0)
+    }
+
+    Row(modifier = Modifier) {
+
+    }
+}
+
+private fun total(details: List<OrderDetail>) =
+    (details.toList().foldRight(0) { detail, acc ->
+        acc + (detail.food.priceInCents * detail.amount)
+    } / 100.0).formatPriceToRM()
+
 
 @Composable
 private fun OrderDetailScreenScaffold(
@@ -319,7 +337,7 @@ private fun OrderDetailScreenScaffold(
 
 @Preview
 @Composable
-private fun OrderDetailsScreenPreview1() {
+private fun Preview1() {
     AairaStationTheme {
         OrderDetailScreenScaffold(title = "App bar") {
             OrderDetailsScreenContent(
@@ -343,7 +361,7 @@ private fun OrderDetailsScreenPreview1() {
 
 @Preview
 @Composable
-private fun OrderDetailsScreenPreview2() {
+private fun Preview2() {
     AairaStationTheme {
         OrderDetailScreenScaffold(title = "App bar") {
             OrderDetailsScreenContent(
