@@ -5,6 +5,8 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -12,7 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
@@ -190,6 +195,11 @@ private fun OrderDetailsScreenContent(
 
             item { Spacer(modifier = Modifier.height(16.dp)) }
 
+            if (isCheckout) item {
+                ChangeCalculator(total(details), Modifier.fillMaxWidth())
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+
             item {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     if (showCheckBoxes) {
@@ -285,7 +295,7 @@ private fun OrderDetailsScreenContent(
                         modifier = Modifier.weight(1f),
                     )
 
-                    Text(text = total(details))
+                    Text(text = total(details).formatPriceToRM())
                 }
             }
 
@@ -298,22 +308,48 @@ private fun OrderDetailsScreenContent(
 
 @Composable
 private fun ChangeCalculator(
-    details: List<OrderDetail>,
+    total: Double,
     modifier: Modifier = Modifier,
 ) {
-    val change by remember {
-        mutableStateOf(0.0)
+    var change by remember {
+        mutableStateOf("")
     }
+    val changeAmount = change.toDoubleOrNull() ?: 0.0
+
+    val focusManager = LocalFocusManager.current
 
     Row(modifier = Modifier) {
+        OutlinedTextField(
+            modifier = modifier.weight(1f),
+            value = change,
+            onValueChange = { value ->
+                change = value
+            },
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next,
+                keyboardType = KeyboardType.Number,
+            ),
+            keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+            maxLines = 1,
+            label = { Text(text = "Paid Amount") },
+        )
 
+        Spacer(modifier = Modifier.width(16.dp))
+
+        OutlinedTextField(
+            modifier = modifier.weight(1f),
+            value = ( changeAmount - total).formatTo2dp(),
+            onValueChange = {},
+
+            label = { Text(text = "Change") },
+        )
     }
 }
 
 private fun total(details: List<OrderDetail>) =
-    (details.toList().foldRight(0) { detail, acc ->
+    details.toList().foldRight(0) { detail, acc ->
         acc + (detail.food.priceInCents * detail.amount)
-    } / 100.0).formatPriceToRM()
+    } / 100.0
 
 
 @Composable
@@ -362,6 +398,7 @@ private fun Preview1() {
 @Preview
 @Composable
 private fun Preview2() {
+    isCheckout = true
     AairaStationTheme {
         OrderDetailScreenScaffold(title = "App bar") {
             OrderDetailsScreenContent(
