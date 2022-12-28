@@ -92,4 +92,11 @@ class TimeFunctionsKtTest {
 
         assertThat(testDate.lastDayOfMonth()).isEqualTo(testDate)
     }
+
+    @Test
+    fun `Date Correctly formatted`() {
+        val testDate = LocalDate(2022, Month.DECEMBER, 31)
+
+        assertThat("31/12/22").isEqualTo(testDate.format())
+    }
 }

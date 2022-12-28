@@ -3,8 +3,10 @@ package com.example.aairastation.feature_settings.presentation.top_seller
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.aairastation.core.firstDayOf
+import com.example.aairastation.core.formatRange
 import com.example.aairastation.core.lastDayOf
 import com.example.aairastation.feature_order.domain.use_case.OrderUseCases
+import com.example.aairastation.feature_settings.domain.model.Grouping
 import com.example.aairastation.feature_settings.domain.model.TimeGrouping
 import com.example.aairastation.feature_settings.domain.use_cases.ParseOrderDetails
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,12 +14,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.minus
-import kotlinx.datetime.todayIn
+import kotlinx.datetime.*
 import javax.inject.Inject
-import com.example.aairastation.feature_settings.domain.model.Grouping as Grouping
 
 @HiltViewModel
 class TopSellerViewModel @Inject constructor(
@@ -54,10 +52,15 @@ class TopSellerViewModel @Inject constructor(
 
     fun setTimeGrouping(timeGrouping: TimeGrouping) {
         _timeGrouping.value = timeGrouping
+        shiftInterval.value = 0
     }
 
     fun setGrouping(grouping: Grouping) {
         _grouping.value = grouping
+    }
+
+    val formattedDateRange = combine(fromDate, toDate) { fromDate, toDate ->
+        LocalDate.formatRange(fromDate, toDate)
     }
 
     val items = combine(filtered, grouping) { filtered, grouping ->

@@ -3,16 +3,17 @@ package com.example.aairastation.feature_settings.presentation.top_seller
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -43,12 +44,14 @@ private fun TopSellerScreen() {
     val timeGrouping by viewModel.timeGrouping.collectAsState(initial = TimeGrouping.Daily)
     val grouping by viewModel.grouping.collectAsState(initial = Grouping.Amount)
     val foodList by viewModel.items.collectAsState(initial = listOf())
+    val dateRange by viewModel.formattedDateRange.collectAsState(initial = "")
 
     TopSellerScaffold {
         TopSellerScreenContent(
             timeGrouping = timeGrouping,
             grouping = grouping,
             foodList = foodList,
+            dateRange = dateRange,
         )
     }
 }
@@ -58,6 +61,7 @@ private fun TopSellerScreenContent(
     timeGrouping: TimeGrouping,
     grouping: Grouping,
     foodList: List<Pair<String, Int>>,
+    dateRange: String,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
@@ -95,6 +99,15 @@ private fun TopSellerScreenContent(
             )
         }
 
+        Spacer(modifier = Modifier.height(16.dp))
+
+        DateRangeSpinner(
+            dateRange,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+        )
+
         Divider(modifier = Modifier.fillMaxWidth())
         Spacer(modifier = Modifier.height(32.dp))
 
@@ -103,6 +116,32 @@ private fun TopSellerScreenContent(
             grouping = grouping,
             modifier = Modifier.padding(horizontal = 32.dp)
         )
+    }
+}
+
+@Composable
+private fun DateRangeSpinner(
+    dateRange: String,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        IconButton(onClick = { viewModel.shiftTimeBackward() }) {
+            Icon(imageVector = Icons.Default.KeyboardArrowLeft, contentDescription = "Previous")
+        }
+
+        Text(
+            text = dateRange,
+            modifier = Modifier.weight(1f),
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.h5
+        )
+
+        IconButton(onClick = { viewModel.shiftTimeForward() }) {
+            Icon(imageVector = Icons.Default.KeyboardArrowRight, contentDescription = "Next")
+        }
     }
 }
 
@@ -132,7 +171,6 @@ private fun TopSellerItemList(
     }
 
     Column(modifier = modifier) {
-
         val category = when (grouping) {
             Grouping.Price -> "Total (RM)"
             Grouping.Amount -> "Qty"
@@ -186,7 +224,8 @@ private fun Preview() {
                 foodList = listOf(
                     "Nasi Lemak" to 1000,
                     "Milo" to 400,
-                )
+                ),
+                dateRange = "21/12/20"
             )
         }
     }

@@ -45,3 +45,12 @@ fun LocalDate.lastDayOfMonth() =
 
 fun LocalDate.lastDayOfYear() =
     (this + DatePeriod(years = 1)).firstDayOfYear() - DatePeriod(days = 1)
+
+fun LocalDate.format() = "$dayOfMonth/$monthNumber/${year % 100}"
+
+fun LocalDate.Companion.formatRange(from: LocalDate, to: LocalDate) =
+    if (from == to) {
+        from.format()
+    } else {
+        "${from.format()} - ${to.format()}"
+    }
