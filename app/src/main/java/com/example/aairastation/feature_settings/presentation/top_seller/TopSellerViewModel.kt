@@ -5,10 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.aairastation.core.firstDayOf
 import com.example.aairastation.core.formatRange
 import com.example.aairastation.core.lastDayOf
-import com.example.aairastation.feature_order.domain.use_case.OrderUseCases
 import com.example.aairastation.feature_settings.domain.model.Grouping
 import com.example.aairastation.feature_settings.domain.model.TimeGrouping
-import com.example.aairastation.feature_settings.domain.use_cases.ParseOrderDetails
+import com.example.aairastation.feature_settings.domain.use_cases.SettingsUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,10 +18,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TopSellerViewModel @Inject constructor(
-    useCases: OrderUseCases
+    useCases: SettingsUseCases
 ) : ViewModel() {
 
-    private val details = ParseOrderDetails()(useCases.getAllDetail())
+    private val details = useCases.getAndParseSales()
 
     private var _timeGrouping = MutableStateFlow(TimeGrouping.Daily)
     val timeGrouping = _timeGrouping.asStateFlow()

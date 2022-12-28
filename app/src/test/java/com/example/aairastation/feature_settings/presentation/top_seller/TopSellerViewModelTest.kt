@@ -7,10 +7,10 @@ import com.example.aairastation.data.repository.TestRepository
 import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_order.domain.model.FoodOrder
 import com.example.aairastation.feature_order.domain.model.OrderDetail
-import com.example.aairastation.feature_order.domain.use_case.OrderUseCases
+import com.example.aairastation.feature_settings.domain.model.FoodStatsItem
 import com.example.aairastation.feature_settings.domain.model.Grouping
 import com.example.aairastation.feature_settings.domain.model.TimeGrouping
-import com.example.aairastation.feature_settings.domain.use_cases.ParseOrderDetails
+import com.example.aairastation.feature_settings.domain.use_cases.SettingsUseCases
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
@@ -31,6 +31,7 @@ class TopSellerViewModelTest {
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var repository: TestRepository
+    private lateinit var useCases: SettingsUseCases
     private lateinit var viewModel: TopSellerViewModel
 
     private fun mockDetail(
@@ -43,6 +44,7 @@ class TopSellerViewModelTest {
         ),
         food = food,
         amount = amount,
+        completed = true,
     )
 
     // food1 always wins out in price
@@ -85,8 +87,7 @@ class TopSellerViewModelTest {
             details.onEach { repository.insertOrderDetail(it) }
         }
 
-        val useCases = OrderUseCases.create(repository = repository)
-
+        useCases = SettingsUseCases.create(repository = repository)
         viewModel = TopSellerViewModel(useCases)
     }
 
@@ -100,7 +101,9 @@ class TopSellerViewModelTest {
         val details = viewModel.filtered.first()
         assertThat(details).isNotEmpty()
 
-        val expectedList = ParseOrderDetails()(detail.toList())
+        val expectedList = detail.toList().map {
+            FoodStatsItem.fromDetail(it)
+        }
         assertThat(details).isEqualTo(expectedList)
     }
 
@@ -126,7 +129,7 @@ class TopSellerViewModelTest {
 
     @Test
     fun `Get This week's orders`() = runTest {
-        viewModel.setTimeGrouping( TimeGrouping.Weekly)
+        viewModel.setTimeGrouping(TimeGrouping.Weekly)
 
         assertDetailsContain(
             // 3 orders today
@@ -143,7 +146,7 @@ class TopSellerViewModelTest {
 
     @Test
     fun `Get Last week's orders`() = runTest {
-        viewModel.setTimeGrouping( TimeGrouping.Weekly)
+        viewModel.setTimeGrouping(TimeGrouping.Weekly)
         viewModel.shiftTimeBackward()
 
         assertDetailsContain(
@@ -156,7 +159,7 @@ class TopSellerViewModelTest {
 
     @Test
     fun `Get This month's orders`() = runTest {
-        viewModel.setTimeGrouping( TimeGrouping.Monthly)
+        viewModel.setTimeGrouping(TimeGrouping.Monthly)
 
         assertDetailsContain(
             // 3 orders today
@@ -178,7 +181,7 @@ class TopSellerViewModelTest {
 
     @Test
     fun `Get Last month's orders`() = runTest {
-        viewModel.setTimeGrouping( TimeGrouping.Monthly)
+        viewModel.setTimeGrouping(TimeGrouping.Monthly)
         viewModel.shiftTimeBackward()
 
         assertDetailsContain(
@@ -191,7 +194,7 @@ class TopSellerViewModelTest {
 
     @Test
     fun `Get This year's orders`() = runTest {
-        viewModel.setTimeGrouping( TimeGrouping.Yearly)
+        viewModel.setTimeGrouping(TimeGrouping.Yearly)
 
         assertDetailsContain(
             // 3 orders today
@@ -276,7 +279,7 @@ class TopSellerViewModelTest {
 
     @Test
     fun `Details are grouped by amount`() = runTest {
-        viewModel.setGrouping( Grouping.Amount)
+        viewModel.setGrouping(Grouping.Amount)
         val grouped = viewModel.items.first()
 
         assertThat(grouped).isEqualTo(

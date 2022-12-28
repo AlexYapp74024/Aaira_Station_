@@ -9,8 +9,8 @@ import com.example.aairastation.data.repository.TestRepository
 import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_order.domain.model.FoodOrder
 import com.example.aairastation.feature_order.domain.model.OrderDetail
-import com.example.aairastation.feature_order.domain.use_case.OrderUseCases
 import com.example.aairastation.feature_settings.domain.model.TimeGrouping
+import com.example.aairastation.feature_settings.domain.use_cases.SettingsUseCases
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
@@ -31,47 +31,53 @@ class SalesReportViewModelTest {
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var repository: TestRepository
+    private lateinit var useCases: SettingsUseCases
     private lateinit var viewModel: SalesReportViewModel
 
     private fun mockDetail(
         food: Food,
-        amount: Int,
         creationTime: Instant,
+        completed: Boolean = true
     ) = OrderDetail(
         order = FoodOrder.example.copy(
             createdAt = creationTime.toEpochMilliseconds()
         ),
         food = food,
-        amount = amount,
+        amount = 1,
+        completed = completed,
     )
 
     private val food1 = Food(foodName = "Food 1", priceInCents = 1000)
 
     private val details = listOf(
+        // 2 incomplete orders
+        mockDetail(food1, timeFromNow(daysAgo = 1), completed = false),
+        mockDetail(food1, timeFromNow(daysAgo = 1), completed = false),
+
         // 6 orders this week
-        mockDetail(food1, 1, timeFromNow(daysAgo = 1)),
-        mockDetail(food1, 1, timeFromNow(daysAgo = 1)),
+        mockDetail(food1, timeFromNow(daysAgo = 1)),
+        mockDetail(food1, timeFromNow(daysAgo = 1)),
 
-        mockDetail(food1, 1, timeFromNow(daysAgo = 2)),
-        mockDetail(food1, 1, timeFromNow(daysAgo = 2)),
+        mockDetail(food1, timeFromNow(daysAgo = 2)),
+        mockDetail(food1, timeFromNow(daysAgo = 2)),
 
-        mockDetail(food1, 1, timeFromNow(daysAgo = 4)),
-        mockDetail(food1, 1, timeFromNow(daysAgo = 4)),
+        mockDetail(food1, timeFromNow(daysAgo = 4)),
+        mockDetail(food1, timeFromNow(daysAgo = 4)),
 
         // 3 orders last week
-        mockDetail(food1, 1, timeFromNow(weeksAgo = 1)),
-        mockDetail(food1, 1, timeFromNow(weeksAgo = 2)),
-        mockDetail(food1, 1, timeFromNow(weeksAgo = 3)),
+        mockDetail(food1, timeFromNow(weeksAgo = 1)),
+        mockDetail(food1, timeFromNow(weeksAgo = 2)),
+        mockDetail(food1, timeFromNow(weeksAgo = 3)),
 
         // 3 orders this year
-        mockDetail(food1, 1, timeFromNow(monthsAgo = 1)),
-        mockDetail(food1, 1, timeFromNow(monthsAgo = 2)),
-        mockDetail(food1, 1, timeFromNow(monthsAgo = 4)),
+        mockDetail(food1, timeFromNow(monthsAgo = 1)),
+        mockDetail(food1, timeFromNow(monthsAgo = 2)),
+        mockDetail(food1, timeFromNow(monthsAgo = 4)),
 
         // 3 orders last year
-        mockDetail(food1, 1, timeFromNow(yearsAgo = 1)),
-        mockDetail(food1, 1, timeFromNow(yearsAgo = 2)),
-        mockDetail(food1, 1, timeFromNow(yearsAgo = 4)),
+        mockDetail(food1, timeFromNow(yearsAgo = 1)),
+        mockDetail(food1, timeFromNow(yearsAgo = 2)),
+        mockDetail(food1, timeFromNow(yearsAgo = 4)),
     )
 
     @Before
@@ -82,7 +88,7 @@ class SalesReportViewModelTest {
             details.onEach { repository.insertOrderDetail(it) }
         }
 
-        val useCases = OrderUseCases.create(repository = repository)
+        useCases = SettingsUseCases.create(repository = repository)
 
         viewModel = SalesReportViewModel(useCases)
     }
@@ -110,6 +116,7 @@ class SalesReportViewModelTest {
 
         val entries = viewModel.entries.first()
 
+        assertThat(entries).isNotEmpty()
         entries.forEach {
             assertThat(expectedMap).containsEntry(
                 it.number, it.total
