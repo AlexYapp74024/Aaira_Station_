@@ -1121,10 +1121,32 @@ class LoadFullPreloadedData(
             description = "Sedap"
         ),
 
+        129 to Food(
+            foodId = 129 ,
+            foodName = " Tom Yam Seafood ",
+            category = category[]!!,
+            priceInCents = 1500,
+            available = true,
+            description = "Sedap"
+        ),
 
+        130 to Food(
+            foodId = 129 ,
+            foodName = " Tom Yam Ayam ",
+            category = category[4]!!,
+            priceInCents = 1300,
+            available = true,
+            description = "Sedap"
+        ),
 
-
-
+        131 to Food(
+            foodId = 131 ,
+            foodName = " Sup Tulang ",
+            category = category[4]!!,
+            priceInCents = 1300,
+            available = true,
+            description = "Sedap"
+        ),
 
 
 
