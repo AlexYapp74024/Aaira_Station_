@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
-import com.example.aairastation.core.formatTo2dp
 import com.example.aairastation.core.ui_util.BitmapWithDefault
 import com.example.aairastation.core.ui_util.DefaultTopAppBar
 import com.example.aairastation.core.ui_util.ExposedDropdownCanAddNewItem
@@ -32,7 +31,6 @@ import com.example.aairastation.destinations.OrderMenuListScreenDestination
 import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_menu.domain.model.FoodCategory
 import com.example.aairastation.feature_menu.domain.model.FoodWithImage
-import com.example.aairastation.feature_menu.domain.model.priceInRinggit
 import com.example.aairastation.ui.theme.AairaStationTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -50,7 +48,7 @@ fun AddFoodScreen(
     viewModel = hiltViewModel()
     navigator = navigatorIn
 
-    AddEditFoodScreenContent()
+    AddEditFoodScreenContent("New Item")
 }
 
 @Destination
@@ -64,14 +62,14 @@ fun EditFoodScreen(
 
     viewModel.retrieveItem(foodID)
 
-    AddEditFoodScreenContent()
+    AddEditFoodScreenContent("Edit Item")
 }
 
 @Composable
-fun AddEditFoodScreenContent() {
+fun AddEditFoodScreenContent(title: String) {
     val food by viewModel.item.collectAsState(initial = FoodWithImage(Food()))
     val categories by viewModel.categories.collectAsState(initial = listOf())
-    AddEditFoodScaffold(title = "Edit Item") {
+    AddEditFoodScaffold(title = title) {
         AddEditFood(
             food = food.item,
             bitmap = food.bitmap,
@@ -135,11 +133,9 @@ fun AddEditFood(
 
         OutlinedTextField(
             modifier = defaultModifier,
-            value = food.priceInRinggit.formatTo2dp(),
+            value = viewModel.priceState,
             onValueChange = { value ->
-                value.toIntOrNull()?.let {
-                    viewModel.updateItemState(food.copy(priceInCents = it))
-                }
+                viewModel.priceState = value
             },
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Next,
