@@ -817,6 +817,130 @@ class LoadFullPreloadedData(
             description = "Sedap"
         ),
 
+        96 to Food(
+            foodId = 96 ,
+            foodName = " Nasi Goreng Ayam Crispy",
+            category = category[1]!!,
+            priceInCents = 500 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        97 to Food(
+            foodId = 97 ,
+            foodName = " Nasi Goreng Ikan Masin",
+            category = category[1]!!,
+            priceInCents = 750 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        98 to Food(
+            foodId = 98 ,
+            foodName = " Nasi Goreng Daging",
+            category = category[1]!!,
+            priceInCents = 800 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        99 to Food(
+            foodId = 99 ,
+            foodName = " Nasi Goreng Seafood",
+            category = category[1]!!,
+            priceInCents = 800 ,
+            available = true,
+            description = "Sedap"
+        ),
+
+        100 to Food(
+            foodId = 100 ,
+            foodName = " Nasi Coreng Pataya",
+            category = category[1]!!,
+            priceInCents = 900,
+            available = true,
+            description = "Sedap"
+        ),
+
+        101 to Food(
+            foodId = 101 ,
+            foodName = " Nasi Goreng Cina",
+            category = category[1]!!,
+            priceInCents = 900,
+            available = true,
+            description = "Sedap"
+        ),
+
+        102 to Food(
+            foodId = 102 ,
+            foodName = " Nasi Goreng Dabai",
+            category = category[1]!!,
+            priceInCents = 900,
+            available = true,
+            description = "Sedap"
+        ),
+
+        103 to Food(
+            foodId = 103 ,
+            foodName = " Nasi Goreng Udang",
+            category = category[1]!!,
+            priceInCents = 800,
+            available = true,
+            description = "Sedap"
+        ),
+
+        104 to Food(
+            foodId = 104 ,
+            foodName = " Nasi Goreng Sotong",
+            category = category[1]!!,
+            priceInCents = 700,
+            available = true,
+            description = "Sedap"
+        ),
+
+        105 to Food(
+            foodId = 105 ,
+            foodName = " Nasi Goreng Kerang",
+            category = category[1]!!,
+            priceInCents = 900,
+            available = true,
+            description = "Sedap"
+        ),
+
+        106 to Food(
+            foodId = 106 ,
+            foodName = " Nasi Putih",
+            category = category[4]!!,
+            priceInCents = 200,
+            available = true,
+            description = "Sedap"
+        ),
+
+
+        107 to Food(
+            foodId = 107 ,
+            foodName = " Telur Mata",
+            category = category[4]!!,
+            priceInCents = 200,
+            available = true,
+            description = "Sedap"
+        ),
+
+
+        108 to Food(
+            foodId = 108 ,
+            foodName = " Telur Dadar",
+            category = category[4]!!,
+            priceInCents = 300,
+            available = true,
+            description = "Sedap"
+        ),
+
+
+
+
+
+
 
         )
     private val table = mapOf(
