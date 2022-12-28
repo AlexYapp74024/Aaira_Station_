@@ -2,14 +2,13 @@ package com.example.aairastation.feature_settings.presentation.top_seller
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.aairastation.MainCoroutineRule
-import com.example.aairastation.core.firstDayOfWeek
-import com.example.aairastation.core.lastDayOfWeek
 import com.example.aairastation.core.timeFromNow
 import com.example.aairastation.data.repository.TestRepository
 import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_order.domain.model.FoodOrder
 import com.example.aairastation.feature_order.domain.model.OrderDetail
 import com.example.aairastation.feature_order.domain.use_case.OrderUseCases
+import com.example.aairastation.feature_settings.domain.model.TimeGrouping
 import com.example.aairastation.feature_settings.domain.use_cases.ParseOrderDetails
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -94,39 +93,6 @@ class TopSellerViewModelTest {
     fun `Default is sort by day`() {
         val filter = viewModel.grouping.value
         assertThat(filter).isEqualTo(TimeGrouping.Daily)
-    }
-
-    private val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
-
-    @Test
-    fun `Default is today`() = runTest {
-        val fromDate = viewModel.fromDate.first()
-        assertThat(fromDate).isEqualTo(today)
-
-        val toDate = viewModel.toDate.first()
-        assertThat(toDate).isEqualTo(today)
-    }
-
-    @Test
-    fun `Correct date for yesterday`() = runTest {
-        viewModel.shiftTimeBackward()
-
-        val fromDate = viewModel.fromDate.first()
-        assertThat(fromDate).isEqualTo(today - DatePeriod(days = 1))
-
-        val toDate = viewModel.toDate.first()
-        assertThat(toDate).isEqualTo(today - DatePeriod(days = 1))
-    }
-
-    @Test
-    fun `Correct date for week`() = runTest {
-        viewModel.setGrouping(TimeGrouping.Weekly)
-
-        val fromDate = viewModel.fromDate.first()
-        val toDate = viewModel.toDate.first()
-
-        assertThat(fromDate).isEqualTo(today.firstDayOfWeek())
-        assertThat(toDate).isEqualTo(today.lastDayOfWeek())
     }
 
     private suspend fun assertDetailsContain(vararg detail: OrderDetail) {

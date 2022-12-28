@@ -61,7 +61,7 @@ enum class SettingsScreenItems(
 }
 
 @Composable
-fun SettingsScreenContent() {
+private fun SettingsScreenContent() {
     Column(modifier = Modifier.padding(16.dp)) {
 
         SettingsScreenItems.values().forEach { it ->
@@ -96,7 +96,7 @@ fun SettingsScreenContent() {
 }
 
 @Composable
-fun SettingsScaffold(
+private fun SettingsScaffold(
     modifier: Modifier = Modifier,
     content: @Composable (PaddingValues) -> Unit,
 ) {
@@ -117,7 +117,7 @@ fun SettingsScaffold(
 
 @Preview(showBackground = true)
 @Composable
-fun SettingsScreenPreview() {
+private fun SettingsScreenPreview() {
     AairaStationTheme {
         SettingsScaffold {
             SettingsScreenContent()

@@ -13,17 +13,13 @@ import androidx.compose.foundation.lazy.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.aairastation.core.ui_util.BitmapWithDefault
-import com.example.aairastation.core.ui_util.BottomNavItems
-import com.example.aairastation.core.ui_util.DefaultBottomNavigation
-import com.example.aairastation.core.ui_util.DefaultTopAppBar
+import com.example.aairastation.core.ui_util.*
 import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_menu.domain.model.FoodCategory
 import com.example.aairastation.feature_menu.domain.model.formattedPrice
@@ -33,7 +29,6 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 private lateinit var viewModel: OrderMenuListViewModel
@@ -68,40 +63,12 @@ private fun OrderMenuListContent(
 ) {
     Column(modifier = modifier.fillMaxSize()) {
         val columnState = rememberLazyListState()
-        val coroutineScope = rememberCoroutineScope()
 
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            modifier = Modifier.padding(vertical = 8.dp)
-        ) {
-            item { Spacer(modifier = Modifier.width(8.dp)) }
-
-            itemsIndexed(foodList.keys.toList()) { index, category ->
-                val isCurrentCategory by remember {
-                    derivedStateOf { columnState.firstVisibleItemIndex == index }
-                }
-
-                val textColor by animateColorAsState(
-                    targetValue = if (isCurrentCategory)
-                        MaterialTheme.colors.primary
-                    else
-                        Color.Black
-                )
-
-                Text(
-                    text = category.categoryName,
-                    style = MaterialTheme.typography.h5,
-                    color = textColor,
-                    modifier = Modifier.clickable {
-                        coroutineScope.launch {
-                            columnState.animateScrollToItem(index)
-                        }
-                    }
-                )
-            }
-
-            item { Spacer(modifier = Modifier.width(8.dp)) }
-        }
+        TopBarSelector(
+            items = foodList.keys.toList(),
+            itemToString = { it.categoryName },
+            lazyListState = columnState,
+        )
 
         LazyColumn(
             state = columnState,
