@@ -710,7 +710,7 @@ class LoadFullPreloadedData(
         ),
 
         84 to Food(
-            foodId 84 82 ,
+            foodId =84 ,
             foodName = " Nasi Putih Daging Masak Halia",
             category = category[1]!!,
             priceInCents = 900 ,
