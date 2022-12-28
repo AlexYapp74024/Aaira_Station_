@@ -936,6 +936,192 @@ class LoadFullPreloadedData(
             description = "Sedap"
         ),
 
+        109 to Food(
+            foodId = 109 ,
+            foodName = " Mee Goreng Ayam",
+            category = category[2]!!,
+            priceInCents = 700,
+            available = true,
+            description = "Sedap"
+        ),
+
+        110 to Food(
+            foodId = 110 ,
+            foodName = " Mee Goreng Daging",
+            category = category[2]!!,
+            priceInCents = 800,
+            available = true,
+            description = "Sedap"
+        ),
+
+        111 to Food(
+            foodId = 111 ,
+            foodName = " Moo Gorong Seafood",
+            category = category[2]!!,
+            priceInCents = 900,
+            available = true,
+            description = "Sedap"
+        ),
+
+        112 to Food(
+            foodId = 112 ,
+            foodName = " Mee Sup Tulang",
+            category = category[2]!!,
+            priceInCents = 800,
+            available = true,
+            description = "Sedap"
+        ),
+
+        113 to Food(
+            foodId = 113 ,
+            foodName = " Meg Hoon Goreng Ayam",
+            category = category[2]!!,
+            priceInCents = 700,
+            available = true,
+            description = "Sedap"
+        ),
+
+        114 to Food(
+            foodId = 114 ,
+            foodName = " Mee Hoon Goreng Daging",
+            category = category[2]!!,
+            priceInCents = 800,
+            available = true,
+            description = "Sedap"
+        ),
+
+        115 to Food(
+            foodId = 115 ,
+            foodName = " Mee Hoon Goreng Seafood",
+            category = category[2]!!,
+            priceInCents = 900,
+            available = true,
+            description = "Sedap"
+        ),
+
+        116 to Food(
+            foodId = 116 ,
+            foodName = " Mee Hoon Sup",
+            category = category[2]!!,
+            priceInCents = 800,
+            available = true,
+            description = "Sedap"
+        ),
+
+        117 to Food(
+            foodId = 117 ,
+            foodName = " Kuey Teow Goreng Ayam",
+            category = category[2]!!,
+            priceInCents = 700,
+            available = true,
+            description = "Sedap"
+        ),
+
+        118 to Food(
+            foodId = 118 ,
+            foodName = " Kuey Teow Goreng Daging",
+            category = category[2]!!,
+            priceInCents = 800,
+            available = true,
+            description = "Sedap"
+        ),
+
+        119 to Food(
+            foodId = 119 ,
+            foodName = " Kuey Teow Goreng Seafood",
+            category = category[2]!!,
+            priceInCents = 900,
+            available = true,
+            description = "Sedap"
+        ),
+
+        120 to Food(
+            foodId = 120 ,
+            foodName = " Kuey Teow Sup",
+            category = category[2]!!,
+            priceInCents = 800,
+            available = true,
+            description = "Sedap"
+        ),
+
+
+        121 to Food(
+            foodId = 121 ,
+            foodName = " Mee Udang Galah",
+            category = category[2]!!,
+            priceInCents = 900,
+            available = true,
+            description = "Sedap"
+        ),
+
+
+        122 to Food(
+            foodId = 122 ,
+            foodName = " Char Kuey Teow Ayam",
+            category = category[2]!!,
+            priceInCents = 700,
+            available = true,
+            description = "Sedap"
+        ),
+
+
+        123 to Food(
+            foodId = 123 ,
+            foodName = " Char Kuey Teow Daging",
+            category = category[2]!!,
+            priceInCents = 800,
+            available = true,
+            description = "Sedap"
+        ),
+
+
+        124 to Food(
+            foodId = 124 ,
+            foodName = " Char Kuey Teow Sotong",
+            category = category[2]!!,
+            priceInCents = 800,
+            available = true,
+            description = "Sedap"
+        ),
+
+
+        125 to Food(
+            foodId = 125 ,
+            foodName = " Char Kuey Teow Udang",
+            category = category[2]!!,
+            priceInCents = 800,
+            available = true,
+            description = "Sedap"
+        ),
+
+        126 to Food(
+            foodId = 125 ,
+            foodName = " Char Kuey Teow Kerang",
+            category = category[2]!!,
+            priceInCents = 800,
+            available = true,
+            description = "Sedap"
+        ),
+
+        127 to Food(
+            foodId = 125 ,
+            foodName = " Char Kuey Teow Seafood ",
+            category = category[2]!!,
+            priceInCents = 950,
+            available = true,
+            description = "Sedap"
+        ),
+
+        128 to Food(
+            foodId = 125 ,
+            foodName = " Char Kuey Teow Special ",
+            category = category[2]!!,
+            priceInCents = 1050,
+            available = true,
+            description = "Sedap"
+        ),
+
+
 
 
 
