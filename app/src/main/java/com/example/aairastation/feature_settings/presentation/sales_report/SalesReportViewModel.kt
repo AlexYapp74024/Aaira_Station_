@@ -45,7 +45,11 @@ class SalesReportViewModel @Inject constructor(
             val fromDate = items.first().creationTime.firstDayOf(timeGrouping.dateTimeUnit)
             val toDate = items.first().creationTime.lastDayOf(timeGrouping.dateTimeUnit)
 
-            val dateRange = "${formatTime(fromDate)}-${formatTime(toDate)}"
+            val dateRange = when (timeGrouping) {
+                TimeGrouping.Daily -> formatTime(fromDate)
+                else -> "${formatTime(fromDate)} - ${formatTime(toDate)}"
+            }
+            
             Entry(number, dateRange, total)
         }
     }

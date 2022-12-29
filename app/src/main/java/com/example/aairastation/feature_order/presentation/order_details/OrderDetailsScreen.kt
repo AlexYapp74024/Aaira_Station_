@@ -81,6 +81,8 @@ fun CompletedOrderDetailScreen(
     viewModel = hiltViewModel()
     viewModel.retrieveOrders(orderID)
 
+    isCheckout = false
+
     OrderDetailsScreen(title = "Order Detail")
 }
 
@@ -93,6 +95,8 @@ fun CurrentOrderDetailScreen(
     navigator = navigatorIn
     viewModel = hiltViewModel()
     viewModel.retrieveOrders(orderID)
+
+    isCheckout = false
 
     OrderDetailsScreen(
         title = "Order Detail",
@@ -253,7 +257,9 @@ private fun OrderDetailsScreenContent(
                 ) {
                     if (showCheckBoxes) {
                         CheckBoxWithoutMargin(checked = detail.completed,
-                            onCheckedChange = {},
+                            onCheckedChange = {
+                                viewModel.toggleDetailCompletion(detail)
+                            },
                             modifier = modifier.onSizeChanged {
                                 checkBoxSizePx = it
                             })
@@ -338,7 +344,7 @@ private fun ChangeCalculator(
 
         OutlinedTextField(
             modifier = modifier.weight(1f),
-            value = ( changeAmount - total).formatTo2dp(),
+            value = (changeAmount - total).formatTo2dp(),
             onValueChange = {},
 
             label = { Text(text = "Change") },

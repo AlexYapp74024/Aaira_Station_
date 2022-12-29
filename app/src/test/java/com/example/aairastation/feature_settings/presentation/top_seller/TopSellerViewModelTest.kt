@@ -99,11 +99,12 @@ class TopSellerViewModelTest {
 
     private suspend fun assertDetailsContain(vararg detail: OrderDetail) {
         val details = viewModel.filtered.first()
-        assertThat(details).isNotEmpty()
 
         val expectedList = detail.toList().map {
             FoodStatsItem.fromDetail(it)
         }
+
+        assertThat(details).isNotEmpty()
         assertThat(details).isEqualTo(expectedList)
     }
 

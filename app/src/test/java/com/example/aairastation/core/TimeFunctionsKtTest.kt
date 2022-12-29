@@ -95,7 +95,7 @@ class TimeFunctionsKtTest {
     @Test
     fun `Difference by days calculated correctly in same day`() {
         val date1 = Clock.System.todayIn(TimeZone.currentSystemDefault())
-        val date2 = timeFromNow().toLocalDateTime(TimeZone.currentSystemDefault()).date
+        val date2 = timeFromSunday().toLocalDateTime(TimeZone.currentSystemDefault()).date
         val difference = date1.minus(date2, DateTimeUnit.DAY)
 
         assertThat(difference).isEqualTo(0)
@@ -132,7 +132,7 @@ class TimeFunctionsKtTest {
     fun `Difference by years calculated correctly`() {
         val date1 = LocalDate(2022, 12, 31)
         val date2 = LocalDate(2019, 11, 30)
-        val difference = date1.minus(date2, DateTimeUnit.WEEK)
+        val difference = date1.minus(date2, DateTimeUnit.YEAR)
 
         assertThat(difference).isEqualTo(3)
     }

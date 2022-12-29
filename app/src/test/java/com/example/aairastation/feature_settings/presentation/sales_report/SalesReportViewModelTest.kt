@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.aairastation.MainCoroutineRule
 import com.example.aairastation.core.lastDayOf
 import com.example.aairastation.core.minus
-import com.example.aairastation.core.timeFromNow
+import com.example.aairastation.core.timeFromSunday
 import com.example.aairastation.data.repository.TestRepository
 import com.example.aairastation.feature_menu.domain.model.Food
 import com.example.aairastation.feature_order.domain.model.FoodOrder
@@ -34,12 +34,15 @@ class SalesReportViewModelTest {
     private lateinit var useCases: SettingsUseCases
     private lateinit var viewModel: SalesReportViewModel
 
+    private var id = 1L
+
     private fun mockDetail(
         food: Food,
         creationTime: Instant,
         completed: Boolean = true
     ) = OrderDetail(
         order = FoodOrder.example.copy(
+            orderId = id++,
             createdAt = creationTime.toEpochMilliseconds()
         ),
         food = food,
@@ -51,33 +54,33 @@ class SalesReportViewModelTest {
 
     private val details = listOf(
         // 2 incomplete orders
-        mockDetail(food1, timeFromNow(daysAgo = 1), completed = false),
-        mockDetail(food1, timeFromNow(daysAgo = 1), completed = false),
+        mockDetail(food1, timeFromSunday(daysAgo = 1), completed = false),
+        mockDetail(food1, timeFromSunday(daysAgo = 1), completed = false),
 
         // 6 orders this week
-        mockDetail(food1, timeFromNow(daysAgo = 1)),
-        mockDetail(food1, timeFromNow(daysAgo = 1)),
+        mockDetail(food1, timeFromSunday(daysAgo = 1)),
+        mockDetail(food1, timeFromSunday(daysAgo = 1)),
 
-        mockDetail(food1, timeFromNow(daysAgo = 2)),
-        mockDetail(food1, timeFromNow(daysAgo = 2)),
+        mockDetail(food1, timeFromSunday(daysAgo = 2)),
+        mockDetail(food1, timeFromSunday(daysAgo = 2)),
 
-        mockDetail(food1, timeFromNow(daysAgo = 4)),
-        mockDetail(food1, timeFromNow(daysAgo = 4)),
+        mockDetail(food1, timeFromSunday(daysAgo = 4)),
+        mockDetail(food1, timeFromSunday(daysAgo = 4)),
 
         // 3 orders last week
-        mockDetail(food1, timeFromNow(weeksAgo = 1)),
-        mockDetail(food1, timeFromNow(weeksAgo = 2)),
-        mockDetail(food1, timeFromNow(weeksAgo = 3)),
+        mockDetail(food1, timeFromSunday(weeksAgo = 1)),
+        mockDetail(food1, timeFromSunday(weeksAgo = 2)),
+        mockDetail(food1, timeFromSunday(weeksAgo = 3)),
 
         // 3 orders this year
-        mockDetail(food1, timeFromNow(monthsAgo = 1)),
-        mockDetail(food1, timeFromNow(monthsAgo = 2)),
-        mockDetail(food1, timeFromNow(monthsAgo = 4)),
+        mockDetail(food1, timeFromSunday(monthsAgo = 1)),
+        mockDetail(food1, timeFromSunday(monthsAgo = 2)),
+        mockDetail(food1, timeFromSunday(monthsAgo = 4)),
 
         // 3 orders last year
-        mockDetail(food1, timeFromNow(yearsAgo = 1)),
-        mockDetail(food1, timeFromNow(yearsAgo = 2)),
-        mockDetail(food1, timeFromNow(yearsAgo = 4)),
+        mockDetail(food1, timeFromSunday(yearsAgo = 1)),
+        mockDetail(food1, timeFromSunday(yearsAgo = 2)),
+        mockDetail(food1, timeFromSunday(yearsAgo = 4)),
     )
 
     @Before
@@ -128,24 +131,24 @@ class SalesReportViewModelTest {
     fun `sales summed by days`() = runTest {
         assertViewModelContainsEntries(
             // 6 orders this week
-            timeFromNow(daysAgo = 1) to 2,
-            timeFromNow(daysAgo = 2) to 2,
-            timeFromNow(daysAgo = 4) to 2,
+            timeFromSunday(daysAgo = 1) to 2,
+            timeFromSunday(daysAgo = 2) to 2,
+            timeFromSunday(daysAgo = 4) to 2,
 
             // 3 orders this month
-            timeFromNow(weeksAgo = 1) to 1,
-            timeFromNow(weeksAgo = 2) to 1,
-            timeFromNow(weeksAgo = 3) to 1,
+            timeFromSunday(weeksAgo = 1) to 1,
+            timeFromSunday(weeksAgo = 2) to 1,
+            timeFromSunday(weeksAgo = 3) to 1,
 
             // 3 orders this year
-            timeFromNow(monthsAgo = 1) to 1,
-            timeFromNow(monthsAgo = 2) to 1,
-            timeFromNow(monthsAgo = 4) to 1,
+            timeFromSunday(monthsAgo = 1) to 1,
+            timeFromSunday(monthsAgo = 2) to 1,
+            timeFromSunday(monthsAgo = 4) to 1,
 
             // 3 orders last years
-            timeFromNow(yearsAgo = 1) to 1,
-            timeFromNow(yearsAgo = 2) to 1,
-            timeFromNow(yearsAgo = 4) to 1,
+            timeFromSunday(yearsAgo = 1) to 1,
+            timeFromSunday(yearsAgo = 2) to 1,
+            timeFromSunday(yearsAgo = 4) to 1,
         )
     }
 
@@ -154,22 +157,22 @@ class SalesReportViewModelTest {
         viewModel.setTimeGrouping(TimeGrouping.Weekly)
         assertViewModelContainsEntries(
             // 6 orders this weeks
-            timeFromNow() to 6,
+            timeFromSunday() to 6,
 
             // 3 orders this month
-            timeFromNow(weeksAgo = 1) to 1,
-            timeFromNow(weeksAgo = 2) to 1,
-            timeFromNow(weeksAgo = 3) to 1,
+            timeFromSunday(weeksAgo = 1) to 1,
+            timeFromSunday(weeksAgo = 2) to 1,
+            timeFromSunday(weeksAgo = 3) to 1,
 
             // 3 orders this year
-            timeFromNow(monthsAgo = 1) to 1,
-            timeFromNow(monthsAgo = 2) to 1,
-            timeFromNow(monthsAgo = 4) to 1,
+            timeFromSunday(monthsAgo = 1) to 1,
+            timeFromSunday(monthsAgo = 2) to 1,
+            timeFromSunday(monthsAgo = 4) to 1,
 
             // 3 orders last years
-            timeFromNow(yearsAgo = 1) to 1,
-            timeFromNow(yearsAgo = 2) to 1,
-            timeFromNow(yearsAgo = 4) to 1,
+            timeFromSunday(yearsAgo = 1) to 1,
+            timeFromSunday(yearsAgo = 2) to 1,
+            timeFromSunday(yearsAgo = 4) to 1,
         )
     }
 
@@ -178,17 +181,17 @@ class SalesReportViewModelTest {
         viewModel.setTimeGrouping(TimeGrouping.Monthly)
         assertViewModelContainsEntries(
             // 6 orders this month
-            timeFromNow() to 9,
+            timeFromSunday() to 9,
 
             // 3 orders this year
-            timeFromNow(monthsAgo = 1) to 1,
-            timeFromNow(monthsAgo = 2) to 1,
-            timeFromNow(monthsAgo = 4) to 1,
+            timeFromSunday(monthsAgo = 1) to 1,
+            timeFromSunday(monthsAgo = 2) to 1,
+            timeFromSunday(monthsAgo = 4) to 1,
 
             // 3 orders last years
-            timeFromNow(yearsAgo = 1) to 1,
-            timeFromNow(yearsAgo = 2) to 1,
-            timeFromNow(yearsAgo = 4) to 1,
+            timeFromSunday(yearsAgo = 1) to 1,
+            timeFromSunday(yearsAgo = 2) to 1,
+            timeFromSunday(yearsAgo = 4) to 1,
         )
     }
 
@@ -197,12 +200,12 @@ class SalesReportViewModelTest {
         viewModel.setTimeGrouping(TimeGrouping.Yearly)
         assertViewModelContainsEntries(
             // 12 orders this year
-            timeFromNow() to 12,
+            timeFromSunday() to 12,
 
             // 3 orders last year
-            timeFromNow(yearsAgo = 1) to 1,
-            timeFromNow(yearsAgo = 2) to 1,
-            timeFromNow(yearsAgo = 4) to 1,
+            timeFromSunday(yearsAgo = 1) to 1,
+            timeFromSunday(yearsAgo = 2) to 1,
+            timeFromSunday(yearsAgo = 4) to 1,
         )
     }
 }

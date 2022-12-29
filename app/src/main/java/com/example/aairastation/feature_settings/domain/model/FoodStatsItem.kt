@@ -7,6 +7,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
 data class FoodStatsItem(
+    val foodId: Long,
     val foodName: String,
     val price: Int,
     val amount: Int,
@@ -14,6 +15,7 @@ data class FoodStatsItem(
 ) {
     companion object {
         fun fromDetail(detail: OrderDetail) = FoodStatsItem(
+            foodId = detail.food.foodId,
             foodName = detail.food.foodName,
             price = detail.food.priceInCents,
             amount = detail.amount,

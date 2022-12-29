@@ -21,8 +21,9 @@ class LoadFullPreloadedData(
             }
 
         if (repository.getAllTable().first().isEmpty())
-            table.forEach { (_, item) ->
-                repository.insertTable(item)
+            repeat(10) { id ->
+                val idL = id.toLong()
+                repository.insertTable(NumberedTable(idL, idL))
             }
     }
 
@@ -1135,12 +1136,5 @@ class LoadFullPreloadedData(
             available = true,
             description = "Sedap"
         ),
-
-
-        )
-    private val table = mapOf(
-        1 to NumberedTable(1, 1),
-        2 to NumberedTable(2, 2),
-        3 to NumberedTable(3, 3),
     )
 }

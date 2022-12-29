@@ -11,7 +11,7 @@ import javax.inject.Inject
 class SettingScreenViewModel @Inject constructor(
     private val useCases: SettingsUseCases
 ) : ViewModel() {
-    fun injectPreloadedData() = viewModelScope.launch{
+    fun injectPreloadedData() = viewModelScope.launch {
         useCases.loadFullPreloadedData()
     }
 }

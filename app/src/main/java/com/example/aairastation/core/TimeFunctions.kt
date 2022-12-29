@@ -17,6 +17,22 @@ fun timeFromNow(
         .minus(yearsAgo, DateTimeUnit.YEAR, systemTZ)
 }
 
+fun timeFromSunday(
+    daysAgo: Int = 0,
+    weeksAgo: Int = 0,
+    monthsAgo: Int = 0,
+    yearsAgo: Int = 0,
+): Instant {
+    val systemTZ = TimeZone.currentSystemDefault()
+    val sunday = Clock.System.todayIn(systemTZ).lastDayOfWeek()
+    val instant = sunday.atStartOfDayIn(systemTZ)
+    return instant
+        .minus(daysAgo, DateTimeUnit.DAY, systemTZ)
+        .minus(weeksAgo, DateTimeUnit.WEEK, systemTZ)
+        .minus(monthsAgo, DateTimeUnit.MONTH, systemTZ)
+        .minus(yearsAgo, DateTimeUnit.YEAR, systemTZ)
+}
+
 @Suppress("KotlinConstantConditions")
 fun LocalDate.firstDayOf(dateTimeUnit: DateTimeUnit.DateBased) = when (dateTimeUnit) {
     DateTimeUnit.DAY -> this
@@ -66,7 +82,7 @@ fun LocalDate.minus(other: LocalDate, unit: DateTimeUnit.DateBased): Int {
             difference.months + difference.years * 12
         }
         DateTimeUnit.YEAR -> {
-            (this- other).years * 12
+            (this - other).years
         }
         else -> throw UnsupportedOperationException("Date Time Unit not supported")
     }
