@@ -27,5 +27,6 @@ This app is not in Google play, so other methods must be used to circumvent it
     2. Enable *USB debugging* on your phone via developer settings
     3. When your phone shows up in the top of the screen, click on the play button to start
        debugging
-       ![](README Images/Phone%20on%20Debug.png)
+
+   ![](README%20Images/Phone%20on%20Debug.png)
 
