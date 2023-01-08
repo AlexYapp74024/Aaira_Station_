@@ -23,12 +23,18 @@ class OrderMenuListViewModel @Inject constructor(
     private val useCases: MenuUseCases
 ) : ViewModel() {
 
+    /**
+     * Stores the current list of items, initially empty
+     */
     private val items = MutableStateFlow<Map<Food, Flow<Bitmap?>>>(mapOf())
 
     init {
         refreshItem()
     }
 
+    /**
+     * Retrieves item from the database
+     */
     fun refreshItem() = viewModelScope.launch {
         useCases.getAllFood
             .withImages(scope = viewModelScope)
@@ -37,6 +43,9 @@ class OrderMenuListViewModel @Inject constructor(
             }
     }
 
+    /**
+     * Sort food items by category
+     */
     val itemsAndCategories: Flow<Map<FoodCategory, Map<Food, Flow<Bitmap?>>>> =
         items.map { items ->
             items.toList().groupBy { (food, _) ->
@@ -49,6 +58,9 @@ class OrderMenuListViewModel @Inject constructor(
             }
         }
 
+    /**
+     * A hash map used to remember the user's order
+     */
     private val _foodQuantity = MutableStateFlow<Map<Food, Int>>(mapOf())
     val foodQuantity = _foodQuantity.asStateFlow()
 
@@ -69,11 +81,14 @@ class OrderMenuListViewModel @Inject constructor(
         mutableMap.remove(food)
         _foodQuantity.value = mutableMap
     }
+    
+    private val jsonFormatter = Json { allowStructuredMapKeys = true }
 
-    private val format = Json { allowStructuredMapKeys = true }
-
+    /**
+     * Encodes the food order into a json representation before sending it to the check out screen
+     */
     fun submitOrder(navigator: DestinationsNavigator) {
-        val json = format.encodeToString(foodQuantity.value)
+        val json = jsonFormatter.encodeToString(foodQuantity.value)
         navigator.navigate(CheckOutScreenDestination(json))
     }
 }

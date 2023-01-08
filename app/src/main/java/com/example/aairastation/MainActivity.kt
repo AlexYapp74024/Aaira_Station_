@@ -11,19 +11,22 @@ import com.example.aairastation.ui.theme.AairaStationTheme
 import com.ramcosta.composedestinations.DestinationsNavHost
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * This is the App's entry point, i.e. everything starts here
+ */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             AairaStationTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
+                    // Navigate to the Root Screen, which is the OrderListScreen
+                    DestinationsNavHost(NavGraphs.root)
                 }
-                DestinationsNavHost(NavGraphs.root)
             }
         }
     }

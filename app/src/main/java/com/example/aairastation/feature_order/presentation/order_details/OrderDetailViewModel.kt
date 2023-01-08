@@ -19,18 +19,33 @@ class OrderDetailViewModel @Inject constructor(
     private val useCases: OrderUseCases
 ) : ViewModel() {
 
+    /**
+     * The current order
+     */
     private val _order = MutableStateFlow<FoodOrder?>(null)
     val order = _order.asStateFlow()
 
+    /**
+     * Tag orderDetails by their id for easy access
+     */
     private val _detailsMap = MutableStateFlow<Map<Long, OrderDetail>>(mapOf())
     val details = _detailsMap.map { it.map { (_, detail) -> detail } }
         .stateIn(viewModelScope, SharingStarted.Lazily, listOf())
 
+    /**
+     * The current table
+     */
     private var _table = MutableStateFlow(NumberedTable.example)
     val table = _table.asStateFlow()
 
+    /**
+     * The list of tables that can be selected from
+     */
     val tables = useCases.getAllTable().stateIn(viewModelScope, SharingStarted.Lazily, listOf())
 
+    /**
+     * Retrieve data from database
+     */
     fun retrieveOrders(orderId: Long) = viewModelScope.launch {
         useCases.getAllDetail().collect { details ->
             details.filter { it.order.orderId == orderId }
@@ -52,6 +67,7 @@ class OrderDetailViewModel @Inject constructor(
         _order.value = order
     }
 
+
     fun updateDetail(detail: OrderDetail) = viewModelScope.launch {
         val mutableMap = _detailsMap.value.toMutableMap()
         mutableMap[detail.detailId] = detail
@@ -59,15 +75,28 @@ class OrderDetailViewModel @Inject constructor(
         _detailsMap.value = mutableMap
     }
 
+    /**
+     * Toggle if the food item is completed
+     */
     fun toggleDetailCompletion(detail: OrderDetail) = viewModelScope.launch {
         updateDetail(detail.copy(completed = !detail.completed))
     }
 
+    /**
+     * Update the order in the database
+     */
     fun saveOrder() = viewModelScope.launch {
+        /**
+         * When an item is inserted, it will return the its when inserted into the database
+         */
         val newID = _order.value?.let { useCases.insertOrder(it) }
         this@OrderDetailViewModel.details.value.forEach { detail ->
             useCases.insertDetail(detail)
         }
+
+        /**
+         * Update the order state from new data from the database
+         */
         newID?.let { retrieveOrders(it) }
     }
 
@@ -87,10 +116,13 @@ class OrderDetailViewModel @Inject constructor(
         _table.value = table
     }
 
-    private val format = Json { allowStructuredMapKeys = true }
+    private val jsonFormatter = Json { allowStructuredMapKeys = true }
 
+    /**
+     * Parse Json data from OrderMenuListScreen
+     */
     fun parseFoodQuantity(foodQuantityJson: String) = viewModelScope.launch {
-        val map = format.decodeFromString<Map<Food, Int>>(foodQuantityJson)
+        val map = jsonFormatter.decodeFromString<Map<Food, Int>>(foodQuantityJson)
         _detailsMap.value = map.map { (food, amount) ->
             OrderDetail(order = FoodOrder.example, food = food, amount = amount)
         }.mapIndexed { index, detail ->
@@ -103,6 +135,9 @@ class OrderDetailViewModel @Inject constructor(
         val newOrder = useCases.getOrder(newID).first()!!
 
         details.value.map {
+            /**
+             * Associate each details with the new order inserted since the ID might be different
+             */
             it.copy(order = newOrder)
         }.onEach {
             useCases.insertDetail(it)

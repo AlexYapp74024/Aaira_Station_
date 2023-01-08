@@ -41,6 +41,9 @@ fun TopSellerScreen(navigatorIn: DestinationsNavigator) {
 
 @Composable
 private fun TopSellerScreen() {
+    /**
+     * Extract data from viewModel
+     */
     val timeGrouping by viewModel.timeGrouping.collectAsState(initial = TimeGrouping.Daily)
     val grouping by viewModel.grouping.collectAsState(initial = Grouping.Amount)
     val foodList by viewModel.items.collectAsState(initial = listOf())
@@ -65,6 +68,10 @@ private fun TopSellerScreenContent(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
+
+        /**
+         * Let's user group by day, week, month or year
+         */
         LazyRowSelector(
             items = TimeGrouping.values().toList(),
             value = timeGrouping,
@@ -77,6 +84,9 @@ private fun TopSellerScreenContent(
             }
         )
 
+        /**
+         * Let's user group by quantity or revenue
+         */
         Row(
             modifier = Modifier.padding(start = 16.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -101,6 +111,9 @@ private fun TopSellerScreenContent(
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        /**
+         * Let's use change the date range
+         */
         DateRangeSpinner(
             dateRange,
             modifier = Modifier
@@ -111,6 +124,9 @@ private fun TopSellerScreenContent(
         Divider(modifier = Modifier.fillMaxWidth())
         Spacer(modifier = Modifier.height(32.dp))
 
+        /**
+         * The item list itself
+         */
         TopSellerItemList(
             foodList = foodList,
             grouping = grouping,
@@ -151,6 +167,9 @@ private fun TopSellerItemList(
     grouping: Grouping,
     modifier: Modifier = Modifier,
 ) {
+    /**
+     * An internal function to display each entry
+     */
     @Composable
     fun RowItem(
         item1: String,
@@ -170,6 +189,9 @@ private fun TopSellerItemList(
         }
     }
 
+    /**
+     * List all entries in a column
+     */
     Column(modifier = modifier) {
         val category = when (grouping) {
             Grouping.Price -> "Total (RM)"

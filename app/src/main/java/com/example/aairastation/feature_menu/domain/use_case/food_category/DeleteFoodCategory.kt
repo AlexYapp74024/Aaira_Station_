@@ -11,6 +11,3 @@ class DeleteFoodCategory(
         return true
     }
 }
-
-//TODO Table screen
-//TODO change Calculator

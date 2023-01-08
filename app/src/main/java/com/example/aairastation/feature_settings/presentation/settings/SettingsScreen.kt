@@ -43,6 +43,13 @@ fun SettingsScreen(navigatorIn: DestinationsNavigator) {
     }
 }
 
+/**
+ * An Enum class is used cus it allows me it iterate thought its members
+ *
+ * @param itemName is the display name of the item
+ * @param resId is the resource id of the image of the item's icon
+ * @param onClick is a function that is called when the settings is selected
+ */
 enum class SettingsScreenItems(
     val itemName: String,
     @DrawableRes val resId: Int,
@@ -65,7 +72,9 @@ enum class SettingsScreenItems(
 @Composable
 private fun SettingsScreenContent() {
     Column(modifier = Modifier.padding(16.dp)) {
-
+        /**
+         * Iterates through each items in the Enum class and displays them
+         */
         SettingsScreenItems.values().forEach { it ->
             Row(
                 modifier = Modifier

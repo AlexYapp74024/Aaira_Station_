@@ -6,6 +6,10 @@ import com.example.aairastation.feature_menu.domain.model.FoodCategory
 import com.example.aairastation.feature_order.domain.model.NumberedTable
 import kotlinx.coroutines.flow.first
 
+/**
+ * Loads all data based on the clients's store's menu
+ * Also provides 10 tables by defaule
+ */
 class LoadFullPreloadedData(
     private val repository: MainRepository
 ) {

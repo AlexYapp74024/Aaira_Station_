@@ -21,6 +21,9 @@ class TopSellerViewModel @Inject constructor(
     useCases: SettingsUseCases
 ) : ViewModel() {
 
+    /**
+     * Order Details retrieved from the database
+     */
     private val details = useCases.getAndParseSales()
 
     private var _timeGrouping = MutableStateFlow(TimeGrouping.Daily)
@@ -28,6 +31,9 @@ class TopSellerViewModel @Inject constructor(
 
     private var shiftInterval = MutableStateFlow(0)
 
+    /**
+     * [fromDate] and [toDate] will be calculated based on the timeGrouping chosen and the shift interval
+     */
     private val fromDate = combine(shiftInterval, timeGrouping) { shiftInterval, filter ->
         Clock.System.todayIn(TimeZone.currentSystemDefault())
             .minus(shiftInterval, filter.dateTimeUnit)
@@ -40,6 +46,9 @@ class TopSellerViewModel @Inject constructor(
             .lastDayOf(filter.dateTimeUnit)
     }
 
+    /**
+     * Filter order details to only those with in the time frame
+     */
     val filtered = combine(fromDate, toDate, details) { fromTime, toTime, details ->
         details.filter {
             it.creationTime in fromTime..toTime
@@ -58,6 +67,9 @@ class TopSellerViewModel @Inject constructor(
         _grouping.value = grouping
     }
 
+    /**
+     * Format date range that will be displayed on the screen
+     */
     val formattedDateRange = combine(fromDate, toDate) { fromDate, toDate ->
         LocalDate.formatRange(fromDate, toDate)
     }

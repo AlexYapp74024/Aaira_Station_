@@ -66,6 +66,10 @@ private fun OrderMenuListContent(
         val columnState = rememberLazyListState()
         val coroutineScope = rememberCoroutineScope()
 
+        /**
+         * Displays the list of categories
+         * When selected, will auto scrolled to the first item of said category
+         */
         LazyRowIndexedSelector(
             items = foodList.keys.toList(),
             isCurrentValue = { index, _ ->
@@ -73,12 +77,18 @@ private fun OrderMenuListContent(
             },
             itemToString = { it.categoryName },
             onSelected = { index, _ ->
+                /**
+                 * Scrolls to the selected category
+                 */
                 coroutineScope.launch {
                     columnState.animateScrollToItem(index)
                 }
             }
         )
 
+        /**
+         * Displays the menu
+         */
         LazyColumn(
             state = columnState,
             modifier = Modifier
@@ -111,6 +121,9 @@ private fun OrderMenuListContent(
             }
         }
 
+        /**
+         * The check out button is only shown when there are at least 1 item in the user's cart
+         */
         AnimatedVisibility(
             visible = foodQuantity.isNotEmpty(),
             enter = slideInVertically(
@@ -153,10 +166,16 @@ private fun FoodList(
             val quantity = foodQuantity[food] ?: 0
             var offsetX by remember { mutableStateOf(0f) }
 
-            // Only show badge when quantity > 0
+            /**
+             * The badge is the numbered icon that shows the current quantity
+             * Also allows for swipe to delete
+             */
             BadgedBox(
                 modifier = Modifier
                     .offset { IntOffset(offsetX.roundToInt(), 0) }
+                    /**
+                     * Implemets swipe to delete
+                     */
                     .draggable(
                         orientation = Orientation.Horizontal,
                         enabled = quantity > 0,
@@ -169,6 +188,9 @@ private fun FoodList(
                         }
                     ),
                 badge = {
+                    /**
+                     * Only show badge when quantity > 0
+                     */
                     if (quantity > 0) {
                         Badge(backgroundColor = MaterialTheme.colors.primary) {
                             Text("$quantity", fontSize = 15.sp)

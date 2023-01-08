@@ -39,13 +39,19 @@ import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 private lateinit var viewModel: OrderListViewModel
 private var navigator: DestinationsNavigator = EmptyDestinationsNavigator
 
+/**
+ * [RootNavGraph] means that this is the first screen that is shown when the app is launched
+ * RootNavGraph means that this is the first screen that is shown when the app is launched
+ */
 @RootNavGraph(start = true)
 @Destination
 @Composable
 fun OrderListScreen(navigatorIn: DestinationsNavigator) {
+
     viewModel = hiltViewModel()
     navigator = navigatorIn
 
+    // Extract data from viewModels
     val currentOrder by viewModel.currentOrders.collectAsState(initial = mapOf())
     val completedOrder by viewModel.completedOrders.collectAsState(initial = mapOf())
 
@@ -93,6 +99,9 @@ private fun OrderList(
                 }
             }
 
+            /**
+             * Shows the list of current orders
+             */
             if (currentOrder.isNotEmpty()) {
                 itemsIndexed(currentOrder.toList()) { index, (order, details) ->
                     val bgColor = if (index % 2 == 0) {
@@ -138,8 +147,10 @@ private fun OrderList(
                 }
             }
 
+            /**
+             * Shows the list of completed orders
+             */
             if (completedOrder.isNotEmpty()) {
-
                 itemsIndexed(completedOrder.toList()) { index, (order, details) ->
                     val bgColor = if (index % 2 == 0) {
                         MaterialTheme.colors.primaryVariant

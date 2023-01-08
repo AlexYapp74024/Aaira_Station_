@@ -15,6 +15,9 @@ import javax.inject.Inject
 
 class ImageRepositoryImpl @Inject constructor(private val context: Context) : ImageRepository {
 
+    /**
+     * Flags to indicate that an image of certain name is being written to storage
+     */
     private val imageBeingWritten = mutableSetOf<String>()
 
     override suspend fun saveImage(name: String, bitmap: Bitmap): Boolean {
@@ -31,6 +34,7 @@ class ImageRepositoryImpl @Inject constructor(private val context: Context) : Im
     }
 
     override suspend fun loadImage(name: String) = flow {
+        
         waitForSavingImage(name)
 
         val file = File("${context.filesDir.absolutePath}/$name")

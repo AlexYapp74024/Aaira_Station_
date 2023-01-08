@@ -110,11 +110,14 @@ fun AddEditFood(
             contentDescription = "Change picture",
             modifier = Modifier
                 .aspectRatio(2f)
+                /**
+                 * The user can tap on the item, which allows them change its image
+                 */
                 .clickable {
                     launcher.launch(
                         CropImageContractOptions(
                             null, CropImageOptions(
-                                imageSourceIncludeCamera = false
+                                imageSourceIncludeCamera = true
                             )
                         )
                     )
@@ -122,6 +125,9 @@ fun AddEditFood(
             contentScaleIfNotNull = ContentScale.Fit,
         )
 
+        /**
+         * Food name entry
+         */
         OutlinedTextField(
             modifier = defaultModifier,
             value = food.foodName,
@@ -135,6 +141,9 @@ fun AddEditFood(
             label = { Text(text = "Name") }
         )
 
+        /**
+         * item price
+         */
         OutlinedTextField(
             modifier = defaultModifier,
             value = viewModel.priceState,
@@ -150,6 +159,9 @@ fun AddEditFood(
             label = { Text(text = "Price") }
         )
 
+        /**
+         * item availability
+         */
         Row(
             modifier = defaultModifier,
             verticalAlignment = Alignment.CenterVertically
@@ -164,6 +176,10 @@ fun AddEditFood(
             )
         }
 
+        /**
+         * Item category
+         * User can also add new category
+         */
         ExposedDropdownCanAddNewItem(
             options = categories,
             addNewItemPrompt = "Add New Category",
@@ -179,6 +195,9 @@ fun AddEditFood(
             label = { Text("Category") },
         )
 
+        /**
+         * item description
+         */
         OutlinedTextField(
             modifier = defaultModifier,
             value = food.description,
@@ -187,6 +206,9 @@ fun AddEditFood(
             },
             label = { Text(text = "Description") })
 
+        /**
+         * Save button
+         */
         Button(
             onClick = {
                 viewModel.addItem()
@@ -197,6 +219,10 @@ fun AddEditFood(
             Text(text = "Save")
         }
 
+        /**
+         * Delete button
+         * Only appears when editing items and not when adding new items
+         */
         if (showDelete) {
             OutlinedButton(
                 onClick = {

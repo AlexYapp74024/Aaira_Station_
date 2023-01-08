@@ -37,6 +37,9 @@ class GetAllFoods(
             items.map { item ->
                 FoodWithImage(item)
             }.map {
+                /**
+                 * Loads image for each item
+                 */
                 map[it.item] = it.loadImage(imageRepository).shareIn(
                     scope = scope,
                     started = SharingStarted.Lazily,

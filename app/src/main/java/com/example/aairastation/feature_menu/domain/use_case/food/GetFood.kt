@@ -12,14 +12,22 @@ class GetFood(
 ) {
     operator fun invoke(id: Long) = repository.getFood(id)
 
+    /**
+     * Assigns image, if it exists
+     */
     suspend fun withImage(
         id: Long,
         onImageUpdate: (FoodWithImage) -> Unit,
     ) {
-        this(id).map { it ?: Food() }
+        /** Calls the above function */
+        this(id)
+            /** Assigns default value if null */
+            .map { it ?: Food() }
+            /** Convert it to image item */
             .map { FoodWithImage(it) }
             .collect { imageItem ->
                 onImageUpdate(imageItem)
+                /** Load image from storage */
                 imageItem.loadImage(imageRepository).collect { bitmap ->
                     onImageUpdate(imageItem.copy(bitmap = bitmap))
                 }

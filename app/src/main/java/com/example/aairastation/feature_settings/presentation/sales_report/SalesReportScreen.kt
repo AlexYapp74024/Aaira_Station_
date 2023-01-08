@@ -86,6 +86,9 @@ private fun SalesReportItemList(
     entries: List<SalesReportViewModel.Entry>,
     modifier: Modifier = Modifier,
 ) {
+    /**
+     * Nested function for displaying each entry
+     */
     @Composable
     fun RowItem(
         item1: String,
@@ -118,6 +121,10 @@ private fun SalesReportItemList(
         Spacer(modifier = Modifier.height(16.dp))
 
         LazyColumn {
+            /**
+             * (number, dateRange, total) is a convenient way of breaking down the Entry class into its componends
+             * for more info see the [Entry] class in [SalesReportViewModel.kt]
+             */
             items(entries) { (number, dateRange, total) ->
                 RowItem(
                     "$number.",

@@ -26,6 +26,9 @@ class EditMenuListViewModel @Inject constructor(
         refreshItem()
     }
 
+    /**
+     * retrieves items from database
+     */
     private fun refreshItem() = viewModelScope.launch {
         useCases.getAllFood
             .withImages(scope = viewModelScope)
@@ -41,7 +44,7 @@ class EditMenuListViewModel @Inject constructor(
             }.map { (category, list) ->
                 category to list.toMap()
             }.toMap().filter { (_, items) ->
-                // Remove categories without items
+                /** Remove categories without items */
                 items.isNotEmpty()
             }
         }

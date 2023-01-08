@@ -63,6 +63,10 @@ private fun EditMenuListContent(
         val columnState = rememberLazyListState()
         val coroutineScope = rememberCoroutineScope()
 
+        /**
+         * Displays the list of categories
+         * When selected, will auto scrolled to the first item of said category
+         */
         LazyRowIndexedSelector(
             items = foodList.keys.toList(),
             isCurrentValue = { index, _ ->
@@ -70,12 +74,18 @@ private fun EditMenuListContent(
             },
             itemToString = { it.categoryName },
             onSelected = { index, _ ->
+                /**
+                 * Scrolls to the selected category
+                 */
                 coroutineScope.launch {
                     columnState.animateScrollToItem(index)
                 }
             }
         )
 
+        /**
+         * Displays the menu
+         */
         LazyColumn(
             state = columnState,
             modifier = Modifier

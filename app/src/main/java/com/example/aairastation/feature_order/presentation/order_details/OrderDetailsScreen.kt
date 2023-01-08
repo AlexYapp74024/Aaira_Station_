@@ -169,6 +169,9 @@ private fun OrderDetailsScreenContent(
         LazyColumn {
             item {
                 if (canChangeTableNumber) {
+                    /**
+                     * Shows a drop down list of tables
+                     */
                     ExposedDropdown(
                         options = tables,
                         modifier = Modifier.fillMaxWidth(),
@@ -183,6 +186,9 @@ private fun OrderDetailsScreenContent(
                         label = { Text("Table Number") },
                     )
                 } else {
+                    /**
+                     * Displays the current table
+                     */
                     val displayText = if (order?.table != null) {
                         "Table No:  ${order.table.tableId}"
                     } else {
@@ -199,14 +205,23 @@ private fun OrderDetailsScreenContent(
 
             item { Spacer(modifier = Modifier.height(16.dp)) }
 
+            /**
+             * If this is the check out screen, provides a calculator to calculate the change
+             */
             if (isCheckout) item {
                 ChangeCalculator(total(details), Modifier.fillMaxWidth())
                 Spacer(modifier = Modifier.height(16.dp))
             }
 
+            /**
+             * Displays table header
+             */
             item {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     if (showCheckBoxes) {
+                        /**
+                         * The check box on the header will check or uncheck all items in the list
+                         */
                         val checkAll = try {
                             runBlocking { viewModel.orderIsCompleted() }
                         } catch (_: Throwable) {
@@ -246,6 +261,9 @@ private fun OrderDetailsScreenContent(
                 )
             }
 
+            /**
+             * Displays each items
+             */
             items(details) { detail ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -286,6 +304,9 @@ private fun OrderDetailsScreenContent(
                 )
             }
 
+            /**
+             * Display total
+             */
             item {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -352,6 +373,9 @@ private fun ChangeCalculator(
     }
 }
 
+/**
+ * Calculates the total of the order
+ */
 private fun total(details: List<OrderDetail>) =
     details.toList().foldRight(0) { detail, acc ->
         acc + (detail.food.priceInCents * detail.amount)

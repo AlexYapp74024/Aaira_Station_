@@ -9,6 +9,9 @@ import com.example.aairastation.feature_order.domain.model.NumberedTable
 import com.example.aairastation.feature_order.domain.model.OrderDetail
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * See the base interface for more info in [MainRepository.kt]
+ */
 class MainRepositoryImpl(
     private val dao: MainDao
 ) : MainRepository {

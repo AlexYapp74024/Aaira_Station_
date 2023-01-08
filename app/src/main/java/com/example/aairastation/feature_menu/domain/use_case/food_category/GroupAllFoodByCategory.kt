@@ -26,11 +26,16 @@ class GroupAllFoodByCategory(
 
         return combine(categoriesFlow, bitmapsFlow) { categories, bitmaps ->
             categories.associateWith { category ->
+                /**
+                 * Group food by category
+                 */
                 bitmaps.filter { (food, _) ->
                     food.category == category
                 }
             }.filter { (_, items) ->
-                // Remove categories without items
+                /**
+                 * Remove categories without items
+                 */
                 items.isNotEmpty()
             }
         }

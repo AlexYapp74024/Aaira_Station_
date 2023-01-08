@@ -9,6 +9,9 @@ import com.example.aairastation.feature_menu.domain.model.Food
 data class OrderDetail(
     @PrimaryKey(autoGenerate = true)
     val detailId: Long = 0,
+    /**
+     * The associated order
+     */
     @Embedded val order: FoodOrder,
     @Embedded val food: Food,
     val amount: Int,

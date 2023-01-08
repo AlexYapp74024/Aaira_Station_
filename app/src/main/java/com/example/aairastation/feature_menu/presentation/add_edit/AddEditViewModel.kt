@@ -28,6 +28,9 @@ class AddEditViewModel @Inject constructor(
     private var _item = MutableStateFlow(FoodWithImage(Food()))
     val item = _item.asStateFlow()
 
+    /**
+     * The current price of the item in string
+     */
     var priceState by mutableStateOf(item.value.item.priceInRinggit.formatTo2dp())
 
     private var _categories = MutableStateFlow<List<FoodCategory>>(listOf())
@@ -72,12 +75,19 @@ class AddEditViewModel @Inject constructor(
 
     fun addItem() = viewModelScope.launch {
         val inputPrice = priceState.toDoubleOrNull()
+
+        /**
+         * If price input is invalid, use default/current value
+         */
         val price = if (inputPrice == null) {
             _item.value.item.priceInCents
         } else {
             (inputPrice * 100).toInt()
         }
 
+        /**
+         * Copy over the price
+         */
         val item = item.value.copy(
             item = item.value.item.copy(priceInCents = price)
         )

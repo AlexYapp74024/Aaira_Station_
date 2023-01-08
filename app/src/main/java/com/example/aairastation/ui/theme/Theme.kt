@@ -7,12 +7,18 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
+/**
+ * The dark mode is left to use default values
+ */
 private val DarkColorPalette = darkColors(
     primary = Purple200,
     primaryVariant = Purple700,
     secondary = Teal200
 )
 
+/**
+ * Color theme of the app
+ */
 private val LightColorPalette = lightColors(
     background = Color(0xFFFFFFFF),
     surface = Color(0xFFA3A3A3),

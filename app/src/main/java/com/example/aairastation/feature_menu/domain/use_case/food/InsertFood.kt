@@ -13,6 +13,9 @@ class InsertFood(
         repository.insertFood(food)
     }
 
+    /**
+     * Also updates Image
+     */
     suspend operator fun invoke(
         food: FoodWithImage,
         imageUpdated: Boolean = true,
