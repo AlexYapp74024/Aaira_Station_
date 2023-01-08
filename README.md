@@ -34,11 +34,11 @@ This app is not in Google play, so other methods must be used to circumvent it
 
 This codebase follows the MVVM architecture, and have lots of folders to group things together
 
-- The **core** folder are for utility functions
-- The **data** folder are for the data access objects, or repositories
-- The **di** folder stores the Dagger-Hilt (a library) object for dependency Injection
-- The **domain** folder are where the interfaces are contained
-- The 3 features (**feature_menu, feature_order and feature_settings**) folder are where the main
+- The *core* folder are for utility functions
+- The *data* folder are for the data access objects, or repositories
+- The *di* folder stores the Dagger-Hilt (a library) object for dependency Injection
+- The *domain* folder are where the interfaces are contained
+- The 3 features (*feature_menu, feature_order and feature_settings*) folder are where the main
   logic of the program lies
-    - In each feature, there is another **domain** folder, which contains use cases and data classes
+    - In each feature, there is another *domain* folder, which contains use cases and data classes
     - There is also a presentation folder where the UI logic resides
