@@ -48,7 +48,7 @@ class SalesReportViewModel @Inject constructor(
         }.map { (number, items) ->
             // Convert each items to an Entry class for easy display
             val total = items.fold(0) { acc, item ->
-                acc + item.price
+                acc + (item.price * item.amount)
             }
             val fromDate = items.first().creationTime.firstDayOf(timeGrouping.dateTimeUnit)
             val toDate = items.first().creationTime.lastDayOf(timeGrouping.dateTimeUnit)

@@ -39,6 +39,7 @@ class SalesReportViewModelTest {
     private fun mockDetail(
         food: Food,
         creationTime: Instant,
+        amount: Int = 1,
         completed: Boolean = true
     ) = OrderDetail(
         order = FoodOrder.example.copy(
@@ -46,7 +47,7 @@ class SalesReportViewModelTest {
             createdAt = creationTime.toEpochMilliseconds()
         ),
         food = food,
-        amount = 1,
+        amount = amount,
         completed = completed,
     )
 
@@ -57,7 +58,9 @@ class SalesReportViewModelTest {
         mockDetail(food1, timeFromSunday(daysAgo = 1), completed = false),
         mockDetail(food1, timeFromSunday(daysAgo = 1), completed = false),
 
+        mockDetail(food1, timeFromSunday(daysAgo = 0), 2),
         // 6 orders this week
+
         mockDetail(food1, timeFromSunday(daysAgo = 1)),
         mockDetail(food1, timeFromSunday(daysAgo = 1)),
 
@@ -130,6 +133,8 @@ class SalesReportViewModelTest {
     @Test
     fun `sales summed by days`() = runTest {
         assertViewModelContainsEntries(
+            timeFromSunday(daysAgo = 0) to 2,
+
             // 6 orders this week
             timeFromSunday(daysAgo = 1) to 2,
             timeFromSunday(daysAgo = 2) to 2,
@@ -157,7 +162,7 @@ class SalesReportViewModelTest {
         viewModel.setTimeGrouping(TimeGrouping.Weekly)
         assertViewModelContainsEntries(
             // 6 orders this weeks
-            timeFromSunday() to 6,
+            timeFromSunday() to 8,
 
             // 3 orders this month
             timeFromSunday(weeksAgo = 1) to 1,
@@ -184,7 +189,7 @@ class SalesReportViewModelTest {
             timeFromSunday() to 9,
 
             // 3 orders this year
-            timeFromSunday(monthsAgo = 1) to 1,
+            timeFromSunday(monthsAgo = 1) to 3,
             timeFromSunday(monthsAgo = 2) to 1,
             timeFromSunday(monthsAgo = 4) to 1,
 
@@ -200,10 +205,10 @@ class SalesReportViewModelTest {
         viewModel.setTimeGrouping(TimeGrouping.Yearly)
         assertViewModelContainsEntries(
             // 12 orders this year
-            timeFromSunday() to 12,
+            timeFromSunday() to 9,
 
             // 3 orders last year
-            timeFromSunday(yearsAgo = 1) to 1,
+            timeFromSunday(yearsAgo = 1) to 6,
             timeFromSunday(yearsAgo = 2) to 1,
             timeFromSunday(yearsAgo = 4) to 1,
         )
