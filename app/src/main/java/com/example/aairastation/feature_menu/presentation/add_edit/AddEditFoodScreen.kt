@@ -48,7 +48,7 @@ fun AddFoodScreen(
     viewModel = hiltViewModel()
     navigator = navigatorIn
 
-    showDelete = true
+    showDelete = false
 
     AddEditFoodScreenContent("New Item")
 }
@@ -62,7 +62,7 @@ fun EditFoodScreen(
     viewModel = hiltViewModel()
     navigator = navigatorIn
 
-    showDelete = false
+    showDelete = true
 
     viewModel.retrieveItem(foodID)
 
