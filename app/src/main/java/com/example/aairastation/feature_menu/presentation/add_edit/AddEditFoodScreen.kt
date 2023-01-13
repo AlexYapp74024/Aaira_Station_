@@ -227,6 +227,7 @@ fun AddEditFood(
             OutlinedButton(
                 onClick = {
                     viewModel.updateItemState(food.copy(foodDisabled = true))
+                    viewModel.addItem()
                     navigator.navigate(OrderMenuListScreenDestination)
                 },
                 modifier = defaultModifier
